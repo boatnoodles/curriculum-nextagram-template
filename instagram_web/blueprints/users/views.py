@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
+from instagram_web.forms.forms import *
+from models.user import *
 
 
 users_blueprint = Blueprint('users',
@@ -13,7 +15,16 @@ def new():
 
 @users_blueprint.route('/', methods=['POST'])
 def create():
-    pass
+    # This is where I define user creation
+    form = RegistrationForm(request.form)
+
+    if form.validate():
+        # Hash my password
+        # Create a new instance of a user
+        user = User(username=form.username.data,
+                    email=form.email.data, password=password)
+
+    return render_template('new.html', form=form)
 
 
 @users_blueprint.route('/<username>', methods=["GET"])

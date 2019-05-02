@@ -1,5 +1,5 @@
 autopep8==1.4.3
-certifi==2018.11.29
+certifi==2019.3.9
 Click==7.0
 colorama==0.4.1
 cssmin==0.2.0
@@ -18,3 +18,4 @@ python-dotenv==0.10.1
 six==1.12.0
 webassets==0.12.1
 Werkzeug==0.14.1
+WTForms==2.2.1
