@@ -1,9 +1,9 @@
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from helpers import *
-# from instagram_web.forms.forms import *
 from models.user import *
-from werkzeug.security import check_password_hash, generate_password_hash
 from peewee_validates import ModelValidator, StringField, validate_length
+from werkzeug.security import generate_password_hash
+import os
 
 
 users_blueprint = Blueprint('users',
@@ -21,17 +21,24 @@ def create():
     username = request.form.get("username")
     email = request.form.get("email")
     ori_password = request.form.get("password")
-    errors = []
+    errors = {}
 
     # Check the length of the username, email and ori_password
-    length_errors = length_validation(Username=username, Email=email,
-                                      Password=ori_password)
-    for key, value in length_errors.items():
-        errors.append(value)
+    errors.update(length_validation(Username=username, Email=email,
+                                    Password=ori_password))
 
     # Check if passwords match
     if ori_password != request.form.get("confirm"):
-        errors.append("Passwords do not match")
+        errors.update({"password": "Passwords do not match"})
+
+    # Check for password complexity
+    if not pw_complexity(ori_password):
+        errors.update(
+            {"password": "Include at least one uppercase letter, one lowercase letter, one number and one special character"})
+
+    # Check if email is of a valid format
+    if not email_validity(email):
+        errors.update({"email": "Enter a valid email"})
 
     # If errors is an empty array, i.e., there are no errors
     if not errors:
@@ -47,10 +54,10 @@ def create():
         # If validation is successful
         if validator.validate():
             user.save()
+            flash("Account successfully created")
             return redirect(url_for("users.new"))
         # Else, append the error message
-        for key, value in validator.errors.items():
-            errors.append(value)
+        errors.update(validator.errors)
 
     return render_template('users/new.html', errors=errors)
 

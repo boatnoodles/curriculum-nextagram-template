@@ -1,10 +1,9 @@
 {% extends "_layout.html"%}
 
 {% block content %}
-  {% for error in errors%}
-    <p>{{error}}</p>
-  {% endfor %}
+  {% include "_validation_errors.html"%}
   <form method="POST" action={{url_for("users.create")}}>  
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div class="m-5" style="width: 80vw;">
       <div class="form-group">
       {# Username #}
@@ -22,6 +21,7 @@
       {# Password #}
         <label for="password">Password</label>
         <input class="form-control" type="password" placeholder="" name="password"/>
+        <small class="form-text text-muted">Min 6 characters. At least 1 uppercase and 1 lowercase letter, 1 number and 1 special character (@#$%^&+=)</small>
       </div>
 
       <div class="form-group">
@@ -31,7 +31,7 @@
       </div>
 
       {# Submit button #}
-      <button type="submit" class="btn btn-secondary">Submit</button>
+      <button type="submit" class="btn btn-secondary" >Submit</button>
     </div>
   </form>
 {% endblock %}

@@ -1,3 +1,4 @@
+import re
 from peewee_validates import ModelValidator, validate_length
 from models.user import User
 
@@ -34,3 +35,15 @@ def length_validation(**fields):
         else:
             errors[key] = f"{key} is {res}"
     return errors
+
+
+def pw_complexity(password):
+    if re.match(r'[A-Za-z0-9@#$%^&+=]{6,}', password):
+        return True
+    return False
+
+
+def email_validity(email):
+    if re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)', email):
+        return True
+    return False
