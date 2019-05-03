@@ -1,5 +1,6 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
-from helpers import *
+from flask_login import login_required
+from instagram_web.blueprints.users.helpers import *
 from models.user import *
 from peewee_validates import ModelValidator, StringField, validate_length
 from werkzeug.security import generate_password_hash
@@ -12,11 +13,14 @@ users_blueprint = Blueprint('users',
 
 
 @users_blueprint.route('/new', methods=['GET'])
+# Sign up page
 def new():
-    return render_template('users/new.html')
+    errors = {}
+    return render_template('users/new.html', errors={})
 
 
 @users_blueprint.route('/', methods=['POST'])
+# Handles user sign up
 def create():
     username = request.form.get("username")
     email = request.form.get("email")
@@ -62,6 +66,7 @@ def create():
     return render_template('users/new.html', errors=errors)
 
 
+@login_required
 @users_blueprint.route('/<username>', methods=["GET"])
 def show(username):
     pass
