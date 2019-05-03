@@ -1,5 +1,6 @@
 from flask import Blueprint, Flask, flash, redirect, render_template, request, url_for
 from flask.ext.session import Session
+from models.user import User
 from werkzeug.security import check_password_hash
 
 
@@ -14,9 +15,25 @@ def new():
 
 
 @sessions_blueprint.route("/", methods=["POST"])
-# Handles user log in by creating a new session
+# Handle user log in by creating a new session
 def create():
-    # Gets the username
-    # Gets the password (check hash)
-    # Compare user hash and db hash
-    # If valid, create a new session
+    # Get the username
+    username = request.form.get("username")
+    # Check if username exists, if not, flash error
+    u = User.select().where(User.username == username)
+
+    # If username is not found
+    if not u:
+        # Throw an error
+        # Get passwords
+    else:
+        form_pw = request.form.get("password")
+        db_pw = User.select().where(User.username == username)
+        # Compare user hash and db hash
+        # If valid, create a new session
+        if check_password_hash(db_pw, form_pw):
+            # Allow user to log in
+
+            return redirect(url_for("users.new"))
+
+    return render_template("sessions/new.html")
