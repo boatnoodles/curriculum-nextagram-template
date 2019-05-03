@@ -1,7 +1,10 @@
 {% extends "_layout.html"%}
 
 {% block content %}
-  <form>  
+  {% for error in errors%}
+    <p>{{error}}</p>
+  {% endfor %}
+  <form method="POST" action={{url_for("users.create")}}>  
     <div class="m-5" style="width: 80vw;">
       <div class="form-group">
       {# Username #}
@@ -12,7 +15,7 @@
       <div class="form-group">
       {# Email #}
         <label for="email">Email</label>
-        <input class="form-control" type="text" placeholder="" name="email"/>
+        <input class="form-control" type="email" placeholder="" name="email"/>
       </div>
 
       <div class="form-group">
@@ -23,8 +26,8 @@
 
       <div class="form-group">
       {# Confirm password #}
-        <label for="confirm-password">Confirm Password</label>
-        <input class="form-control" type="password" placeholder="" name="confirm-password"/>
+        <label for="confirm">Confirm Password</label>
+        <input class="form-control" type="password" placeholder="" name="confirm"/>
       </div>
 
       {# Submit button #}
