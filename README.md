@@ -46,7 +46,7 @@ DATABASE_URL="postgres://localhost:5432/nextagram_dev"
 SECRET_KEY= #generate your own key
 ```
 
-Use `os.urandom(32)` to generate a random secret key and paste that in `.env`. It's important to keep this `SECRET_KEY` private.
+Use `os.urandom(32)` to generate a random secret key and paste that in `.env`. It's important to keep this `SECRET_KEY` privacy.
 
 Since this app uses Pooled Connections, you may also want to set:
 
@@ -106,7 +106,7 @@ flask shell
 
 - ensure environment variables are configured appropriately
 - migrations will not run in interactive mode when FLASK_ENV is set to 'production'
-- It's important to set your own `SECRET_KEY` environment variable and keep that private.
+- It's important to set your own `SECRET_KEY` environment variable and keep that privacy.
 
 ---
 
