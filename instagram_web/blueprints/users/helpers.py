@@ -38,12 +38,13 @@ def length_validation(**fields):
 
 
 def pw_complexity(password):
+    # Does not check for individual groups
     if re.match(r'[A-Za-z0-9@#$%^&+=]{6,}', password):
         return True
     return False
 
 
 def email_validity(email):
-    if re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', email):
+    if re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]+$', email):
         return True
     return False

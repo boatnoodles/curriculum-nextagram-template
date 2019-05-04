@@ -52,7 +52,8 @@ def create():
 
         # Create a new instance of a user
         user = User(username=username,
-                    email=email, password=password)
+                    email=email, password=password, privacy=request.form.get(
+                        "privacy"))
         # Validation
         validator = FormValidator(user)
         # If validation is successful
