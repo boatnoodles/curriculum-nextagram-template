@@ -20,37 +20,35 @@ def create():
     # Get the user input
     username = request.form.get("username")
 
-    try:
-        # Check if username exists
-        user = User.get(User.username == username)
+    # Check if username exists
+    user = User.get_or_none(User.username == username)
 
-        # Get passwords
-        form_pw = request.form.get("password")
-        user = User.get(User.username == username)
-        db_pw = user.password
-
-        # Compare user hash and db hash
-        if not check_password_hash(db_pw, form_pw):
-            # If password is incorrect
-            flash("Incorrect password")
-            return redirect(url_for("sessions.new"))
-
-        # Allow user to log in
-        if not login_user(user):
-            flash('An error occurred')
-
-        # Redirect to profile page/home page
-        flash("Successfully logged in")
-
-        """HAVE A BETTER REDIRECT HERE"""
-        return redirect(url_for("sessions.new"))
-
-    except:
+    if not user:
         # If username is not found, flash an error
         flash("User not found")
+        return render_template("sessions/new.html")
+        # return redirect(url_for("sessions.new"))
+
+    # Get passwords
+    form_pw = request.form.get("password")
+    user = User.get(User.username == username)
+    db_pw = user.password
+
+    # Compare user hash and db hash
+    if not check_password_hash(db_pw, form_pw):
+        # If password is incorrect
+        flash("Incorrect password")
         return redirect(url_for("sessions.new"))
 
-    return render_template("sessions/new.html")
+    # Allow user to log in
+    if not login_user(user):
+        flash('An error occurred')
+
+    # Redirect to profile page/home page
+    flash("Successfully logged in")
+
+    """HAVE A BETTER REDIRECT HERE"""
+    return redirect(url_for("sessions.new"))
 
 
 #
