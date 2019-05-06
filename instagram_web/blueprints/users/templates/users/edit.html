@@ -2,6 +2,7 @@
 
 {% block content %}
 
+  {% include "users/_errors.html" %}
 
   <form method="POST" action={{url_for("users.update", id=user_id)}}>  
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
@@ -35,7 +36,7 @@
         <label for="privacy" value="True">Make your account private</label>
       </div>
       {# Submit button #}
-      <button type="submit" class="btn btn-info" >Save</button>
+      <button type="submit" class="btn btn-info">Save Changes</button>
     </div>
   </form>
 {% endblock %}
