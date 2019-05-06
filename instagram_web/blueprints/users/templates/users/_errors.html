@@ -1,6 +1,8 @@
-{% for key, error in errors.items() %}
-  <p class="text-center error-msg">{{key}} is {{error}}</p>
-{% endfor %}
+{% if errors %}
+  {% for key, error in errors.items() %}
+    <p class="text-center error-msg">{{key}} is {{error}}</p>
+  {% endfor %}
+{% endif %}
 
 
 {% with messages = get_flashed_messages() %}

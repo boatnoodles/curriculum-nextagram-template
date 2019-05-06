@@ -72,9 +72,7 @@ def edit(id):
     username = current_user.username
     email = current_user.email
     user_id = current_user.id
-    errors = {}
     return render_template("users/edit.html", username=username, email=email, user_id=user_id)
-    # return render_template("users/edit.html")
 
 # Edit user information
 @users_blueprint.route('/<id>', methods=['POST'])

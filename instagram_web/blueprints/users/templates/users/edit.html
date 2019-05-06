@@ -2,6 +2,7 @@
 
 {% block content %}
 
+  {% include "users/_errors.html" %}
 
   <form method="POST" action={{url_for("users.update", id=user_id)}}>  
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
