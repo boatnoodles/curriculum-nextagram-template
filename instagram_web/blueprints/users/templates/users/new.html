@@ -1,24 +1,12 @@
 {% extends "_layout.html"%}
 
 {% block content %}
-  {# {% for key, error in errors.items() %}
-    <p class="text-center error-msg">{{error}}</p>
-  {% endfor %}
 
-
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      {% for message in messages %}
-        <p class="text-center success-msg">{{ message }}</p>
-      {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %} #}
   {% include "users/_errors.html" %}
 
   <form method="POST" action={{url_for("users.create")}}>  
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <div class="m-5" style="width: 80vw;">
+    <div class="m-5 form-control" style="width: 80vw;">
       <div class="form-group">
       {# Username #}
         <label for="username">Username</label>

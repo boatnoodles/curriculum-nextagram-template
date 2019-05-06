@@ -5,3 +5,7 @@
 .error-msg {
   color: red;
 }
+
+.error-page {
+  height: 100vh;
+}
