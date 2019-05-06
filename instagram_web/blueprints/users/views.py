@@ -29,9 +29,6 @@ def create():
     errors = form_validation(
         username, email, ori_password, request.form.get("confirm"))
 
-    errors = form_validation(
-        username, email, ori_password, request.form.get("confirm"))
-
     # If errors is an empty array, i.e., there are no errors
     if not errors:
         # Hash user password
@@ -83,4 +80,34 @@ def edit(id):
 @users_blueprint.route('/<id>', methods=['POST'])
 @login_required
 def update(id):
-    pass
+    # Get the necessary information from the form
+    username = request.form.get("username")
+    email = request.form.get("email")
+    new_password = request.form.get("password")
+
+    # Compare with old info?
+    # current_user.username
+    # If no changes have been made, let the user know
+    errors = form_validation(
+        username, email, new_password, request.form.get("confirm"))
+
+    # If errors is an empty array, i.e., there are no errors
+    if not errors:
+        # Hash user password
+        password = generate_password_hash(
+            new_password, method="pbkdf2:sha256", salt_length=8)
+
+        # Update user
+        user = User.update({User.username: username, User.email: email,
+                            User.password: password, User.privacy: request.form.get("privacy")}).where(User.id == current_user.id)
+        # Validation using peewee-validates's ModelValidator
+        validator = FormValidator(user)
+        # If validation is successful
+        if validator.validate():
+            user.execute()
+            flash("Account successfully updated")
+            return redirect(url_for("users.edit"))
+        # Else, append the error message
+        errors.update(validator.errors)
+
+    return render_template('users/edit.html', errors=errors)
