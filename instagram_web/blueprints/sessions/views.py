@@ -1,4 +1,5 @@
 from flask import Blueprint, Flask, flash, redirect, render_template, request, session, url_for
+from flask_login import login_user
 from models.user import User
 from werkzeug.security import check_password_hash
 
@@ -29,15 +30,17 @@ def create():
     # Get passwords
     else:
         form_pw = request.form.get("password")
-        db_pw = User.get(
-            User.username == username).password
+        user = User.get(User.username == username)
+        db_pw = user.password
         # Compare user hash and db hash
-        # If valid, create a new session
+        # If valid, log user in
         if check_password_hash(db_pw, form_pw):
             # Allow user to log in
-            session["username"] = username
-            # Redirect to profile page/home page
-            # HAVE A BETTER REDIRECT HERE
-            return redirect(url_for("sessions.new"))
+            if login_user(user):
+                # Redirect to profile page/home page
+                # HAVE A BETTER REDIRECT HERE
+                return redirect(url_for("sessions.new"))
+            else:
+                flash('An error occurred')
 
     return render_template("sessions/new.html")
