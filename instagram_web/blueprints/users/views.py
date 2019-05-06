@@ -25,6 +25,11 @@ def create():
     username = request.form.get("username")
     email = request.form.get("email")
     ori_password = request.form.get("password")
+    if request.form.get("privacy"):
+        privacy = request.form.get("privacy")
+    else:
+        privacy = False
+
     errors = {}
 
     # Check the length of the username, email and ori_password
@@ -52,8 +57,7 @@ def create():
 
         # Create a new instance of a user
         user = User(username=username,
-                    email=email, password=password, privacy=request.form.get(
-                        "privacy"))
+                    email=email, password=password, privacy=privacy)
         # Validation
         validator = FormValidator(user)
         # If validation is successful

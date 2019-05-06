@@ -38,8 +38,7 @@ def length_validation(**fields):
 
 
 def pw_complexity(password):
-    # Does not check for individual groups
-    if re.match(r'[A-Za-z0-9@#$%^&+=]{6,}', password):
+    if re.match(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$', password):
         return True
     return False
 
