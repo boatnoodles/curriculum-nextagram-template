@@ -1,10 +1,10 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+import os
+from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 from flask_login import login_required
 from instagram_web.blueprints.users.helpers import *
 from models.user import *
 from peewee_validates import ModelValidator, StringField, validate_length
 from werkzeug.security import generate_password_hash
-import os
 
 
 users_blueprint = Blueprint('users',

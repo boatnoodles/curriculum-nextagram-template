@@ -1,6 +1,7 @@
+from flask_login import LoginManager
 import os
 import config
-from flask import Flask
+from flask import Flask, session
 from flask_wtf.csrf import CSRFProtect
 from models.base_model import db
 
@@ -11,8 +12,15 @@ app = Flask('NEXTAGRAM', root_path=web_dir)
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.config["SECRET_KEY"] = os.getenv('APP_SECRET_KEY')
+# Obtain the secret key
+app.config["SECRET_KEY"] = os.getenv('SECRET_KEY')
+
+# Apply CSRF protection
 csrf = CSRFProtect(app)
+
+# Set up login manager
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 
 if os.getenv('FLASK_ENV') == 'production':
