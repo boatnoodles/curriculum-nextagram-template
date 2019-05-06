@@ -1,0 +1,41 @@
+{% extends "_layout.html"%}
+
+{% block content %}
+
+
+  <form method="POST" action={{url_for("users.update", id=user_id)}}>  
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="m-5" style="width: 80vw;">
+      <div class="form-group">
+      {# Username #}
+        <label for="username">Username</label>
+        <input class="form-control" type="text" placeholder="" name="username" value="{{username}}"/>
+      </div>
+
+      <div class="form-group">
+      {# Email #}
+        <label for="email">Email</label>
+        <input class="form-control" type="email" placeholder="" name="email" value="{{email}}"/>
+      </div>
+
+      <div class="form-group">
+      {# Password #}
+        <label for="password">Password</label>
+        <input class="form-control" type="password" placeholder="" name="password"/>
+        <small class="form-text text-muted">Min 6 characters. At least 1 uppercase and 1 lowercase letter, 1 number and 1 special character (@#$%^&+=)</small>
+      </div>
+
+      <div class="form-group">
+      {# Confirm password #}
+        <label for="confirm">Confirm Password</label>
+        <input class="form-control" type="password" placeholder="" name="confirm"/>
+      </div>
+      <div class="form-group">
+        <input type="checkbox" class="" name="privacy">
+        <label for="privacy" value="True">Make your account private</label>
+      </div>
+      {# Submit button #}
+      <button type="submit" class="btn btn-info" >Save</button>
+    </div>
+  </form>
+{% endblock %}

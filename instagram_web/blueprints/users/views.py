@@ -25,12 +25,9 @@ def create():
     username = request.form.get("username")
     email = request.form.get("email")
     ori_password = request.form.get("password")
-    if request.form.get("privacy"):
-        privacy = request.form.get("privacy")
-    else:
-        privacy = False
 
-    errors = {}
+    errors = form_validation(
+        username, email, ori_password, request.form.get("confirm"))
 
     errors = form_validation(
         username, email, ori_password, request.form.get("confirm"))
@@ -43,8 +40,9 @@ def create():
 
         # Create a new instance of a user
         user = User(username=username,
-                    email=email, password=password, privacy=privacy)
-        # Validation
+                    email=email, password=password, privacy=request.form.get(
+                        "privacy"))
+        # Validation using peewee-validates's ModelValidator
         validator = FormValidator(user)
         # If validation is successful
         if validator.validate():
