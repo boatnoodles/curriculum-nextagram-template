@@ -29,14 +29,15 @@ def create():
     # Get passwords
     else:
         form_pw = request.form.get("password")
-        db_pw = User.select(User.password).where(
-            User.username == username)[0].password
+        db_pw = User.get(
+            User.username == username).password
         # Compare user hash and db hash
         # If valid, create a new session
         if check_password_hash(db_pw, form_pw):
             # Allow user to log in
             session["username"] = username
             # Redirect to profile page/home page
+            # HAVE A BETTER REDIRECT HERE
             return redirect(url_for("sessions.new"))
 
     return render_template("sessions/new.html")
