@@ -39,7 +39,7 @@ def create():
             if login_user(user):
                 # Redirect to profile page/home page
                 # HAVE A BETTER REDIRECT HERE
-                return redirect(url_for("sessions.new"))
+                return redirect(url_for("home"))
             else:
                 flash('An error occurred')
 

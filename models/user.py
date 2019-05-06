@@ -1,5 +1,4 @@
 from app import login_manager
-from models import User
 from flask_login import UserMixin
 from models.base_model import BaseModel
 import peewee as pw
