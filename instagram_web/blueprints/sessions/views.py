@@ -8,9 +8,9 @@ sessions_blueprint = Blueprint(
 
 
 @sessions_blueprint.route('/new', methods=['GET'])
-# Log in page
 def new():
-    render_template("sessions/new.html")
+    # Log in page
+    return render_template("sessions/new.html")
 
 
 @sessions_blueprint.route("/", methods=["POST"])
