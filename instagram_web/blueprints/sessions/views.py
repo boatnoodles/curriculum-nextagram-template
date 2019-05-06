@@ -1,5 +1,4 @@
 from flask import Blueprint, Flask, flash, redirect, render_template, request, session, url_for
-from flask.ext.session import Session
 from models.user import User
 from werkzeug.security import check_password_hash
 

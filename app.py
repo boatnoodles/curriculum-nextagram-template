@@ -1,6 +1,6 @@
 import os
 import config
-from flask import Flask
+from flask import Flask, session
 from flask_wtf.csrf import CSRFProtect
 from models.base_model import db
 
@@ -11,10 +11,7 @@ app = Flask('NEXTAGRAM', root_path=web_dir)
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.config = config.Config(app)
-# app.config["SECRET_KEY"] = os.getenv('APP_SECRET_KEY')
-csrf = CSRFProtect(app)
-
+app.config["SECRET_KEY"] = os.getenv('SECRET_KEY')
 
 if os.getenv('FLASK_ENV') == 'production':
     app.config.from_object("config.ProductionConfig")
