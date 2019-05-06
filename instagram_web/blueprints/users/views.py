@@ -25,29 +25,9 @@ def create():
     username = request.form.get("username")
     email = request.form.get("email")
     ori_password = request.form.get("password")
-    if request.form.get("privacy"):
-        privacy = request.form.get("privacy")
-    else:
-        privacy = False
 
-    errors = {}
-
-    # Check the length of the username, email and ori_password
-    errors.update(length_validation(Username=username, Email=email,
-                                    Password=ori_password))
-
-    # Check if passwords match
-    if ori_password != request.form.get("confirm"):
-        errors.update({"password": "Passwords do not match"})
-
-    # Check for password complexity
-    if not pw_complexity(ori_password):
-        errors.update(
-            {"password": "Include at least one uppercase letter, one lowercase letter, one number and one special character"})
-
-    # Check if email is of a valid format
-    if not email_validity(email):
-        errors.update({"email": "Enter a valid email"})
+    errors = form_validation(
+        username, email, ori_password, request.form.get("confirm"))
 
     # If errors is an empty array, i.e., there are no errors
     if not errors:
@@ -57,8 +37,9 @@ def create():
 
         # Create a new instance of a user
         user = User(username=username,
-                    email=email, password=password, privacy=privacy)
-        # Validation
+                    email=email, password=password, privacy=request.form.get(
+                        "privacy"))
+        # Validation using peewee-validates's ModelValidator
         validator = FormValidator(user)
         # If validation is successful
         if validator.validate():
@@ -73,6 +54,7 @@ def create():
 
 @login_required
 @users_blueprint.route('/<username>', methods=["GET"])
+# Personal profile page
 def show(username):
     pass
 

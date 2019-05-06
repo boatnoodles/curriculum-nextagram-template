@@ -47,3 +47,27 @@ def email_validity(email):
     if re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]+$', email):
         return True
     return False
+
+
+def form_validation(username, email, password, confirm):
+    """Validates the field passed in by the user via the sign up form"""
+
+    errors = {}
+    # Check the length of the username, email and ori_password
+    errors.update(length_validation(
+        Username=username, Email=email, Password=password))
+
+    # Check if passwords match
+    if password != confirm:
+        errors.update({"password": "Passwords do not match"})
+
+    # Check for password complexity
+    if not pw_complexity(password):
+        errors.update(
+            {"password": "Include at least one uppercase letter, one lowercase letter, one number and one special character"})
+
+    # Check if email is of a valid format
+    if not email_validity(email):
+        errors.update({"email": "Enter a valid email"})
+
+    return errors
