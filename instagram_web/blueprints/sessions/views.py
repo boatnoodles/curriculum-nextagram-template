@@ -37,6 +37,6 @@ def create():
             # Allow user to log in
             session["username"] = username
             # Redirect to profile page/home page
-            return redirect(url_for("users.new"))
+            return redirect(url_for("sessions.new"))
 
     return render_template("sessions/new.html")
