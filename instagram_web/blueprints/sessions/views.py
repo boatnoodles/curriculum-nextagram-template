@@ -19,18 +19,18 @@ def create():
     # Get the user input
     username = request.form.get("username")
     # Check if username exists, if not, flash error
-    u = User.select().where(User.username == username)
+    user = User.get(User.username == username)
 
     # If username is not found
-    if not u:
+    if not user:
         # Throw an error
         flash("User not found")
-        return render_template("sessions/new.html")
 
     # Get passwords
     else:
         form_pw = request.form.get("password")
-        db_pw = User.select().where(User.username == username)
+        db_pw = User.select(User.password).where(
+            User.username == username)[0].password
         # Compare user hash and db hash
         # If valid, create a new session
         if check_password_hash(db_pw, form_pw):
