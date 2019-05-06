@@ -11,7 +11,7 @@ sessions_blueprint = Blueprint(
 @sessions_blueprint.route('/new', methods=['GET'])
 # Log in page
 def new():
-    render_template("new.html")
+    render_template("sessions/new.html")
 
 
 @sessions_blueprint.route("/", methods=["POST"])
@@ -26,8 +26,8 @@ def create():
     if not u:
         # Throw an error
         flash("User not found")
+    # Get passwords
     else:
-        # Get passwords
         form_pw = request.form.get("password")
         db_pw = User.select().where(User.username == username)
         # Compare user hash and db hash
@@ -35,6 +35,7 @@ def create():
         if check_password_hash(db_pw, form_pw):
             # Allow user to log in
 
+            # Redirect to profile page/home page
             return redirect(url_for("users.new"))
 
     return render_template("sessions/new.html")
