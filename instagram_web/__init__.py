@@ -13,6 +13,11 @@ app.register_blueprint(users_blueprint, url_prefix="/users")
 app.register_blueprint(sessions_blueprint, url_prefix="/sessions")
 
 
+@app.route("/")
+def home():
+    return render_template('home.html')
+
+
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
@@ -23,10 +28,11 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
-@app.route("/")
-def home():
-    return render_template('home.html')
+@app.errorhandler(403)
+def access_denied(e):
+    return render_template('403.html'), 403
 
 
+app.register_error_handler(403, access_denied)
 app.register_error_handler(404, page_not_found)
 app.register_error_handler(500, internal_server_error)
