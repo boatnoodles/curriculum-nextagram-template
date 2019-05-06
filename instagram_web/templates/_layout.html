@@ -37,11 +37,14 @@
               Account Management
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/users/new">Sign Up</a>
-              <a class="dropdown-item" href="/sessions/new">Log In</a>
+              <a class="dropdown-item" href={{ url_for("users.new") }}>Sign Up</a>
+              <a class="dropdown-item" href={{ url_for("sessions.new")}}>Log In</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Log Out</a>
-            </div>
+              <form method="POST" action={{ url_for("sessions.delete") }}>
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input class="dropdown-item" type="submit" value="Log Out"/>
+              </form>
+              </div>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
