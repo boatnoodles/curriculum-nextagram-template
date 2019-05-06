@@ -58,4 +58,4 @@ def create():
 def delete():
     logout_user()
     flash("Successfully logged out")
-    return redirect(url_for("home"))
+    return redirect(url_for("sessions.new"))

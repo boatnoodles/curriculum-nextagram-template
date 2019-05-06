@@ -16,7 +16,12 @@ app.register_blueprint(sessions_blueprint, url_prefix="/sessions")
 
 @app.route("/")
 def home():
-    return render_template('home.html', current_user=current_user.username)
+    try:
+        username = current_user.username
+    except:
+        username = "Stranger"
+
+    return render_template('home.html', username=username)
 
 
 @app.errorhandler(500)
