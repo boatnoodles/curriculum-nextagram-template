@@ -19,13 +19,13 @@ def new():
 def create():
     # Get the user input
     username = request.form.get("username")
-    # Check if username exists, if not, flash error
-    user = User.get(User.username == username)
-
-    # If username is not found
-    if not user:
-        # Throw an error
+    try:
+        # Check if username exists
+        user = User.get(User.username == username)
+    except:
+        # If username is not found, flash an error
         flash("User not found")
+        return redirect(url_for("sessions.new"))
 
     # Get passwords
     else:
@@ -38,8 +38,9 @@ def create():
             # Allow user to log in
             if login_user(user):
                 # Redirect to profile page/home page
+                flash("Successfully logged in")
                 # HAVE A BETTER REDIRECT HERE
-                return redirect(url_for("home"))
+                return redirect(url_for("sessions.new"))
             else:
                 flash('An error occurred')
 
