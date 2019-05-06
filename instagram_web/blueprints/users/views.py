@@ -1,6 +1,6 @@
 import os
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 from instagram_web.blueprints.users.helpers import *
 from models.user import *
 from peewee_validates import ModelValidator, StringField, validate_length
@@ -55,8 +55,9 @@ def create():
     return render_template('users/new.html', errors=errors)
 
 
-@login_required
+# Display user profile page
 @users_blueprint.route('/<username>', methods=["GET"])
+@login_required
 # Personal profile page
 def show(username):
     pass
@@ -67,11 +68,19 @@ def index():
     return "USERS"
 
 
+# Display page to edit user information
 @users_blueprint.route('/<id>/edit', methods=['GET'])
+@login_required
 def edit(id):
-    pass
+    username = current_user.username
+    email = current_user.email
+    user_id = current_user.id
+    errors = {}
+    return render_template("users/edit.html", username=username, email=email, user_id=user_id)
+    # return render_template("users/edit.html")
 
-
+# Edit user information
 @users_blueprint.route('/<id>', methods=['POST'])
+@login_required
 def update(id):
     pass
