@@ -26,6 +26,8 @@ def create():
     if not u:
         # Throw an error
         flash("User not found")
+        return render_template("sessions/new.html")
+
     # Get passwords
     else:
         form_pw = request.form.get("password")
@@ -34,7 +36,7 @@ def create():
         # If valid, create a new session
         if check_password_hash(db_pw, form_pw):
             # Allow user to log in
-
+            session["username"] = username
             # Redirect to profile page/home page
             return redirect(url_for("users.new"))
 
