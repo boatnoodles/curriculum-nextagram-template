@@ -10,7 +10,6 @@ images_blueprint = Blueprint("images", __name__, template_folder='templates')
 
 @images_blueprint.route("/new", methods=["GET"])
 def new():
-    breakpoint()
     return render_template("images/new.html")
 
 
@@ -18,17 +17,17 @@ def new():
 def create():
     if "user_file" not in request.files:
         flash("No user_file key in request.files")
+        return redirect(url_for("images.new"))
 
     file = request.files["user_file"]
 
     if file.filename == "":
         flash("Please provide a file name")
+        return redirect(url_for("images.new"))
 
     if file and allowed_file(file.filename):
         file.filename = secure_filename(file.filename)
         output = upload_file_to_s3(file, S3_BUCKET)
-        return redirect(url_for("images.new"))
-    else:
-        return "helo"
+        print(str(output))
 
     return redirect(url_for("images.new"))
