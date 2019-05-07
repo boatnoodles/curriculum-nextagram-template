@@ -37,7 +37,7 @@ def create():
 
         # Create a new instance of a user
         user = User(username=to_validate["username"],
-                    email=to_validate["email"], password=to_validate["password"], privacy=to_validate["privacy"])
+                    email=to_validate["email"], password=to_validate["password"], privacy=request.form.get("privacy"))
         # Validation using peewee-validates's ModelValidator
         validator = FormValidator(user)
         # If validation is successful
@@ -80,36 +80,54 @@ def edit(id):
 @login_required
 def update(id):
     # ALLOW PROFILE PICTURE
-
     # Get the necessary information from the form and compare it with current_info
-    keys = ["username", "email", "password"]
+    keys = ["username", "email", "password", "confirm"]
     to_be_changed = {}
     for key in keys:
         field = request.form.get(key)
-        if field != "" and field != current_user.key:
-            to_be_changed[key] = field
+        # If form field is not blank
+        if field != "":
+            # If the field is confirm or the field is not equal to what is stored in sessions with the same key
+            if key == "confirm":
+                to_be_changed[key] = field
+            elif field != getattr(current_user, key):
+                to_be_changed[key] = field
 
     # If no changes have been made, let the user know
     if not to_be_changed:
         flash("No changes were made")
         redirect(url_for("users.edit(id)"))
-    # Validate user's input
-    errors = form_validation(
-        username, email, new_password, request.form.get("confirm"))
 
-    # If errors is an empty array, i.e., there are no errors
+    # Validate user's input
+    errors = form_validation(to_be_changed)
+
+    # If there are errors
     if not errors:
-        # Hash user password
-        password = generate_password_hash(
-            new_password, method="pbkdf2:sha256", salt_length=8)
+        # Hash user password only if password has been filled in
+        try:
+            password = to_be_changed["password"]
+        except KeyError:
+            password = None
+        if password:
+            to_be_changed["password"] = generate_password_hash(
+                to_be_changed["password"], method="pbkdf2:sha256", salt_length=8)
+
+        # Obtain privacy option
+        privacy = request.form.get("privacy")
 
         # Update user
-        user = User.update({User.username: username, User.email: email,
-                            User.password: password, User.privacy: request.form.get("privacy")}).where(User.id == current_user.id)
+        result = user_update(to_be_changed, privacy)
 
+        user = User.update(user_update(to_be_changed, privacy)
+                           ).where(User.id == current_user.id)
+
+        # If unable to perform the update query
         if not user.execute():
             errors.update("An error occurred, please try again later")
-        flash("Account successfully updated")
-        return redirect(url_for("users.edit(id)"))
+            return redirect(url_for("users.edit(id)"), errors=errors)
 
-    return render_template('users/edit.html', errors=errors)
+        # Notify user that the change has been successfully made
+        flash("Account successfully updated")
+        return redirect(url_for("users.edit"))
+
+    return redirect(url_for("users.edit(id)"))

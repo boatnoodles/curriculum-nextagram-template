@@ -1,6 +1,6 @@
 import re
-from peewee_validates import ModelValidator, validate_length
 from models.user import User
+from peewee_validates import ModelValidator, validate_length
 
 
 class FormValidator(ModelValidator):
@@ -37,10 +37,10 @@ def length_validation(**fields):
     return errors
 
 
-def pw_complexity(password):
-    if re.match(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$', password):
-        return True
-    return False
+# def pw_complexity(password):
+#     if re.match(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$', password):
+#         return True
+#     return False
 
 
 def email_validity(email):
@@ -53,21 +53,46 @@ def form_validation(fields):
     """Validates the field passed in by the user via the sign up form"""
 
     errors = {}
-    # Check the length of the username, email and ori_password
-    errors.update(length_validation(
-        Username=fields["username"], Email=["email"], Password=["password"]))
 
-    # Check if passwords match
-    if fields["password"] != fields["confirm"]:
-        errors.update({"password": "Passwords do not match"})
+    for k, v in fields.items():
+        if k == "username":
+            errors.update(length_validation(Username=v))
+            pass
 
-    # Check for password complexity
-    if not pw_complexity(fields["password"]):
-        errors.update(
-            {"password": "Include at least one uppercase letter, one lowercase letter, one number and one special character"})
+        elif k == "email":
+            errors.update(length_validation(Email=v))
 
-    # Check if email is of a valid format
-    if not email_validity(fields["email"]):
-        errors.update({"email": "Enter a valid email"})
+            # Check if email is of a valid format
+            if not email_validity(fields["email"]):
+                errors.update({"email": "Enter a valid email"})
+            pass
+
+        elif k == "password":
+            errors.update(length_validation(Password=v))
+
+            # Check if passwords match
+            if fields["password"] != fields["confirm"]:
+                errors.update({"password": "Passwords do not match"})
+
+            # Check for password complexity
+            if not pw_complexity(fields["password"]):
+                errors.update(
+                    {"password": "Include at least one uppercase letter, one lowercase letter, one number and one special character"})
+            pass
 
     return errors
+
+
+def user_update(to_be_changed, privacy):
+    queries = {User.privacy: privacy}
+    for k, v in to_be_changed.items():
+        if k == "username":
+            queries.update({User.username: v})
+            pass
+        elif k == "email":
+            queries.update({User.email: v})
+            pass
+        elif k == "password":
+            queries.update({User.password: v})
+            pass
+    return queries
