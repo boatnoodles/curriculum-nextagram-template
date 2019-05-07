@@ -15,5 +15,12 @@ class User(BaseModel, UserMixin):
     email = pw.CharField(null=False, unique=True)
     password = pw.TextField(null=False)
     privacy = pw.BooleanField(null=True, default=False)
+    profile_picture = pw.CharField(null=True, default=None)
     # TODO SET DEFAULT PICTURE
-    profile_image = pw.TextField(null=True)
+
+    # @pw.hybrid_property
+    # def profile_image_url(self):
+    #     profile_pic = self.images.where(self.as)
+    #     return f"http://{bucket_name}.s3.amazonaws.com/{self.profile_picture}"
+
+    #     https
