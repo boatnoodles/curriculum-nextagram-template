@@ -62,9 +62,9 @@ def form_validation(username, email, password, confirm):
         errors.update({"password": "Passwords do not match"})
 
     # Check for password complexity
-    if not pw_complexity(password):
-        errors.update(
-            {"password": "Include at least one uppercase letter, one lowercase letter, one number and one special character"})
+    # if not pw_complexity(password):
+    #     errors.update(
+    #         {"password": "Include at least one uppercase letter, one lowercase letter, one number and one special character"})
 
     # Check if email is of a valid format
     if not email_validity(email):
