@@ -49,25 +49,25 @@ def email_validity(email):
     return False
 
 
-def form_validation(username, email, password, confirm):
+def form_validation(fields):
     """Validates the field passed in by the user via the sign up form"""
 
     errors = {}
     # Check the length of the username, email and ori_password
     errors.update(length_validation(
-        Username=username, Email=email, Password=password))
+        Username=fields["username"], Email=["email"], Password=["password"]))
 
     # Check if passwords match
-    if password != confirm:
+    if fields["password"] != fields["confirm"]:
         errors.update({"password": "Passwords do not match"})
 
     # Check for password complexity
-    # if not pw_complexity(password):
-    #     errors.update(
-    #         {"password": "Include at least one uppercase letter, one lowercase letter, one number and one special character"})
+    if not pw_complexity(fields["password"]):
+        errors.update(
+            {"password": "Include at least one uppercase letter, one lowercase letter, one number and one special character"})
 
     # Check if email is of a valid format
-    if not email_validity(email):
+    if not email_validity(fields["email"]):
         errors.update({"email": "Enter a valid email"})
 
     return errors
