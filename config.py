@@ -1,12 +1,6 @@
 import os
 
 
-S3_BUCKET = os.getenv("S3_BUCKET_NAME")
-S3_KEY = os.getenv("S3_ACCESS_KEY")
-S3_SECRET = os.getenv("S3_SECRET_ACCESS_KEY")
-S3_LOCATION = f'http://{S3_BUCKET}.s3.amazonaws.com/'
-
-
 class Config(object):
     DEBUG = False
     TESTING = False
@@ -36,3 +30,9 @@ class TestingConfig(Config):
     TESTING = True
     DEBUG = True
     ASSETS_DEBUG = True
+
+
+S3_BUCKET = os.getenv("S3_BUCKET_NAME")
+S3_KEY = os.getenv("S3_ACCESS_KEY")
+S3_SECRET = os.getenv("S3_SECRET_ACCESS_KEY")
+S3_LOCATION = f'http://{S3_BUCKET}.s3.amazonaws.com/'

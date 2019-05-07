@@ -13,6 +13,9 @@ app = Flask('NEXTAGRAM', root_path=web_dir)
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
+# S3 variables
+app.config.from_envvar("config.S3")
+
 # Apply CSRF protection
 csrf = CSRFProtect(app)
 

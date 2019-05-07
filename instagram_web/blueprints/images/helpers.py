@@ -1,8 +1,8 @@
 import boto3
 import botocore
 from app import app
-from config import S3_KEY, S3_SECRET, S3_BUCKET
-from flask import abort
+from config import S3_KEY, S3_SECRET, S3_BUCKET, S3_LOCATION
+from flask import abort, flash, redirect, url_for
 
 
 s3 = boto3.client("s3", aws_access_key_id=S3_KEY,
@@ -27,6 +27,7 @@ def upload_file_to_s3(file, bucket_name, acl="public-read"):
     # Catch all exception
     # need appropriate error codes
     except Exception as e:
-        return abort(404)
+        print("hehehhehee")
+        return redirect(url_for("users.new"))
 
-    return f'{app.config["S3_LOCATION"]}{file.filename}'
+    return f'{S3_LOCATION}{file.filename}'
