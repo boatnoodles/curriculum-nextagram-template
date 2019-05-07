@@ -4,11 +4,10 @@
 
 <form action="{{url_for('images.create')}}" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-  <div class="form-group">
+  <div class="form-group m-5">
     <img src="{{img}}" class="profile-img"/>
-    <label class="form-control" for="user_file">Upload Your File</label>
-    <input class="form-control" type="file" name="user_file">
-    <button type="submit">Upload</button>
+    <input class="form-control my-5" type="file" name="user_file">
+    <button type="submit" class="btn btn-primary">Upload</button>
   </div>
 </form>
 

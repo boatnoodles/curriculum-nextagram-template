@@ -2,6 +2,7 @@
 import os
 from flask import Blueprint, Flask, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
+from time import time
 from urllib.parse import urlparse
 from werkzeug import secure_filename
 # USER-DEFINED MODULES
@@ -35,9 +36,11 @@ def create():
         return redirect(url_for("images.new"))
 
     if file and allowed_file(file.filename):
+        # secure_filename transform " " to "_"
         file.filename = secure_filename(file.filename)
+        # Prepend a time stamp to filename to ensure that files with the same name does not get overwritten in S3
+        file.filename = str(round(time())) + "_" + file.filename
         output = upload_file_to_s3(file, S3_BUCKET)
-        print(str(output))
         url = urlparse(output).path.split('/')[-1]
         # Save to database
         q = User.update(profile_picture=url).where(User.id == current_user.id)
