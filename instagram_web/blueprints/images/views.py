@@ -16,8 +16,9 @@ images_blueprint = Blueprint("images", __name__, template_folder='templates')
 @images_blueprint.route("/new", methods=["GET"])
 @login_required
 def new():
-    breakpoint()
-    return render_template("images/new.html")
+    user = User.get_by_id(current_user.id)
+    img = user.profile_image_url
+    return render_template("images/new.html", img=img)
 
 
 @images_blueprint.route("/", methods=["POST"])
@@ -36,11 +37,12 @@ def create():
     if file and allowed_file(file.filename):
         file.filename = secure_filename(file.filename)
         output = upload_file_to_s3(file, S3_BUCKET)
-        path = urlparse(output).path
+        print(str(output))
+        url = urlparse(output).path.split('/')[-1]
         # Save to database
-        q = User.update(profile_picture=path).where(User.id == current_user.id)
+        q = User.update(profile_picture=url).where(User.id == current_user.id)
 
-        if not q.save():
+        if not q.execute():
             flash("an error occurred")
             return redirect(url_for("images.new"))
         flash("uploaded successfully")

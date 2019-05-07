@@ -1,6 +1,8 @@
 from app import login_manager
+from config import AWS_DOMAIN
 from flask_login import UserMixin
 from models.base_model import BaseModel
+from playhouse.hybrid import hybrid_property
 import peewee as pw
 
 
@@ -18,9 +20,9 @@ class User(BaseModel, UserMixin):
     profile_picture = pw.CharField(null=True, default=None)
     # TODO SET DEFAULT PICTURE
 
-    # @pw.hybrid_property
-    # def profile_image_url(self):
-    #     profile_pic = self.images.where(self.as)
-    #     return f"http://{bucket_name}.s3.amazonaws.com/{self.profile_picture}"
-
-    #     https
+    @hybrid_property
+    def profile_image_url(self):
+        """Call via instance
+        e.g., user = User.get_by_id(current_user.id)
+        e.g., user.profile_image_url"""
+        return f"{AWS_DOMAIN}/{self.profile_picture}"

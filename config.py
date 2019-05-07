@@ -35,4 +35,4 @@ class TestingConfig(Config):
 S3_BUCKET = os.getenv("S3_BUCKET_NAME")
 S3_KEY = os.getenv("S3_ACCESS_KEY")
 S3_SECRET = os.getenv("S3_SECRET_ACCESS_KEY")
-S3_LOCATION = f'http://{S3_BUCKET}.s3.amazonaws.com/'
+AWS_DOMAIN = f'https://s3.amazonaws.com/{S3_BUCKET}'

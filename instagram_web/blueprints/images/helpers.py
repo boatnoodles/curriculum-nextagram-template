@@ -1,7 +1,7 @@
 import boto3
 import botocore
 from app import app
-from config import S3_KEY, S3_SECRET, S3_BUCKET, S3_LOCATION
+from config import S3_KEY, S3_SECRET, S3_BUCKET, AWS_DOMAIN
 from flask import abort, flash, redirect, url_for
 
 
@@ -30,4 +30,4 @@ def upload_file_to_s3(file, bucket_name, acl="public-read"):
         print("hehehhehee")
         return redirect(url_for("users.new"))
 
-    return f'{S3_LOCATION}{file.filename}'
+    return f'{AWS_DOMAIN}/{file.filename}'

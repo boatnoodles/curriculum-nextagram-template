@@ -37,10 +37,10 @@ def length_validation(**fields):
     return errors
 
 
-# def pw_complexity(password):
-#     if re.match(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$', password):
-#         return True
-#     return False
+def pw_complexity(password):
+    if re.match(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$', password):
+        return True
+    return False
 
 
 def email_validity(email):
@@ -68,7 +68,6 @@ def form_validation(fields):
             pass
 
         elif k == "password":
-            errors.update(length_validation(Password=v))
 
             # Check if passwords match
             if fields["password"] != fields["confirm"]:
