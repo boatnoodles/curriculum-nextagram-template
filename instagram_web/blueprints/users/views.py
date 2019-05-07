@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, flash, redirect, render_template, request, session, url_for
+from flask import Blueprint, abort, flash, redirect, render_template, request, session, url_for
 from flask_login import login_required, current_user
 from instagram_web.blueprints.users.helpers import *
 from models.user import *
@@ -22,23 +22,22 @@ def new():
 @users_blueprint.route('/', methods=['POST'])
 # Handles user sign up
 def create():
-    username = request.form.get("username")
-    email = request.form.get("email")
-    ori_password = request.form.get("password")
+    keys = ["username", "email", "password", "confirm"]
+    to_validate = {}
+    for key in key:
+        to_validate[key] = request.form.get(key)
 
-    errors = form_validation(
-        username, email, ori_password, request.form.get("confirm"))
+    errors = form_validation(to_validate)
 
     # If errors is an empty array, i.e., there are no errors
     if not errors:
         # Hash user password
-        password = generate_password_hash(
-            ori_password, method="pbkdf2:sha256", salt_length=8)
+        hashed_password = generate_password_hash(
+            to_validate["password"], method="pbkdf2:sha256", salt_length=8)
 
         # Create a new instance of a user
-        user = User(username=username,
-                    email=email, password=password, privacy=request.form.get(
-                        "privacy"))
+        user = User(username=to_validate["username"],
+                    email=to_validate["email"], password=to_validate["password"], privacy=request.form.get("privacy"))
         # Validation using peewee-validates's ModelValidator
         validator = FormValidator(user)
         # If validation is successful
@@ -69,6 +68,8 @@ def index():
 @users_blueprint.route('/<id>/edit', methods=['GET'])
 @login_required
 def edit(id):
+    if current_user != User.get_by_id(id):
+        return abort(403)
     username = current_user.username
     email = current_user.email
     user_id = current_user.id
@@ -78,34 +79,50 @@ def edit(id):
 @users_blueprint.route('/<id>', methods=['POST'])
 @login_required
 def update(id):
-    # Get the necessary information from the form
-    username = request.form.get("username")
-    email = request.form.get("email")
-    new_password = request.form.get("password")
+    # ALLOW PROFILE PICTURE
+    # Get the necessary information from the form and compare it with current_info
+    keys = ["username", "email", "password", "confirm"]
+    to_be_changed = {}
+    for key in keys:
+        field = request.form.get(key)
+        # If form field is not blank
+        if field != "":
+            # If the field is confirm or the field is not equal to what is stored in sessions with the same key
+            if key == "confirm":
+                to_be_changed[key] = field
+            elif field != getattr(current_user, key):
+                to_be_changed[key] = field
 
-    # Compare with old info?
-    # current_user.username
     # If no changes have been made, let the user know
-    errors = form_validation(
-        username, email, new_password, request.form.get("confirm"))
+    if not to_be_changed:
+        flash("No changes were made")
+        return redirect(url_for("users.edit", id=id))
 
-    # If errors is an empty array, i.e., there are no errors
+    # Validate user's input
+    errors = form_validation(to_be_changed)
+
+    # If there are errors
     if not errors:
-        # Hash user password
-        password = generate_password_hash(
-            new_password, method="pbkdf2:sha256", salt_length=8)
+        # Hash user password only if password has been filled in
+        try:
+            password = to_be_changed["password"]
+        except KeyError:
+            password = None
+        if password:
+            to_be_changed["password"] = generate_password_hash(
+                to_be_changed["password"], method="pbkdf2:sha256", salt_length=8)
 
-        # Update user
-        user = User.update({User.username: username, User.email: email,
-                            User.password: password, User.privacy: request.form.get("privacy")}).where(User.id == current_user.id)
-        # Validation using peewee-validates's ModelValidator
-        validator = FormValidator(user)
-        # If validation is successful
-        if validator.validate():
-            user.execute()
-            flash("Account successfully updated")
-            return redirect(url_for("users.edit"))
-        # Else, append the error message
-        errors.update(validator.errors)
+        # Obtain privacy option
+        user = User.update(user_update(to_be_changed, request.form.get("privacy"))
+                           ).where(User.id == current_user.id)
 
-    return render_template('users/edit.html', errors=errors)
+        # If unable to perform the update query
+        if not user.execute():
+            errors.update("An error occurred, please try again later")
+            return redirect(url_for("users.edit", id=id), errors=errors)
+
+        # Notify user that the change has been successfully made
+        flash("Account successfully updated")
+        return redirect(url_for("users.edit", id=id))
+
+    return redirect(url_for("users.edit", id=id))

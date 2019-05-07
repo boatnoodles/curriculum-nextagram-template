@@ -12,8 +12,6 @@ app = Flask('NEXTAGRAM', root_path=web_dir)
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-# Obtain the secret key
-app.config["SECRET_KEY"] = os.getenv('SECRET_KEY')
 
 # Apply CSRF protection
 csrf = CSRFProtect(app)
