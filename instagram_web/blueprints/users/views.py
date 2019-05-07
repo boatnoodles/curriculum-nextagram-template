@@ -96,7 +96,7 @@ def update(id):
     # If no changes have been made, let the user know
     if not to_be_changed:
         flash("No changes were made")
-        redirect(url_for("users.edit(id)"))
+        return redirect(url_for("users.edit", id=id))
 
     # Validate user's input
     errors = form_validation(to_be_changed)
@@ -124,10 +124,10 @@ def update(id):
         # If unable to perform the update query
         if not user.execute():
             errors.update("An error occurred, please try again later")
-            return redirect(url_for("users.edit(id)"), errors=errors)
+            return redirect(url_for("users.edit", id=id), errors=errors)
 
         # Notify user that the change has been successfully made
         flash("Account successfully updated")
-        return redirect(url_for("users.edit"))
+        return redirect(url_for("users.edit", id=id))
 
-    return redirect(url_for("users.edit(id)"))
+    return redirect(url_for("users.edit", id=id))
