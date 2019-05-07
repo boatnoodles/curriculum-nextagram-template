@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, flash, redirect, render_template, request, session, url_for
+from flask import Blueprint, abort, flash, redirect, render_template, request, session, url_for
 from flask_login import login_required, current_user
 from instagram_web.blueprints.users.helpers import *
 from models.user import *
@@ -69,6 +69,8 @@ def index():
 @users_blueprint.route('/<id>/edit', methods=['GET'])
 @login_required
 def edit(id):
+    if current_user != User.get_by_id(id):
+        return abort(403)
     username = current_user.username
     email = current_user.email
     user_id = current_user.id
