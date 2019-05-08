@@ -1,6 +1,6 @@
 import os
 from flask import Blueprint, abort, flash, redirect, render_template, request, session, url_for
-from flask_login import login_required, current_user
+from flask_login import current_user, login_required
 from instagram_web.blueprints.users.helpers import *
 from models.user import *
 from peewee_validates import ModelValidator, StringField, validate_length
