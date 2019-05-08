@@ -15,13 +15,13 @@ def new():
 
 
 @posts_blueprint.route("/", methods=["POST"])
-@login_required
 # Handles post upload
+@login_required
 def create():
     # Handle and upload the file submitted by the user to generate a url
     file = handle_upload("user_post", "posts")
     url = gen_url(file)
-    # Obtain the caption of the picture uplaoded
+    # Obtain the caption of the picture uploaded
 
     # Save to database
     q = Post.update()

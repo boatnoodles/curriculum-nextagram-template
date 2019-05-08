@@ -12,7 +12,7 @@ profile_images_blueprint = Blueprint(
     "images", __name__, template_folder='templates')
 
 
-@images_blueprint.route("/new", methods=["GET"])
+@profile_images_blueprint.route("/new", methods=["GET"])
 @login_required
 def new():
     user = User.get_by_id(current_user.id)
@@ -20,7 +20,7 @@ def new():
     return render_template("images/new.html", img=img)
 
 
-@images_blueprint.route("/", methods=["POST"])
+@profile_images_blueprint.route("/", methods=["POST"])
 @login_required
 def create():
     file = handle_upload("user_file", "images")

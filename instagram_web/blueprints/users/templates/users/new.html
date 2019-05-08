@@ -4,7 +4,7 @@
 
   {% include "users/_errors.html" %}
 
-  <form method="POST" action={{url_for("users.create")}}>  
+  <form method="POST" action="{{ url_for('users.create') }}">  
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div class="m-5 form-control" style="width: 80vw;">
       <div class="form-group">

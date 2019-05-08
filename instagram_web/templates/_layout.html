@@ -30,20 +30,20 @@
             <a class="nav-link" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a href="{{url_for("images.new")}}" class="nav-link">Update Profile Picture</a>
+            <a href="{{ url_for('images.new') }}" class="nav-link">Update Profile Picture</a>
           </li>
           <li class="nav-item">
-            <a href="{{url_for("users.edit", id=current_user.id)}}" class="nav-link">Edit Profile Details</a>
+            <a href="{{ url_for('users.edit', id=current_user.id) }}" class="nav-link">Edit Profile Details</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Account Management
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href={{ url_for("users.new") }}>Sign Up</a>
-              <a class="dropdown-item" href={{ url_for("sessions.new")}}>Log In</a>
+              <a class="dropdown-item" href="{{ url_for('users.new') }}">Sign Up</a>
+              <a class="dropdown-item" href="{{ url_for('sessions.new')}}">Log In</a>
               <div class="dropdown-divider"></div>
-              <form method="POST" action={{ url_for("sessions.delete") }}>
+              <form method="POST" action="{{ url_for('sessions.delete') }}">
               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <input class="dropdown-item" type="submit" value="Log Out"/>
               </form>

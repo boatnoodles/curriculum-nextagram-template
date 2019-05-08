@@ -2,6 +2,7 @@ from app import app
 from flask import render_template
 from flask_assets import Environment, Bundle
 from flask_login import current_user
+from instagram_web.blueprints.posts.views import posts_blueprint
 from instagram_web.blueprints.images.views import profile_images_blueprint
 from instagram_web.blueprints.sessions.views import sessions_blueprint
 from instagram_web.blueprints.users.views import users_blueprint
@@ -11,9 +12,10 @@ assets = Environment(app)
 assets.register(bundles)
 
 
-app.register_blueprint(users_blueprint, url_prefix="/users")
-app.register_blueprint(sessions_blueprint, url_prefix="/sessions")
+app.register_blueprint(posts_blueprint, url_prefix="/posts")
 app.register_blueprint(profile_images_blueprint, url_prefix="/images")
+app.register_blueprint(sessions_blueprint, url_prefix="/sessions")
+app.register_blueprint(users_blueprint, url_prefix="/users")
 
 
 @app.route("/")
