@@ -21,6 +21,7 @@ def allowed_file(filename):
 
 def handle_file(file_form_name, route):
     """Function to check for invalid filenames and format filename"""
+
     if file_form_name not in request.files:
         flash("No user_file key in request.files")
         return redirect(url_for(f"{route}.new"))
