@@ -19,7 +19,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-def handle_upload(file_form_name, route):
+def handle_file(file_form_name, route):
     if file_form_name not in request.files:
         flash("No user_file key in request.files")
         return redirect(url_for(f"{route}.new"))
@@ -35,10 +35,6 @@ def handle_upload(file_form_name, route):
         file.filename = secure_filename(file.filename)
         # Prepend a time stamp to filename to ensure that files with the same name does not get overwritten in S3
         file.filename = str(round(time())) + "_" + file.filename
-
-    output = upload_file_to_s3(file, S3_BUCKET)
-    if output:
-        return urlparse(output).path.split('/')[-1]
 
 
 def upload_file_to_s3(file, bucket_name, acl="public-read"):
@@ -56,3 +52,9 @@ def upload_file_to_s3(file, bucket_name, acl="public-read"):
         return redirect(url_for("users.new"))
 
     return f'{AWS_DOMAIN}/{file.filename}'
+
+
+def return_url(file):
+    output = upload_file_to_s3(file, S3_BUCKET)
+    if output:
+        return urlparse(output).path.split('/')[-1]

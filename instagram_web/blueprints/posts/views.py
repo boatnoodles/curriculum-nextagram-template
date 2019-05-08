@@ -18,10 +18,9 @@ def new():
 # Handles post upload
 @login_required
 def create():
-    # breakpoint()
     # Handle and upload the file submitted by the user to generate a url
-    url = handle_upload("user_post", "posts")
-    # url = gen_url(file)
+    file = handle_file("user_post", "posts")
+    url = return_url(file)
 
     # Obtain the caption of the picture uploaded
     caption = request.form.get("caption")
