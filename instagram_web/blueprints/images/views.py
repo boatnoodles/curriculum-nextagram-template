@@ -26,7 +26,7 @@ def create():
     url_path = handle_upload("user_file", "images")
 
     # Save to database
-    q = User.update(profile_picture=url).where(User.id == current_user.id)
+    q = User.update(profile_picture=url_path).where(User.id == current_user.id)
 
     if not q.execute():
         flash("an error occurred")

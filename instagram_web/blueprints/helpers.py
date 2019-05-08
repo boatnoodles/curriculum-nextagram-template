@@ -51,7 +51,7 @@ def upload_file_to_s3(file, bucket_name, acl="public-read"):
     # Catch all exception
     # need appropriate error codes
     except Exception as e:
-        print("hehehhehee")
+        print(e)
         return redirect(url_for("users.new"))
 
     return file.filename
