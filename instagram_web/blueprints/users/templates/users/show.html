@@ -1,0 +1,19 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+
+  <div class="my-2">
+    <p>{{user.username}}</p>
+
+    <img src="{{ user.profile_picture_url }}" alt="" class="profile-img">
+  </div>
+
+  <div class="my-5 w-50">
+    {% for post in posts %}
+        <a href="{{ url_for('posts.show', path=post.path) }}">
+          <img src="{{ post.post_url }}" alt="">
+        </a>
+    {% endfor %}
+  </div>
+
+{% endblock %}

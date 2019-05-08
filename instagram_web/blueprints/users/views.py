@@ -56,7 +56,10 @@ def create():
 @login_required
 # Personal profile page
 def show(username):
-    pass
+    user = User.get(User.username == username)
+    posts = user.posts
+    return render_template("users/show.html", user=user, posts=posts)
+    # for post in posts post.path, post.caption
 
 
 @users_blueprint.route('/', methods=["GET"])

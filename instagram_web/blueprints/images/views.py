@@ -16,7 +16,7 @@ profile_images_blueprint = Blueprint(
 @login_required
 def new():
     user = User.get_by_id(current_user.id)
-    img = user.profile_image_url
+    img = user.profile_picture_url
     return render_template("images/new.html", img=img)
 
 

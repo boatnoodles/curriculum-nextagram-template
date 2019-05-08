@@ -26,7 +26,7 @@ def create():
     caption = request.form.get("caption")
 
     # Save to database
-    q = Post(user_id=current_user.id, pict_url=url_path, caption=caption)
+    q = Post(user_id=current_user.id, path=url_path, caption=caption)
 
     if q.save():
         flash("Upload successful")
@@ -37,7 +37,7 @@ def create():
 @posts_blueprint.route("/<path>", methods=["GET"])
 @login_required
 def show(path):
-    post = Post.get(Post.pict_url == path)
+    post = Post.get(Post.path == path)
     url = post.post_url
     caption = post.caption
     return render_template("posts/show.html", url=url, caption=caption)
