@@ -23,8 +23,7 @@ def new():
 @profile_images_blueprint.route("/", methods=["POST"])
 @login_required
 def create():
-    file = handle_file("user_file", "images")
-    url = return_url(file)
+    url_path = handle_upload("user_file", "images")
 
     # Save to database
     q = User.update(profile_picture=url).where(User.id == current_user.id)

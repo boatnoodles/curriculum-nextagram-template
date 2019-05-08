@@ -20,6 +20,7 @@ def allowed_file(filename):
 
 
 def handle_file(file_form_name, route):
+    """Function to check for invalid filenames and format filename"""
     if file_form_name not in request.files:
         flash("No user_file key in request.files")
         return redirect(url_for(f"{route}.new"))
@@ -33,8 +34,10 @@ def handle_file(file_form_name, route):
     if file and allowed_file(file.filename):
         # secure_filename transform " " to "_"
         file.filename = secure_filename(file.filename)
-        # Prepend a time stamp to filename to ensure that files with the same name does not get overwritten in S3
-        file.filename = str(round(time())) + "_" + file.filename
+        # Replace filename to a timestamp
+        file.filename = str(round(time()*100))
+
+    return file
 
 
 def upload_file_to_s3(file, bucket_name, acl="public-read"):
@@ -51,10 +54,10 @@ def upload_file_to_s3(file, bucket_name, acl="public-read"):
         print("hehehhehee")
         return redirect(url_for("users.new"))
 
-    return f'{AWS_DOMAIN}/{file.filename}'
+    return file.filename
 
 
-def return_url(file):
-    output = upload_file_to_s3(file, S3_BUCKET)
-    if output:
-        return urlparse(output).path.split('/')[-1]
+def handle_upload(file_form_name, route):
+    """Function to handle and upload the file submitted by the user to generate a url path"""
+    file = handle_file(file_form_name, route)
+    return upload_file_to_s3(file, S3_BUCKET)

@@ -18,15 +18,14 @@ def new():
 # Handles post upload
 @login_required
 def create():
-    # Handle and upload the file submitted by the user to generate a url
-    file = handle_file("user_post", "posts")
-    url = return_url(file)
+    # Handle and upload the file submitted by the user to generate a url path
+    url_path = handle_upload("user_post", "posts")
 
     # Obtain the caption of the picture uploaded
     caption = request.form.get("caption")
 
     # Save to database
-    q = Post(user_id=current_user.id, pict_url=url, caption=caption)
+    q = Post(user_id=current_user.id, pict_url=url_path, caption=caption)
 
     if q.save():
         flash("Upload successful")
