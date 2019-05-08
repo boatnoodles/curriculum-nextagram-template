@@ -9,9 +9,9 @@ from models.user import User
 
 class Post(BaseModel):
     user_id = pw.ForeignKeyField(User, backref="posts")
-    pict_url = pw.CharField()
+    path = pw.CharField()
     caption = pw.TextField()
 
     @hybrid_property
     def post_url(self):
-        return f"{AWS_DOMAIN}/{self.pict_url}"
+        return f"{AWS_DOMAIN}/{self.path}"
