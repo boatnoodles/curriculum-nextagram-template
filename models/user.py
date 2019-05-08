@@ -21,8 +21,8 @@ class User(BaseModel, UserMixin):
     # TODO SET DEFAULT PICTURE
 
     @hybrid_property
-    def profile_image_url(self):
+    def profile_picture_url(self):
         """Call via instance
         e.g., user = User.get_by_id(current_user.id)
-        e.g., user.profile_image_url"""
+        e.g., user.profile_picture_url"""
         return f"{AWS_DOMAIN}/{self.profile_picture}"
