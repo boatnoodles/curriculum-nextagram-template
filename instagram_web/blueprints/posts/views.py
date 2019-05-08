@@ -18,5 +18,11 @@ def new():
 @login_required
 # Handles post upload
 def create():
+    # Handle and upload the file submitted by the user to generate a url
+    file = handle_upload("user_post", "posts")
+    url = gen_url(file)
+    # Obtain the caption of the picture uplaoded
 
+    # Save to database
+    q = Post.update()
     return redirect(url_for("posts.new"))
