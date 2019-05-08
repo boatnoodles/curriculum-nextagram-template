@@ -3,8 +3,9 @@
 {% block content %}
 
 <form action="{{ url_for('images.create') }}" method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-  <div class="form-group m-5">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+  <div class="form-group m-5" style="width: 80vw;">
     <img src="{{img}}" class="profile-img"/>
     <input class="form-control my-5" type="file" name="user_file">
     <button type="submit" class="btn btn-primary">Upload</button>
