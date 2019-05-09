@@ -15,3 +15,7 @@ class Post(BaseModel):
     @hybrid_property
     def post_url(self):
         return f"{AWS_DOMAIN}/{self.path}"
+
+    @hybrid_property
+    def donation_amount(self):
+        return
