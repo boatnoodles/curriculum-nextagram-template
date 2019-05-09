@@ -73,7 +73,6 @@ def show(transaction_id):
 
 @donations_blueprint.route('/', methods=['POST'])
 def create():
-    print("test")
     result = transact({
         'amount': request.form['amount'],
         'payment_method_nonce': request.form['payment_method_nonce'],
