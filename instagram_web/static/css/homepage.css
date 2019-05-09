@@ -1,0 +1,65 @@
+.brand-logo {
+  font-family: "Grand Hotel", cursive;
+  font-size: 2.4rem;
+}
+
+.font-color-999 {
+  color: #999;
+}
+
+.border-color-e6 {
+  border-color: #e6e6e6;
+}
+
+.w-259px {
+  max-width: 259px;
+  width: 100%;
+}
+
+.w-350px {
+  max-width: 350px;
+  width: 100%;
+}
+
+.btn-steel-blue {
+  color: #fff;
+  background-color: #4682b4;
+  border-color: #4682b4;
+}
+
+#homepage div.sign-up-form {
+  background-color: white;
+}
+
+#homepage input.sign-up-form {
+  height: 2rem;
+  background-color: #fafafa;
+  font-size: 0.9rem;
+}
+
+#homepage hr {
+  position: relative;
+}
+
+#homepage hr::before {
+  position: absolute;
+  content: "OR";
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  text-align: center;
+  background: white;
+}
+
+@media (max-width: 768px) {
+  #homepage .phone {
+    display: none;
+  }
+}
+
+#homepage .phone img {
+  max-width: 326px;
+  width: 100%;
+  vertical-align: middle;
+}

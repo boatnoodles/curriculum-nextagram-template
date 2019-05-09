@@ -1,6 +1,6 @@
 import os
 from flask import Blueprint, abort, flash, redirect, render_template, request, session, url_for
-from flask_login import login_required, current_user
+from flask_login import current_user, login_required
 from instagram_web.blueprints.users.helpers import *
 from models.user import *
 from peewee_validates import ModelValidator, StringField, validate_length
@@ -56,7 +56,10 @@ def create():
 @login_required
 # Personal profile page
 def show(username):
-    pass
+    user = User.get(User.username == username)
+    posts = user.posts
+    return render_template("users/show.html", user=user, posts=posts)
+    # for post in posts post.path, post.caption
 
 
 @users_blueprint.route('/', methods=["GET"])

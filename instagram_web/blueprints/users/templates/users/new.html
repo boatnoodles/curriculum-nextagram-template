@@ -1,42 +1,63 @@
-{% extends "_layout.html"%}
+  {% extends "_layout.html"%}
 
-{% block content %}
+  {% block content %}
 
-  {% include "users/_errors.html" %}
+    {% include "users/_errors.html" %}
 
-  <form method="POST" action={{url_for("users.create")}}>  
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <div class="m-5 form-control" style="width: 80vw;">
-      <div class="form-group">
-      {# Username #}
-        <label for="username">Username</label>
-        <input class="form-control" type="text" placeholder="" name="username"/>
+    
+    <div class="row d-flex justify-content-center vh-100 w-100" id="homepage">
+      <div class="phone my-2 mr-4 text-right">
+        <img src="https://s3.amazonaws.com/meistagram/155731638976" alt="">
       </div>
+      <div class="w-350px my-2 ml-4">
+        <div class="sign-up-form border border-color-e6 p-4 d-flex justify-content-center">
+          <div class="w-259px">
+            <h1 class="brand-logo text-center mb-3">Nextagram</h1>
+            <p class="font-weight-bold text-center font-color-999 w-255px">
+              Sign up to see photos and videos from your friends and family.
+            </p>          
+            <button class="btn btn-steel-blue font-weight-bold mx-auto w-100">Log in with Google</button>
+            <hr class="my-4 font-weight-bold font-color-999">
 
-      <div class="form-group">
-      {# Email #}
-        <label for="email">Email</label>
-        <input class="form-control" type="email" placeholder="" name="email"/>
-      </div>
+            <form method="POST" action="{{ url_for('users.create') }}">  
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              
+              <div class="form-group my-4">
+              {# Username #}
+                <input class="sign-up-form form-control" type="text" placeholder="Username" name="username"/>
+              </div>
 
-      <div class="form-group">
-      {# Password #}
-        <label for="password">Password</label>
-        <input class="form-control" type="password" placeholder="" name="password"/>
-        <small class="form-text text-muted">Min 6 characters. At least 1 uppercase and 1 lowercase letter, 1 number and 1 special character (@#$%^&+=)</small>
-      </div>
+              <div class="form-group my-4">
+              {# Email #}
+                <input class="sign-up-form form-control" type="email" placeholder="Email" name="email"/>
+              </div>
 
-      <div class="form-group">
-      {# Confirm password #}
-        <label for="confirm">Confirm Password</label>
-        <input class="form-control" type="password" placeholder="" name="confirm"/>
+              <div class="form-group my-4">
+              {# Password #}
+                <input class="sign-up-form form-control" type="password" placeholder="Password" name="password"/>
+                <small class="form-text text-muted text-justify">Min 6 characters. At least 1 uppercase and 1 lowercase letter, 1 number and 1 special character (@#$%^&+=).</small>
+              </div>
+
+              <div class="form-group my-4">
+              {# Confirm password #}
+                <input class="sign-up-form form-control" type="password" placeholder="Confirm your password" name="confirm"/>
+              </div>
+
+              <div class="form-group my-4">
+                <input type="checkbox" class="" name="privacy">
+                <small class="text-muted" for="privacy" value="True">Make your account private</small>
+              </div>
+              
+              {# Submit button #}
+              <button type="submit" class="btn btn-steel-blue font-weight-bold w-100">Sign up</button>
+            
+            </form>    
+          </div>
+        </div>      
       </div>
-      <div class="form-group">
-        <input type="checkbox" class="" name="privacy">
-        <label for="privacy" value="True">Make your account private</label>
-      </div>
-      {# Submit button #}
-      <button type="submit" class="btn btn-info" >Sign Up</button>
     </div>
-  </form>
-{% endblock %}
+  
+
+
+    
+  {% endblock %}

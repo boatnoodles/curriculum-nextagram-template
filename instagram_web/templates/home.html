@@ -1,13 +1,17 @@
 {% extends "_layout.html" %}
+
 {% block title %}
-  Homepage
+  Nextagram
 {% endblock %}
 
 {% block header %}
 {% endblock %}
 
 {% block content %}
-<h1>Homepage</h1>
+  {% with current = "home" %}
+    {% include "_navbar.html" %}
+  {% endwith %}
 
 Welcome, {{username}}
 {% endblock %}
+

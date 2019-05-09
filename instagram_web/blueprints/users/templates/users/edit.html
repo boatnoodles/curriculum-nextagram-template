@@ -4,21 +4,14 @@
 
   {% include "users/_errors.html" %}
 
-<form action="/" method="POST" enctype="multipart/form-data">
 
-        
-
-    </form>
-
-
-  <form method="POST" action={{url_for("users.update", id=user_id)}} enctype="multipart/form-data">  
+  <form method="POST" action={{url_for("users.update", id=user_id)}}>  
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <label for="user_file">Upload Your File</label>
-    <input type="file" name="user_file">
-    <button type="submit">Upload</button>
 
     <div class="m-5" style="width: 80vw;">
       <div class="form-group">
+        <a href="{{ url_for('images.new') }}" class="nav-link">Update Profile Picture</a>
+
       {# Username #}
         <label for="username">Username</label>
         <input class="form-control" type="text" placeholder="" name="username" value="{{username}}"/>

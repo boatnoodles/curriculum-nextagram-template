@@ -1,0 +1,18 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+
+  <form action="{{ url_for('posts.create') }}" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="m-5" style="width: 80vw;">
+      <div class="form-group">
+        <label for="user_post">Upload a new post here</label>
+        <input type="file" class="form-control my-2" name="user_post"/>
+        <textarea type="text" class="form-control my-2" name="caption" placeholder="Enter your caption here"></textarea>
+        <button type="submit" class="btn btn-primary">Upload</button>
+      </div>
+    </div>
+  </form>
+
+{% endblock %}
