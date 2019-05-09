@@ -11,6 +11,7 @@ class Post(BaseModel):
     user_id = pw.ForeignKeyField(User, backref="posts")
     path = pw.CharField()
     caption = pw.TextField()
+    donation = pw.DecimalField(default=0)
 
     @hybrid_property
     def post_url(self):

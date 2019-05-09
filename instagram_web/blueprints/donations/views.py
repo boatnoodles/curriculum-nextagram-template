@@ -43,8 +43,10 @@ def create():
         }
     })
 
+    # If transaction is successful
     if result.is_success or result.transaction:
         return redirect(url_for('donations.show', transaction_id=result.transaction.id))
+
     else:
         for x in result.errors.deep_errors:
             flash('Error: %s: %s' % (x.code, x.message))
