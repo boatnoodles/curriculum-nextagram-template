@@ -24,7 +24,7 @@ def new():
 def create():
     keys = ["username", "email", "password", "confirm"]
     to_validate = {}
-    for key in key:
+    for key in keys:
         to_validate[key] = request.form.get(key)
 
     errors = form_validation(to_validate)
