@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template
+from flask import redirect, render_template, url_for
 from flask_assets import Environment, Bundle
 from flask_login import current_user
 from instagram_web.blueprints.posts.views import posts_blueprint
@@ -24,7 +24,8 @@ def home():
         username = current_user.username
     except:
         username = "Stranger"
-
+    if not current_user:
+        return redirect(url_for("users.new"))
     return render_template('home.html', username=username)
 
 

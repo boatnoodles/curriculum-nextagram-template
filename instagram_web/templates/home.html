@@ -8,22 +8,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-  <div class="row d-flex justify-content-center align-items-center vh-100">
-    <div class="col-sm-10 col-m-10 col-lg-6 h-75">
-      <div class="border border-secondary p-5 h-100">
-        <h1 class="brand-logo text-center mb-3">Nextagram</h1>
-        <p class="font-weight-bold text-center">
-          Sign up to see photos and videos from your friends and family.
-        </p>
-        
-        <button class="btn btn-primary font-weight-bold mx-auto w-100">Log in with Google</button>
-      
-      </div>
-      
-    </div>    
-  </div>
-</div>
+  {% with current = "home" %}
+    {% include "_navbar.html" %}
+  {% endwith %}
+
 Welcome, {{username}}
 {% endblock %}
 
