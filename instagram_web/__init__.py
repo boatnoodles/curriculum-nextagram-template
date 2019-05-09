@@ -1,5 +1,5 @@
 from app import app
-from flask import redirect, render_template, url_for
+from flask import flash, redirect, render_template, url_for
 from flask_assets import Environment, Bundle
 from flask_login import current_user
 from instagram_web.blueprints.donations.views import donations_blueprint
@@ -22,6 +22,7 @@ app.register_blueprint(users_blueprint, url_prefix="/users")
 
 @app.route("/")
 def home():
+    flash("works", "success")
     try:
         username = current_user.username
     except:

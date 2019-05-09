@@ -6,6 +6,7 @@
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css?family=Grand+Hotel" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     {% assets "home_css" %}
       <link rel="stylesheet" href="{{ ASSET_URL }}">
     {% endassets %}
@@ -19,10 +20,7 @@
   </head>
   
   <body>
-  
     {% block content %}
     {% endblock %}
-
-    {# <script src="./path/to/dropzone.js"></script> #}
   </body>
 </html>
