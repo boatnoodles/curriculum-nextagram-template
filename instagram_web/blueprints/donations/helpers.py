@@ -1,5 +1,6 @@
 import braintree
 import os
+from flask import request
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
@@ -31,6 +32,17 @@ def generate_client_token():
 
 def transact(options):
     return gateway.transaction.sale(options)
+
+
+def make_transaction(amount):
+    result = transact({
+        'amount': amount,
+        'payment_method_nonce': request.form.get('payment_method_nonce'),
+        'options': {
+            "submit_for_settlement": True
+        }
+    })
+    return result
 
 
 def find_transaction(id):

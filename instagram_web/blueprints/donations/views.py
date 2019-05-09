@@ -23,13 +23,7 @@ def new(recipient):
 def create(recipient):
     amount = request.form.get('amount')
 
-    result = transact({
-        'amount': amount,
-        'payment_method_nonce': request.form.get('payment_method_nonce'),
-        'options': {
-            "submit_for_settlement": True
-        }
-    })
+    result = make_transaction(amount)
 
     # If transaction is successful
     if result.is_success or result.transaction:
@@ -50,7 +44,7 @@ def create(recipient):
     else:
         for x in result.errors.deep_errors:
             flash('Error: %s: %s' % (x.code, x.message))
-        return redirect(url_for('donations.new'))
+        return redirect(url_for('donations.new', recipient=recipient))
 
 
 @donations_blueprint.route('/show/<transaction_id>', methods=['GET'])
