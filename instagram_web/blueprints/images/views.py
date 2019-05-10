@@ -12,6 +12,11 @@ profile_images_blueprint = Blueprint(
     "images", __name__, template_folder='templates')
 
 
+@profile_images_blueprint.route("/")
+def index():
+    return render_template('images/test.html')
+
+
 @profile_images_blueprint.route("/new", methods=["GET"])
 @login_required
 def new():
