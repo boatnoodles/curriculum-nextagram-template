@@ -51,7 +51,7 @@ def find_transaction(id):
 
 def send_email(email):
     message = Mail(
-        from_email='no_reply@meistergram.com',
+        from_email='no_reply@Meisterkram.com',
         to_emails=email,
         subject='Sending with Twilio SendGrid is Fun',
         html_content='<strong>and easy to do anywhere, even with Python</strong>')
