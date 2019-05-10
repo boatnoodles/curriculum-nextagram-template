@@ -8,7 +8,7 @@ from instagram_web.blueprints.posts.views import posts_blueprint
 from instagram_web.blueprints.images.views import profile_images_blueprint
 from instagram_web.blueprints.sessions.views import sessions_blueprint
 from instagram_web.blueprints.users.views import users_blueprint
-from instagram_web.util.helpers.google_oauth import oauth
+from instagram_web.util.helpers.oauth import google_oauth, facebook_oauth
 from .util.assets import bundles
 
 assets = Environment(app)
@@ -20,7 +20,8 @@ app.register_blueprint(sessions_blueprint, url_prefix="/sessions")
 app.register_blueprint(users_blueprint, url_prefix="/users")
 
 
-oauth.init_app(app)
+google_oauth.init_app(app)
+facebook_oauth.init_app(app)
 
 
 @app.route("/")

@@ -14,6 +14,8 @@ class ProductionConfig(Config):
     ASSETS_DEBUG = False
     GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
     GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
+    FACEBOOK_APP_ID = os.getenv('FACEBOOK_APP_ID')
+    FACEBOOK_APP_SECRET = os.getenv('FACEBOOK_APP_SECRET')
 
 
 class StagingConfig(Config):
@@ -28,6 +30,9 @@ class DevelopmentConfig(Config):
     ASSETS_DEBUG = False
     GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
     GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
+    FACEBOOK_APP_ID = os.getenv('FACEBOOK_APP_ID')
+    FACEBOOK_APP_SECRET = os.getenv('FACEBOOK_APP_SECRET')
+    AUTHLIB_INSECURE_TRANSPORT = os.getenv('AUTHLIB_INSECURE_TRANSPORT')
 
 
 class TestingConfig(Config):
