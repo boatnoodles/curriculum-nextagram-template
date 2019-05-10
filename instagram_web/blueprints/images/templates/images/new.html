@@ -1,7 +1,7 @@
 {% extends "_layout.html"%}
 
 {% block content %}
-
+{% include "_navbar.html" %}
 <form action="{{ url_for('images.create') }}" method="POST" enctype="multipart/form-data">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 

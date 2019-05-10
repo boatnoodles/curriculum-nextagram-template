@@ -2,10 +2,15 @@
 
 {% block content %}
   <div class="m-5">
-    <img src="{{ url }}" alt="">
+
+    <img src="{{ url }}" class="w-259px m-2">
     <div>
-      <p>{{ caption }}</p>
+      <span class="font-weight-bold">Certain user: </span><span>{{ caption }}</span>
+
     </div>
+    <a href="{{ url_for('donations.new', recipient=path) }}">
+      <button class="btn steel-blue text-white font-weight-bold border-0 font-weight-bold">Make a donation</button>
+    </a>
   </div>
 
 {% endblock %}

@@ -1,6 +1,7 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from instagram_web.blueprints.helpers import *
+from instagram_web.blueprints.donations.helpers import *
 from models.post import Post
 from models.user import User
 
@@ -40,4 +41,5 @@ def show(path):
     post = Post.get(Post.path == path)
     url = post.post_url
     caption = post.caption
-    return render_template("posts/show.html", url=url, caption=caption)
+
+    return render_template("posts/show.html", url=url, caption=caption, path=path)
