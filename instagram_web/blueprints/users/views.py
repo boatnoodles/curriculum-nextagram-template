@@ -73,10 +73,10 @@ def index():
 def edit(id):
     if current_user != User.get_by_id(id):
         return abort(403)
-    username = current_user.username
-    email = current_user.email
-    user_id = current_user.id
-    return render_template("users/edit.html", username=username, email=email, user_id=user_id)
+
+    user = User.get_by_id(current_user.id)
+    img = user.profile_picture_url
+    return render_template("users/edit.html", user=user, img=img)
 
 # Edit user information
 @users_blueprint.route('/<id>', methods=['POST'])
@@ -84,7 +84,7 @@ def edit(id):
 def update(id):
     # ALLOW PROFILE PICTURE
     # Get the necessary information from the form and compare it with current_info
-    keys = ["username", "email", "password", "confirm"]
+    keys = ["username", "email"]
     to_be_changed = {}
     for key in keys:
         field = request.form.get(key)
@@ -98,7 +98,7 @@ def update(id):
 
     # If no changes have been made, let the user know
     if not to_be_changed:
-        flash("No changes were made")
+        flash("No changes were made", "info")
         return redirect(url_for("users.edit", id=id))
 
     # Validate user's input
