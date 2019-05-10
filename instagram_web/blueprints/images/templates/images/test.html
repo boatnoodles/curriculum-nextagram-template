@@ -11,9 +11,9 @@
           <label>Click to browse or drag an image here</label>
           </div>
         <div class="editable">          
-          <i class="far fa-edit" aria-hidden="true"></i><h1 contenteditable>{{username}}</h1></div>
+          <i class="far fa-edit" aria-hidden="true"></i><h1 contenteditable>{{user.username}}</h1></div>
         <div class="stat editable">
-          <p contenteditable class="num">email@email.com</p>
+          <p contenteditable class="num">{{user.email}}</p>
           <i class="far fa-edit" aria-hidden="true"></i>
         </div>
 
@@ -22,10 +22,11 @@
     </div>
   </div>
 
-  <form action="{{ url_for('images.update', id=4) }}" method="POST" class="d-none" id="submit-form">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <form action="{{ url_for('images.create', id=user.id) }}" method="POST" class="d-none" id="user-details-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <input type="file" id="mediaFile" />
     <input type="text" name="username" id="username"/>
+    <input type="text" name="email" id="email"/>
   </form>
 
   <script>
@@ -36,10 +37,13 @@
       // 1. Listen for changes of the contenteditable element
       content.addEventListener('input', function(event) {
         let username;
+        let email;
         // 2. Retrive the text from inside the element
         console.log(content.innerHTML);
         username = content.innerHTML;
-        document.getElementById("username").value = username
+        document.getElementById("username").value = username;
+        document.getElementById("email").value = email;
+
       })
 
       $('#profile-img').addClass('dragging').removeClass('dragging');
@@ -97,7 +101,7 @@
     })
 
     function submitFunction() {
-      document.getElementById('submit-form').submit()
+      document.getElementById('user-details-form').submit()      
     }
 
 

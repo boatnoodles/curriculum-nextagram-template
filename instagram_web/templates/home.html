@@ -1,21 +1,21 @@
 {% extends "_layout.html" %}
 
-{% block title %}
-  Meisterkram
-{% endblock %}
+  {% block title %}
+    Meisterkram
+  {% endblock %}
 
-{% block header %}
-{% endblock %}
+  {% block header %}
+  {% endblock %}
 
-{% block content %}
-  {% with current = "home" %}
-    {% include "_navbar.html" %}  
-  {% endwith %}
+  {% block content %}
+    {% with current = "home" %}
+      {% include "_navbar.html" %}  
+    {% endwith %}
 
+  {# Display all the users and pictures here #}
 
+  Welcome, {{username}}
 
-
-Welcome, {{username}}
 
 {% endblock %}
 

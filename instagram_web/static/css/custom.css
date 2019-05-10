@@ -1,5 +1,5 @@
 body {
-  background-color: #fafafa;
+  background-color: #0f292f;
 }
 
 .vh-100 {
@@ -14,14 +14,15 @@ body {
   height: 80%;
 }
 
-.steel-blue {
-  background-color: #0f292f;
+.dark-magenta {
+  background-color: #501f3a;
 }
 
 .forest-green {
   background-color: #0f292f;
 }
 
+#sign-in .sign-in-form a.oauth,
 .text-fgreen {
   color: #0f292f;
 }
@@ -47,22 +48,33 @@ body {
   max-width: 350px;
   width: 100%;
 }
-
-/*----------*/
-
-/* ----- Personal preference ----- */
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
+/* 
+li.nav-link {
+  position: relative;
 }
 
-/* ----- Variable Declarations ----- */
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+li.nav-link::before,
+li.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background-color: #3cefff;
+  transform-origin: center;
+  transform: translateX(-50%) scaleX(0);
+  transition: transform 0.4s ease;
 }
+
+li.nav-link::before {
+  top: 0;
+}
+
+li.nav-link::after {
+  bottom: 0;
+}
+
+li.nav-link:hover::before,
+li.nav-link:hover::after {
+  transform: translateX(-50%) scaleX(1);
+} */

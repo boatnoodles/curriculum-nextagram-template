@@ -16,7 +16,7 @@ profile_images_blueprint = Blueprint(
 def index():
     user = User.get_by_id(current_user.id)
     img = user.profile_picture_url
-    return render_template('images/test.html', img=img, username=user.username)
+    return render_template('images/test.html', img=img, user=user)
 
 
 @profile_images_blueprint.route("/<id>/update", methods=["POST"])

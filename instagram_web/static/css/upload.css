@@ -30,7 +30,9 @@ html {
   padding: 40px;
 }
 
-#mediaFile {
+#mediaFile,
+#username,
+#email {
   position: absolute;
   top: -1000px;
 }

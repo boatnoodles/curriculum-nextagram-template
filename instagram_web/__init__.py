@@ -26,7 +26,6 @@ facebook_oauth.init_app(app)
 
 @app.route("/")
 def home():
-    flash("works", "success")
     try:
         username = current_user.username
     except:

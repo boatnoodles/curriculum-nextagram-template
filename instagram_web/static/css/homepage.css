@@ -1,6 +1,7 @@
 .brand-logo {
   font-family: "Grand Hotel", cursive;
   font-size: 2.4rem;
+  color: #cccccc !important;
 }
 
 #sign-up div.sign-up-form {
@@ -65,6 +66,6 @@
   border-radius: 50%;
 }
 
-#sign-in .sign-in-form a {
+#sign-in .sign-in-form a#sign-up {
   color: #cb2d6f;
 }
