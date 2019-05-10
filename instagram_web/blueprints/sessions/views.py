@@ -2,6 +2,7 @@ from flask import Blueprint, Flask, flash, redirect, render_template, request, s
 from flask_login import login_user, logout_user
 from models.user import User
 from werkzeug.security import check_password_hash
+from instagram_web.util.helpers.google_oauth import oauth
 
 
 sessions_blueprint = Blueprint(
@@ -57,3 +58,22 @@ def delete():
     logout_user()
     flash("Successfully logged out")
     return redirect(url_for("sessions.new"))
+
+
+@sessions_blueprint.route("/google_login/authorize", methods=["GET"])
+def authorize():
+    token = oauth.google.authorize_access_token()
+    if token:
+        email = oauth.google.get('https://www.').json()['email']
+        user = User.get_or_none(User.email == email)
+        if not user:
+            flash('No user registered with this email')
+            return redirect(url_for('sessions.new'))
+    flash(f'Hello {user.username}')
+    return redirect(url_for("sessions.google_login"))
+
+
+@sessions_blueprint.route("/google_login", methods=["GET"])
+def google_login():
+    redirect_uri = url_for('sessions.authorize', _external=True)
+    return oauth.google.authorize_redirect(redirect_uri)
