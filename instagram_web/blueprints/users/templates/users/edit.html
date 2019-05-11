@@ -3,36 +3,39 @@
 {% block content %}
 
   {% include "_navbar.html" %}
+  <form action="{{ url_for('users.update', username=user.username) }}" method="POST" id="user-details-form" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-  <div class="custom-table">
-    <div class="custom-table-cell">
-      <div class="custom-modal">
-        <div id="profile-img" style="background-image: url('{{img}}');">
-          <label>Click to browse or drag an image here</label>
+    <div class="custom-table">
+      <div class="custom-table-cell">
+        <div class="custom-modal">
+          <div id="profile-img" style="background-image: url('{{img}}');">
+            <label>Click to browse or drag an image here</label>
+            </div>
+          <div class="input">          
+            <i class="far fa-edit" aria-hidden="true"></i>
+            <input type="text" name="username" id="username" value="{{user.username}}"/>
           </div>
-        <div class="editable">          
-          <i class="far fa-edit" aria-hidden="true"></i><h1 contenteditable class="username">{{user.username}}</h1></div>
-        <div class="stat editable">
-          <p contenteditable class="email">{{user.email}}</p>
-          <i class="far fa-edit" aria-hidden="true"></i>
-        </div>
+          
+          <div class="email input">
+            <i class="far fa-edit" aria-hidden="true"></i>
+            <input type="email" name="email" id="email" value="{{user.email}}"/>
+          </div>
 
-        <button id="submit" onclick="submitFunction()">Save Changes</button>
+          <button id="submit" onclick="submitFunction()">Save Changes</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <form action="{{ url_for('users.update', username=user.username) }}" method="POST" class="d-none" id="user-details-form" enctype="multipart/form-data">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  
     <input type="file" name="user_file" id="mediaFile" />
-    <input type="text" name="username" id="username" value="{{user.username}}"/>
-    <input type="text" name="email" id="email" value="{{user.email}}"/>
+
   </form>
 
 <script>
     // ----- On render -----
     $(function() {
-      // Select username and email
+      /*// Select username and email
       let username = document.querySelector(".username");
       let email = document.querySelector(".email");
       console.log(username)
@@ -52,7 +55,7 @@
 
       email.addEventListener("input", function(e){
         updateValue(email, (id = "email"))
-      });
+      }); */
 
       $('#profile-img').addClass('dragging').removeClass('dragging');
     });

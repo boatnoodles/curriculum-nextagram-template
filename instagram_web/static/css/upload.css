@@ -31,9 +31,7 @@ html {
   padding: 40px;
 }
 
-#mediaFile,
-#username,
-#email {
+#mediaFile {
   position: absolute;
   top: -1000px;
 }
@@ -85,47 +83,41 @@ html {
   user-select: none;
 }
 
-h1[contenteditable] {
+input#username {
   text-align: center;
   font-size: 28px;
   font-weight: normal;
   letter-spacing: 1px;
+  width: 100%;
+  border: none;
 }
 
-h1[contenteditable]::before {
-  content: "@";
-}
-
-.stat {
+.email {
   width: 100%;
   text-align: center;
   float: left;
   padding-top: 20px;
   border-top: 1px solid #ddd;
 }
-.stat .label {
-  font-size: 11px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-.stat .email {
+
+input#email {
   font-size: 21px;
   padding: 3px 0;
+  border: none;
 }
 
-.editable {
+.input {
   position: relative;
 }
 
-.editable i {
+.input i {
   position: absolute;
   top: 11px;
   right: -20px;
   opacity: 0.3;
 }
 
-.stat.editable i {
+.email.input i {
   position: absolute;
   top: 30px;
   right: -20px;
