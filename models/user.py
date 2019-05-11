@@ -4,6 +4,7 @@ from flask_login import UserMixin
 from models.base_model import BaseModel
 from playhouse.hybrid import hybrid_property
 import peewee as pw
+from werkzeug.security import generate_password_hash
 
 
 @login_manager.user_loader
@@ -19,6 +20,11 @@ class User(BaseModel, UserMixin):
     privacy = pw.BooleanField(null=True, default=False)
     profile_picture = pw.CharField(null=True, default=None)
     # TODO SET DEFAULT PICTURE
+
+    @classmethod
+    def hash_password(self, new_password):
+        self.password = generate_password_hash(
+            new_password, method="pbkdf2:sha256", salt_length=8)
 
     @hybrid_property
     def profile_picture_url(self):
