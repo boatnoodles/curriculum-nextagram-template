@@ -95,4 +95,7 @@ def update_queries(to_be_changed, **fields):
         elif k == "password":
             queries.update({User.password: v})
             pass
+        elif k == "profile_picture":
+            queries.update({User.profile_picture: v})
+            pass
     return queries

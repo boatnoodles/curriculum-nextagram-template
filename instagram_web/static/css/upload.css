@@ -64,6 +64,7 @@ html {
   opacity: 0.8;
   background-color: white;
   border-radius: 50%;
+  transition: 0.3s ease-in-out;
 }
 
 #profile-img.dragging {
@@ -85,7 +86,7 @@ html {
 
 input#username {
   text-align: center;
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: normal;
   letter-spacing: 1px;
   width: 100%;

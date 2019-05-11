@@ -22,7 +22,7 @@
             <input type="email" name="email" id="email" value="{{user.email}}"/>
           </div>
 
-          <button id="submit" onclick="submitFunction()">Save Changes</button>
+          <button id="submit" type="submit">Save Changes</button>
         </div>
       </div>
     </div>
@@ -35,28 +35,6 @@
 <script>
     // ----- On render -----
     $(function() {
-      /*// Select username and email
-      let username = document.querySelector(".username");
-      let email = document.querySelector(".email");
-      console.log(username)
-      console.log(email.innerHTML)
-
-      function updateValue(field, id) {
-        // 2. Retrieve the text from inside the element
-        document.getElementById(id).value = field.innerHTML;
-        console.log(field.innerHTML);
-        console.log(document.getElementById(id).value);
-      }
-      
-      // 1. Listen for changes
-      username.addEventListener("input", function(e){
-        updateValue(username, (id = "username"))
-      });
-
-      email.addEventListener("input", function(e){
-        updateValue(email, (id = "email"))
-      }); */
-
       $('#profile-img').addClass('dragging').removeClass('dragging');
     });
 
@@ -111,11 +89,6 @@
         }
       }
     })
-
-    function submitFunction() {
-      document.getElementById('user-details-form').submit()      
-    }
-
   </script>
 
 {% endblock content %}

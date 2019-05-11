@@ -127,7 +127,6 @@ def update(username):
         # Obtain privacy option
         user = User.update(update_queries(to_be_changed)
                            ).where(User.id == current_user.id)
-
         # If unable to perform the update query
         if not user.execute():
             errors.update(

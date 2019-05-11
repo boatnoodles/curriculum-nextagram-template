@@ -25,17 +25,15 @@ def handle_file(file_form_name, route):
     if file_form_name not in request.files:
         flash("No user_file key in request.files")
         return None
-        # return redirect(url_for(f"{route}.new"))
 
     file = request.files[file_form_name]
 
     if file.filename == "":
         flash("Please provide a file name")
         return None
-        # return redirect(url_for(f"{route}.new"))
 
     if file and allowed_file(file.filename):
-        # secure_filename transform " " to "_"
+        # secure_filename transforms " " to "_"
         file.filename = secure_filename(file.filename)
         # Replace filename to a timestamp
         file.filename = str(round(time()*100))
