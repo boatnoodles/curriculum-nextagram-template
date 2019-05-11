@@ -24,7 +24,7 @@
 
   <form action="{{ url_for('users.update', id=user.id) }}" method="POST" class="d-none" id="user-details-form">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <input type="file" id="mediaFile" />
+    <input type="file" name="user_file" id="mediaFile" />
     <input type="text" name="username" id="username"/>
     <input type="text" name="email" id="email"/>
   </form>

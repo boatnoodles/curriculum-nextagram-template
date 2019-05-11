@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 # USER-DEFINED MODULES
 from app import app
 from config import S3_BUCKET
-from instagram_web.blueprints.helpers import *
+from instagram_web.util.helpers.uploads import *
 from models.user import User
 
 profile_images_blueprint = Blueprint(

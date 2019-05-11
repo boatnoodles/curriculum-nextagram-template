@@ -10,7 +10,7 @@
       <div class="w-350px my-2 ml-4">
         <div class="sign-in-form border border-color-e6 p-4 d-flex justify-content-center">
           <div class="w-259px">
-            <h1 class="brand-logo text-center mb-3">Meisterkram</h1>
+            <h1 class="brand-logo text-center mb-3 text-dark">Meisterkram</h1>
             <form action="{{ url_for('sessions.create') }}" method="POST">
               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
@@ -22,7 +22,7 @@
               <div class="form-group">
                 <input type="password" class="form-control" name="password" placeholder="Password">
               </div>
-              <button class="btn steel-blue text-white font-weight-bold border-0 w-100" type="submit">Log In</button>
+              <button class="forest-green text-white" type="submit">Log In</button>
             
             </form>
             

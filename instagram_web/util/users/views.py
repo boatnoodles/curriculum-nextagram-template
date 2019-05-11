@@ -1,10 +1,12 @@
 import os
 from flask import Blueprint, abort, flash, redirect, render_template, request, session, url_for
-from flask_login import current_user, login_required
-from instagram_web.util.helpers.users import *
-from models.user import *
+from flask_login import current_user, login_required, login_user
 from peewee_validates import ModelValidator, StringField, validate_length
 from werkzeug.security import generate_password_hash
+# USER-DEFINED MODULES
+from instagram_web.util.helpers.users import *
+from instagram_web.util.helpers.uploads import *
+from models.user import *
 
 
 users_blueprint = Blueprint('users',
@@ -32,19 +34,22 @@ def create():
     # If errors is an empty array, i.e., there are no errors
     if not errors:
         # Hash user password
-        hashed_password = generate_password_hash(
+        password = generate_password_hash(
             to_validate["password"], method="pbkdf2:sha256", salt_length=8)
 
         # Create a new instance of a user
         user = User(username=to_validate["username"],
-                    email=to_validate["email"], password=to_validate["password"], privacy=request.form.get("privacy"))
+                    email=to_validate["email"],
+                    password=password, privacy=request.form.get("privacy"))
+
         # Validation using peewee-validates's ModelValidator
         validator = FormValidator(user)
         # If validation is successful
         if validator.validate():
-            user.save()
-            flash("Account successfully created")
-            return redirect(url_for("users.new"))
+            if user.save():
+                flash("Account successfully created")
+                login_user(user)
+                return redirect(url_for("home"))
         # Else, append the error message
         errors.update(validator.errors)
 
@@ -68,10 +73,10 @@ def index():
 
 
 # Display page to edit user information
-@users_blueprint.route('/<id>/edit', methods=['GET'])
+@users_blueprint.route('/<username>/edit', methods=['GET'])
 @login_required
-def edit(id):
-    if current_user != User.get_by_id(id):
+def edit(username):
+    if current_user != User.get(username=username):
         return abort(403)
 
     user = User.get_by_id(current_user.id)
@@ -83,6 +88,9 @@ def edit(id):
 @login_required
 def update(id):
     # ALLOW PROFILE PICTURE
+
+    url_path = handle_upload("user_file", route="images")
+
     # Get the necessary information from the form and compare it with current_info
     keys = ["username", "email"]
     to_be_changed = {}
@@ -106,17 +114,17 @@ def update(id):
 
     # If there are errors
     if not errors:
-        # Hash user password only if password has been filled in
-        try:
-            password = to_be_changed["password"]
-        except KeyError:
-            password = None
-        if password:
-            to_be_changed["password"] = generate_password_hash(
-                to_be_changed["password"], method="pbkdf2:sha256", salt_length=8)
+        # # Hash user password only if password has been filled in
+        # try:
+        #     password = to_be_changed["password"]
+        # except KeyError:
+        #     password = None
+        # if password:
+        #     to_be_changed["password"] = generate_password_hash(
+        #         to_be_changed["password"], method="pbkdf2:sha256", salt_length=8)
 
         # Obtain privacy option
-        user = User.update(user_update(to_be_changed, request.form.get("privacy"))
+        user = User.update(update_queries(to_be_changed, privacy=request.form.get("privacy"))
                            ).where(User.id == current_user.id)
 
         # If unable to perform the update query
