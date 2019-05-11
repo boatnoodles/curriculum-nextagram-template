@@ -66,12 +66,13 @@ def google_authorize():
     if token:
         email = google_oauth.google.get(
             'https://www.googleapis.com/oauth2/v2/userinfo').json()['email']
-        user = User.get_or_none(User.email == 'email')
+        user = User.get_or_none(User.email == email)
         if not user:
             flash('No user registered with this email')
             return redirect(url_for('sessions.new'))
-    flash(f'Hello {user.username}')
-    return redirect(url_for("sessions.google_login"))
+    flash(f'Hello {user.username}', "info")
+    login_user(user)
+    return redirect(url_for("home", username=user.username))
 
 
 @sessions_blueprint.route("/google_login", methods=["GET"])
