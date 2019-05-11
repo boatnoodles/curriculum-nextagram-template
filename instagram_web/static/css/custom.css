@@ -18,8 +18,8 @@
   background-color: #0f292f;
 }
 
-#sign-in .sign-in-form a.oauth,
-.text-fgreen {
+.text-fgreen,
+#sign-in .sign-in-form a {
   color: #0f292f;
 }
 

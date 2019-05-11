@@ -36,7 +36,7 @@
 }
 
 @media (max-width: 768px) {
-  #sign-up .phone {
+  .phone {
     display: none;
   }
 }
@@ -72,7 +72,8 @@
   border-radius: 50%;
 }
 
-#sign-in .sign-in-form a#sign-up {
+#sign-in .sign-in-form a.sign-up,
+#sign-up .sign-up-form a.sign-in {
   color: #cb2d6f;
 }
 
