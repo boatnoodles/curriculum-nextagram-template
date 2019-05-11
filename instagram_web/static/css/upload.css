@@ -109,7 +109,7 @@ h1[contenteditable]::before {
   letter-spacing: 1px;
   text-transform: uppercase;
 }
-.stat .num {
+.stat .email {
   font-size: 21px;
   padding: 3px 0;
 }

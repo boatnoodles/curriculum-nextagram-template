@@ -11,9 +11,9 @@
           <label>Click to browse or drag an image here</label>
           </div>
         <div class="editable">          
-          <i class="far fa-edit" aria-hidden="true"></i><h1 contenteditable>{{user.username}}</h1></div>
+          <i class="far fa-edit" aria-hidden="true"></i><h1 contenteditable class="username">{{user.username}}</h1></div>
         <div class="stat editable">
-          <p contenteditable class="num">{{user.email}}</p>
+          <p contenteditable class="email">{{user.email}}</p>
           <i class="far fa-edit" aria-hidden="true"></i>
         </div>
 
@@ -22,29 +22,37 @@
     </div>
   </div>
 
-  <form action="{{ url_for('users.update', id=user.id) }}" method="POST" class="d-none" id="user-details-form">
+  <form action="{{ url_for('users.update', username=user.username) }}" method="POST" class="d-none" id="user-details-form" enctype="multipart/form-data">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <input type="file" name="user_file" id="mediaFile" />
-    <input type="text" name="username" id="username"/>
-    <input type="text" name="email" id="email"/>
+    <input type="text" name="username" id="username" value="{{user.username}}"/>
+    <input type="text" name="email" id="email" value="{{user.email}}"/>
   </form>
 
 <script>
     // ----- On render -----
     $(function() {
+      // Select username and email
+      let username = document.querySelector(".username");
+      let email = document.querySelector(".email");
+      console.log(username)
+      console.log(email.innerHTML)
 
-      let content = document.querySelector('[contenteditable]');
-      // 1. Listen for changes of the contenteditable element
-      content.addEventListener('input', function(event) {
-        let username;
-        let email;
-        // 2. Retrive the text from inside the element
-        console.log(content.innerHTML);
-        username = content.innerHTML;
-        document.getElementById("username").value = username;
-        document.getElementById("email").value = email;
+      function updateValue(field, id) {
+        // 2. Retrieve the text from inside the element
+        document.getElementById(id).value = field.innerHTML;
+        console.log(field.innerHTML);
+        console.log(document.getElementById(id).value);
+      }
+      
+      // 1. Listen for changes
+      username.addEventListener("input", function(e){
+        updateValue(username, (id = "username"))
+      });
 
-      })
+      email.addEventListener("input", function(e){
+        updateValue(email, (id = "email"))
+      });
 
       $('#profile-img').addClass('dragging').removeClass('dragging');
     });
@@ -57,10 +65,11 @@
       $('#profile-img').removeClass('dragging hasImage');
 
       if (e.originalEvent) {
-        var file = e.originalEvent.dataTransfer.files[0];
+        let file = e.originalEvent.dataTransfer.files[0];
         console.log(file);
+        document.getElementById('#mediaFile').files = file
 
-        var reader = new FileReader();
+        let reader = new FileReader();
 
         //attach event handlers here...
 
@@ -85,12 +94,12 @@
       e.preventDefault();
     }, false);
     $('#mediaFile').change(function(e) {
-
-      var input = e.target;
+      let input = e.target;
       if (input.files && input.files[0]) {
-        var file = input.files[0];
+        console.log(input.files)
+        let file = input.files[0];
 
-        var reader = new FileReader();
+        let reader = new FileReader();
 
         reader.readAsDataURL(file);
         reader.onload = function(e) {
@@ -103,7 +112,6 @@
     function submitFunction() {
       document.getElementById('user-details-form').submit()      
     }
-
 
   </script>
 
