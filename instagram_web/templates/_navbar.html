@@ -13,14 +13,15 @@
         </li>
 
         <li class="nav-item">
-          <a href="{{ url_for('users.show', username=current_user.username) }}" class="nav-link">Your page</a>
+          <a href="{{ url_for('users.show', username=current_user.username) }}" class="nav-link {{'active' if current == 'users.show' }}">Your page</a>
         </li>
         <li class="nav-item">
-          <a href="{{ url_for('users.edit', username=current_user.username) }}" class="nav-link">Edit Profile Details</a>
+          <a href="{{ url_for('users.edit', username=current_user.username) }}" class="nav-link {{'active' if current == 'users.edit' }}">Edit Profile Details</a>
         </li>
         <li class="nav-item">
-          <a href="{{ url_for('posts.new') }}" class="nav-link">Upload a New Post</a>
+          <a href="{{ url_for('posts.new') }}" class="nav-link {{'active' if current == 'posts.new' }}">Upload a New Post</a>
         </li>
+        
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Session Management

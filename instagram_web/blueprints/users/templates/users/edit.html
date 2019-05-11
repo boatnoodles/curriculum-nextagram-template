@@ -1,8 +1,11 @@
 {% extends "_layout.html" %}
 
+{% with current="users.edit"%}
+  {% include "_navbar.html" %}
+{% endwith %}
+
 {% block content %}
 
-  {% include "_navbar.html" %}
   <form action="{{ url_for('users.update', username=user.username) }}" method="POST" id="user-details-form" enctype="multipart/form-data">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
