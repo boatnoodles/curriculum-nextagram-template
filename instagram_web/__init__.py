@@ -9,6 +9,8 @@ from instagram_web.blueprints.images.views import profile_images_blueprint
 from instagram_web.blueprints.sessions.views import sessions_blueprint
 from instagram_web.blueprints.users.views import users_blueprint
 from instagram_web.util.helpers.oauth import google_oauth, facebook_oauth
+from models.post import Post
+from models.user import User
 from .util.assets import bundles
 
 assets = Environment(app)
@@ -26,13 +28,12 @@ facebook_oauth.init_app(app)
 
 @app.route("/")
 def home():
-    try:
-        username = current_user.username
-    except:
-        username = "Stranger"
-    if not current_user:
+    if not current_user.is_authenticated:
         return redirect(url_for("users.new"))
-    return render_template('home.html', username=username)
+
+    posts = Post.select(Post, User).join(User).order_by(Post.created_at.desc())
+
+    return render_template('home.html', posts=posts)
 
 
 @app.errorhandler(500)

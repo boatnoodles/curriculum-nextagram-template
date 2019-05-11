@@ -31,7 +31,7 @@ def create():
     q = Post(user_id=current_user.id, path=url_path, caption=caption)
 
     if q.save():
-        flash("Upload successful")
+        flash("Upload successful", "success")
         return redirect(url_for("posts.new"))
     return redirect(url_for("posts.new"))
 

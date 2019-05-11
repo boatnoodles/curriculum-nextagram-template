@@ -21,7 +21,8 @@ div.d-inline-block {
   top: 1rem;
 }
 
-#profile-page .img-container {
+#profile-page .img-container,
+#homepage .img-container {
   display: inline-block;
   width: calc(80vw / 3);
   height: calc(80vw / 3);
@@ -31,14 +32,16 @@ div.d-inline-block {
   /* border: 1px solid blue; */
 }
 
-#profile-page .box {
+#profile-page .box,
+#homepage .box {
   /* border: solid 1px red; */
   width: 82vw;
   height: calc(80vw / 3);
   margin: auto;
 }
 
-#profile-page p.caption {
+#profile-page p.caption,
+#homepage p.caption {
   vertical-align: top;
 }
 

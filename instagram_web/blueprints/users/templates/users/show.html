@@ -28,9 +28,8 @@
             </p>          
           </div>
           <div class="d-inline-block timestamp">
-            <p class="">{{post.created_at.strftime("%d %B %y")}}</p>
+            <p class="">{{post.created_at.strftime(("%d %B %y %-I:%M%p"))}}</p>
           </div>
-        
         </div>
       </div>
       {% endfor %}

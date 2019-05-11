@@ -14,8 +14,37 @@
 
   {# Display all the users and pictures here #}
 
-  Welcome, {{username}}
+  <div id="homepage">
+    {% for post in posts %}
+      <div class="my-4 box">
+          <a href="{{ url_for('posts.show', path=post.path) }}">
+            <div class="img-container" style="background-image: url('{{ post.post_url }}');">
+            </div>
+          </a>
+          <div class="d-inline">
+            <div class="d-inline-block top-caption">
+              <a href="{{ url_for('users.show', username=post.user_id.username) }}" class="text-fgreen hover-pink">
+                <p class="username">
+                {{ post.user_id.username}}
+                </p>
+              </a>
 
-
+              <p class="caption">
+              <span class="quote">
+                “
+              </span>
+              {{post.caption}}
+              <span class="quote">
+                ”
+              </span>
+              </p>          
+            </div>
+            <div class="d-inline-block timestamp">
+              <p class="">{{post.created_at.strftime(("%d %B %y %-I:%M%p"))}}</p>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+  </div>
 {% endblock %}
 

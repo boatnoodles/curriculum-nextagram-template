@@ -57,3 +57,19 @@ button#submit {
   color: #fff;
   background-color: #14a098;
 }
+
+#homepage p.username {
+  font-size: 2rem;
+}
+
+#homepage p.username::before {
+  content: "@";
+}
+
+#homepage p.caption .quote {
+  font-size: 1.5rem;
+}
+
+a.hover-pink:hover {
+  color: #cb2d6f;
+}
