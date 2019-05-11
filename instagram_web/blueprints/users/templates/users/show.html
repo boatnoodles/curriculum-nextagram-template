@@ -7,22 +7,22 @@
 
   <div class="d-flex justify-content-center m-4 p-4" id="profile-page"> 
     <div class="m-2 p-2 vw-80 text-left">
-      <div class="">
-        <img src="{{ user.profile_picture_url }}" alt="" class="profile-img">
+      <div class="d-flex flex-wrap">
+        <img src="{{ user.profile_picture_url }}" alt="Profile image" class="profile-img">
+        <div class="ml-5 username">
+          <h2 class="d-inline username">{{user.username}}</h2>
+        </div>
       </div>
-      <div class="">
-        <p>{{user.username}}</p>
-      </div>
-    </div>
-
-    <div class="my-5 box">
-      {% for post in posts %}
+      <div class="my-5 box">
+        {% for post in posts %}
           <a href="{{ url_for('posts.show', path=post.path) }}">
             <div class="img-container" style="background-image: url('{{ post.post_url }}');">
               {# <img src="{{ post.post_url }}" alt=""> #}
             </div>
           </a>
-      {% endfor %}
+        {% endfor %}
+      </div>
     </div>
+
 </div>
 {% endblock %}

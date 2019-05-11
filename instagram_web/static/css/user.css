@@ -1,0 +1,38 @@
+.profile-img {
+  max-width: 200px;
+  max-height: 200px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+div.d-inline-block {
+  vertical-align: 60;
+  margin-left: 40;
+}
+
+#profile-page h2.username::before {
+  content: "@";
+}
+
+#profile-page div.username {
+  position: relative;
+  top: 1rem;
+}
+
+#profile-page .img-container {
+  display: inline-block;
+  width: calc(80vw / 3);
+  height: calc(80vw / 3);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: 1px solid blue;
+}
+
+#profile-page .box {
+  border: solid 1px red;
+  width: 82vw;
+  margin: auto;
+}

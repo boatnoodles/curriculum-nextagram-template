@@ -2,64 +2,63 @@
 
 {% block content %}
 
-<div class="row d-flex justify-content-center vh-100 w-100 mt-5" id="sign-in">
-      <div class="phone my-2 mr-4 text-right">
-        <img src="https://s3.amazonaws.com/meistagram/155731638976" alt="Mobile phone">
-      </div>
-      <div class="w-350px my-2 ml-4">
-        <div class="sign-in-form border border-color-e6 p-4 d-flex justify-content-center">
-          <div class="w-259px">
-            <h1 class="brand-logo text-center mb-3">Meisterkram</h1>
-            <form action="{{ url_for('sessions.create') }}" method="POST">
-              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  {% include "_flash_message.html" %}
 
-              
-              <div class="form-group">
-                <input type="text" class="form-control" name="username" placeholder="Username" />
-              </div>
-
-              <div class="">
-                <input type="password" class="form-control" name="password" placeholder="Password">
-              </div>
-
-              <div class="w-100">
-                <small class="text-fgreen">
-                <a href="" class="reset-password m-1">
-                  Help! I forgot my password!</small>
-                </a>
-              </div>
-
-              <button class="forest-green text-white mt-4 mb-1" type="submit">Log In</button>
-            
-            </form>
-            
-            <hr class="my-4 font-weight-bold text-999">
-
-            <div class="w-100 font-weight-bold text-fgreen text-center">
-              <a href="{{ url_for('sessions.google_login')}}" class="oauth">
-                <i class="fab fa-google"></i>&nbsp;&nbsp;Log in with Google
-              </a>
-            </div>
-
-            <div class="w-100 font-weight-bold text-fgreen text-center">
-              <a href="{{ url_for('sessions.facebook_login')}}" class="oauth">
-                <i class="fab fa-google"></i>&nbsp;&nbsp;Log in with Facebook
-              </a>
-            </div>
-          </div>
-        </div>   
-
-        <div class="sign-in-form border border-color-e6 p-4 d-flex justify-content-center mt-3">
-           <div class="w-259px text-center">
-            <p class="text-secondary font-weight-light m-0">Don't have an account?</p> 
-            <span class="text-cherry font-weight-bold"><a href="{{ url_for('users.new') }}" class="sign-up">Join us</a></span><span class="text-secondary font-weight-light">, it's free!</span>
-           </div>
-        </div>
-      </div>
+  <div class="row d-flex justify-content-center vh-100 w-100 mt-5" id="sign-in">
+    <div class="phone my-2 mr-4 text-right">
+      <img src="https://s3.amazonaws.com/meistagram/155731638976" alt="Mobile phone">
     </div>
 
+    <div class="w-350px my-2 ml-4">
+      <div class="sign-in-form border border-color-e6 p-4 d-flex justify-content-center">
+        <div class="w-259px">
+          <h1 class="brand-logo text-center mb-3">Meisterkram</h1>
 
+          <form action="{{ url_for('sessions.create') }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
+            <div class="form-group">
+              <input type="text" class="form-control" name="username" placeholder="Username" />
+            </div>
 
-  
+            <div class="">
+              <input type="password" class="form-control" name="password" placeholder="Password">
+            </div>
+
+            <div class="w-100">
+              <small class="text-fgreen">
+              <a href="" class="reset-password m-1">
+                Help! I forgot my password!</small>
+              </a>
+            </div>
+
+            <button class="forest-green text-white mt-4 mb-1" type="submit">Log In</button>
+          
+          </form>
+          
+          <hr class="my-4 font-weight-bold text-999">
+
+          <div class="w-100 font-weight-bold text-fgreen text-center">
+            <a href="{{ url_for('sessions.google_login')}}" class="oauth">
+              <i class="fab fa-google"></i>&nbsp;&nbsp;Log in with Google
+            </a>
+          </div>
+
+          <div class="w-100 font-weight-bold text-fgreen text-center">
+            <a href="{{ url_for('sessions.facebook_login')}}" class="oauth">
+              <i class="fab fa-google"></i>&nbsp;&nbsp;Log in with Facebook
+            </a>
+          </div>
+        </div>
+      </div>   
+
+      <div class="sign-in-form border border-color-e6 p-4 d-flex justify-content-center mt-3">
+          <div class="w-259px text-center">
+          <p class="text-secondary font-weight-light m-0">Don't have an account?</p> 
+          <span class="text-cherry font-weight-bold"><a href="{{ url_for('users.new') }}" class="sign-up">Join us</a></span><span class="text-secondary font-weight-light">, it's free!</span>
+          </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock%}
