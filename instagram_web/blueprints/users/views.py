@@ -30,6 +30,7 @@ def create():
         to_validate[key] = request.form.get(key)
 
     errors = form_validation(to_validate)
+    flash(errors)
 
     # If errors is an empty array, i.e., there are no errors
     if not errors:
@@ -47,7 +48,7 @@ def create():
         # If validation is successful
         if validator.validate():
             if user.save():
-                flash("Account successfully created")
+                flash("Account successfully created", "success")
                 login_user(user)
                 return redirect(url_for("home"))
         # Else, append the error message

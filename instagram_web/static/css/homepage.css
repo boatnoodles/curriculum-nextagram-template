@@ -50,7 +50,7 @@
 
 #sign-in .sign-in-form a.sign-up,
 #sign-up .sign-up-form a.sign-in {
-  color: #cb2d6f;
+  color: #3ccfff;
 }
 
 button#submit {
@@ -71,5 +71,6 @@ button#submit {
 }
 
 a.hover-pink:hover {
-  color: #cb2d6f;
+  color: #3ccfff;
+  text-decoration: none;
 }
