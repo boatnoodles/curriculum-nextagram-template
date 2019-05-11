@@ -1,6 +1,10 @@
 .brand-logo {
   font-family: "Grand Hotel", cursive;
   font-size: 2.4rem;
+  color: #501f3a;
+}
+
+.navbar-brand.brand-logo {
   color: #cccccc !important;
 }
 
@@ -14,11 +18,13 @@
   font-size: 0.9rem;
 }
 
-#sign-up hr {
+#sign-up hr,
+#sign-in hr {
   position: relative;
 }
 
-#sign-up hr::before {
+#sign-up hr::before,
+#sign-in hr::before {
   position: absolute;
   content: "OR";
   top: -13px;
@@ -68,4 +74,9 @@
 
 #sign-in .sign-in-form a#sign-up {
   color: #cb2d6f;
+}
+
+button#submit {
+  color: #fff;
+  background-color: #14a098;
 }
