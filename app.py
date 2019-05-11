@@ -5,6 +5,7 @@ from flask import Flask, session
 from flask_wtf.csrf import CSRFProtect
 from models.base_model import db
 
+
 web_dir = os.path.join(os.path.dirname(
     os.path.abspath(__file__)), 'instagram_web')
 

@@ -1,7 +1,8 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
-from instagram_web.blueprints.helpers import *
-from instagram_web.blueprints.donations.helpers import *
+# USER-DEFINED MODULES
+from instagram_web.util.helpers.donations import *
+from instagram_web.util.helpers.uploads import *
 from models.post import Post
 from models.user import User
 

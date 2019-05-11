@@ -1,40 +1,60 @@
 {% extends "_layout.html" %}
 
 {% block content %}
-  <div class="ns-table">
-    <div class="table-cell">
-      <div class="ns-modal">
-        <div id="profile">
-          <div class="dashes"></div>
-          <label>Click to browse or drag an image here</label></div>
-        <div class="editable"><i class="fa fa-pencil"></i><h1 contenteditable>Drew Vosburg</h1></div>
-        <div class="stat">
-          <div class="label">Shots</div>
-          <div class="num">40</div>
+
+  {% include "_navbar.html" %}
+
+  <div class="custom-table">
+    <div class="custom-table-cell">
+      <div class="custom-modal">
+        <div id="profile-img" style="background-image: url('{{img}}');">
+          <label>Click to browse or drag an image here</label>
+          </div>
+        <div class="editable">          
+          <i class="far fa-edit" aria-hidden="true"></i><h1 contenteditable>{{user.username}}</h1></div>
+        <div class="stat editable">
+          <p contenteditable class="num">{{user.email}}</p>
+          <i class="far fa-edit" aria-hidden="true"></i>
         </div>
-        <div class="stat">
-          <div class="label">Projects</div>
-          <div class="num">1</div>
-        </div>
-        <button>Done Editing</button>
+
+        <button id="submit" onclick="submitFunction()">Save Changes</button>
       </div>
     </div>
   </div>
-  <input type="file" id="mediaFile" />
+
+  <form action="{{ url_for('images.create', id=user.id) }}" method="POST" class="d-none" id="user-details-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="file" id="mediaFile" />
+    <input type="text" name="username" id="username"/>
+    <input type="text" name="email" id="email"/>
+  </form>
 
   <script>
     // ----- On render -----
     $(function() {
 
-      $('#profile').addClass('dragging').removeClass('dragging');
+      let content = document.querySelector('[contenteditable]');
+      // 1. Listen for changes of the contenteditable element
+      content.addEventListener('input', function(event) {
+        let username;
+        let email;
+        // 2. Retrive the text from inside the element
+        console.log(content.innerHTML);
+        username = content.innerHTML;
+        document.getElementById("username").value = username;
+        document.getElementById("email").value = email;
+
+      })
+
+      $('#profile-img').addClass('dragging').removeClass('dragging');
     });
 
-    $('#profile').on('dragover', function() {
-      $('#profile').addClass('dragging')
+    $('#profile-img').on('dragover', function() {
+      $('#profile-img').addClass('dragging')
     }).on('dragleave', function() {
-      $('#profile').removeClass('dragging')
+      $('#profile-img').removeClass('dragging')
     }).on('drop', function(e) {
-      $('#profile').removeClass('dragging hasImage');
+      $('#profile-img').removeClass('dragging hasImage');
 
       if (e.originalEvent) {
         var file = e.originalEvent.dataTransfer.files[0];
@@ -47,13 +67,12 @@
         reader.readAsDataURL(file);
         reader.onload = function(e) {
           console.log(reader.result);
-          $('#profile').css('background-image', 'url(' + reader.result + ')').addClass('hasImage');
-
+          $('#profile-img').css('background-image', 'url(' + reader.result + ')').addClass('hasImage');
         }
-
       }
     })
-    $('#profile').on('click', function(e) {
+
+    $('#profile-img').on('click', function(e) {
       console.log('clicked')
       $('#mediaFile').click();
     });
@@ -76,10 +95,16 @@
         reader.readAsDataURL(file);
         reader.onload = function(e) {
           console.log(reader.result);
-          $('#profile').css('background-image', 'url(' + reader.result + ')').addClass('hasImage');
+          $('#profile-img').css('background-image', 'url(' + reader.result + ')').addClass('hasImage');
         }
       }
     })
+
+    function submitFunction() {
+      document.getElementById('user-details-form').submit()      
+    }
+
+
   </script>
 
 {% endblock content %}

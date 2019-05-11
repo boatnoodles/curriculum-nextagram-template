@@ -24,16 +24,16 @@ def handle_file(file_form_name, route):
 
     if file_form_name not in request.files:
         flash("No user_file key in request.files")
-        return redirect(url_for(f"{route}.new"))
+        return None
 
     file = request.files[file_form_name]
 
     if file.filename == "":
         flash("Please provide a file name")
-        return redirect(url_for(f"{route}.new"))
+        return None
 
     if file and allowed_file(file.filename):
-        # secure_filename transform " " to "_"
+        # secure_filename transforms " " to "_"
         file.filename = secure_filename(file.filename)
         # Replace filename to a timestamp
         file.filename = str(round(time()*100))
@@ -44,6 +44,7 @@ def handle_file(file_form_name, route):
 def upload_file_to_s3(file, bucket_name, acl="public-read"):
     """Function to upload file to s3"""
     try:
+
         # ACL stands for access control list
         # ContentType key prevents file from being auto-downloaded when on a public url
         s3.upload_fileobj(file, bucket_name, file.filename, ExtraArgs={
@@ -53,6 +54,7 @@ def upload_file_to_s3(file, bucket_name, acl="public-read"):
     # need appropriate error codes
     except Exception as e:
         print(e)
+        flash("An error occurred, please try again later", "danger")
         return redirect(url_for("users.new"))
 
     return file.filename
@@ -61,4 +63,6 @@ def upload_file_to_s3(file, bucket_name, acl="public-read"):
 def handle_upload(file_form_name, route):
     """Function to handle and upload the file submitted by the user to generate a url path"""
     file = handle_file(file_form_name, route)
+    if not file:
+        return None
     return upload_file_to_s3(file, S3_BUCKET)

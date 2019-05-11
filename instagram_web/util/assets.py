@@ -12,6 +12,7 @@ bundles = {
 
     'home_css': Bundle(
         'css/vendor/bootstrap-4.1.3.css',
+        'css/upload.css',
         'css/custom.css',
         'css/homepage.css',
         filters='cssmin',

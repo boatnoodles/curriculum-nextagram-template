@@ -2,7 +2,6 @@
 
 {% block content %}
   {% include "_navbar.html" %}
-  {% include "sessions/_errors.html" %}
 
 <div class="row d-flex justify-content-center vh-100 w-100" id="sign-in">
       <div class="phone my-2 mr-4 text-right">
@@ -11,7 +10,7 @@
       <div class="w-350px my-2 ml-4">
         <div class="sign-in-form border border-color-e6 p-4 d-flex justify-content-center">
           <div class="w-259px">
-            <h1 class="brand-logo text-center mb-3">Nextagram</h1>
+            <h1 class="brand-logo text-center mb-3 text-dark">Meisterkram</h1>
             <form action="{{ url_for('sessions.create') }}" method="POST">
               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
@@ -23,15 +22,24 @@
               <div class="form-group">
                 <input type="password" class="form-control" name="password" placeholder="Password">
               </div>
-              <button class="btn steel-blue text-white font-weight-bold border-0 w-100" type="submit">Log In</button>
+              <button class="forest-green text-white" type="submit">Log In</button>
             
             </form>
             
             <hr class="my-4 font-weight-bold text-dark">
 
             <div class="w-100 font-weight-bold text-fgreen text-center">
-              <i class="fab fa-google"></i>&nbsp;&nbsp;Sign up with Google
+              <a href="{{ url_for('sessions.google_login')}}" class="oauth">
+                <i class="fab fa-google"></i>&nbsp;&nbsp;Log in with Google
+              </a>
             </div>
+
+            <div class="w-100 font-weight-bold text-fgreen text-center">
+              <a href="{{ url_for('sessions.facebook_login')}}" class="oauth">
+                <i class="fab fa-google"></i>&nbsp;&nbsp;Log in with Facebook
+              </a>
+            </div>
+
             <div class="text-center w-100 mt-2">
               <small class="text-fgreen">Forgot password?</small>
             </div>
@@ -41,7 +49,7 @@
 
         <div class="sign-in-form border border-color-e6 p-4 d-flex justify-content-center mt-3">
            <div class="w-259px text-center">
-            <span class="text-secondary font-weight-light">Don't have an account?<br></span> <span class="text-cherry font-weight-bold"><a href="">Join us</a></span><span class="text-secondary font-weight-light">, it's free!</span>
+            <span class="text-secondary font-weight-light">Don't have an account?<br></span> <span class="text-cherry font-weight-bold"><a href="" id="sign-up">Join us</a></span><span class="text-secondary font-weight-light">, it's free!</span>
            </div>
         </div>
       </div>

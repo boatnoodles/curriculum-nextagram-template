@@ -1,46 +1,99 @@
-{% extends "_layout.html"%}
+{% extends "_layout.html" %}
 
 {% block content %}
 
-  {% include "users/_errors.html" %}
-
-
-  <form method="POST" action={{url_for("users.update", id=user_id)}}>  
+  {% include "_navbar.html" %}
+  <form action="{{ url_for('users.update', username=user.username) }}" method="POST" id="user-details-form" enctype="multipart/form-data">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-    <div class="m-5" style="width: 80vw;">
-      <div class="form-group">
-        <a href="{{ url_for('images.new') }}" class="nav-link">Update Profile Picture</a>
+    <div class="custom-table">
+      <div class="custom-table-cell">
+        <div class="custom-modal">
+          <div id="profile-img" style="background-image: url('{{img}}');">
+            <label>Click to browse or drag an image here</label>
+            </div>
+          <div class="input">          
+            <i class="far fa-edit" aria-hidden="true"></i>
+            <input type="text" name="username" id="username" value="{{user.username}}"/>
+          </div>
+          
+          <div class="email input">
+            <i class="far fa-edit" aria-hidden="true"></i>
+            <input type="email" name="email" id="email" value="{{user.email}}"/>
+          </div>
 
-      {# Username #}
-        <label for="username">Username</label>
-        <input class="form-control" type="text" placeholder="" name="username" value="{{username}}"/>
-      </div>
+          <div class="mt-5 pt-4 ml-1 privacy">
+            <input type="checkbox" class="" name="privacy" {% if user.privacy %} checked {% endif %}>
+            <small class="text-muted" for="privacy" value="True">Make your account private</small>
+          </div>
 
-      <div class="form-group">
-      {# Email #}
-        <label for="email">Email</label>
-        <input class="form-control" type="email" placeholder="" name="email" value="{{email}}"/>
+          <button id="submit" type="submit">Save Changes</button>
+        </div>
       </div>
-
-      <div class="form-group">
-      {# Password #}
-        <label for="password">Password</label>
-        <input class="form-control" type="password" placeholder="" name="password" value=""/>
-        <small class="form-text text-muted">Min 6 characters. At least 1 uppercase and 1 lowercase letter, 1 number and 1 special character (@#$%^&+=)</small>
-      </div>
-
-      <div class="form-group">
-      {# Confirm password #}
-        <label for="confirm">Confirm Password</label>
-        <input class="form-control" type="password" placeholder="" name="confirm" value=""/>
-      </div>
-      <div class="form-group">
-        <input type="checkbox" class="" name="privacy" value="True">
-        <label for="privacy">Make your account private</label>
-      </div>
-      {# Submit button #}
-      <button type="submit" class="btn btn-info">Save Changes</button>
     </div>
+
+  
+    <input type="file" name="user_file" id="mediaFile" />
+
   </form>
-{% endblock %}
+
+<script>
+    // ----- On render -----
+    $(function() {
+      $('#profile-img').addClass('dragging').removeClass('dragging');
+    });
+
+    $('#profile-img').on('dragover', function() {
+      $('#profile-img').addClass('dragging')
+    }).on('dragleave', function() {
+      $('#profile-img').removeClass('dragging')
+    }).on('drop', function(e) {
+      $('#profile-img').removeClass('dragging hasImage');
+
+      if (e.originalEvent) {
+        let file = e.originalEvent.dataTransfer.files[0];
+        console.log(file);
+        document.getElementById('#mediaFile').files = file
+
+        let reader = new FileReader();
+
+        //attach event handlers here...
+
+        reader.readAsDataURL(file);
+        reader.onload = function(e) {
+          console.log(reader.result);
+          $('#profile-img').css('background-image', 'url(' + reader.result + ')').addClass('hasImage');
+        }
+      }
+    })
+
+    $('#profile-img').on('click', function(e) {
+      console.log('clicked')
+      $('#mediaFile').click();
+    });
+    window.addEventListener("dragover", function(e) {
+      e = e || event;
+      e.preventDefault();
+    }, false);
+    window.addEventListener("drop", function(e) {
+      e = e || event;
+      e.preventDefault();
+    }, false);
+    $('#mediaFile').change(function(e) {
+      let input = e.target;
+      if (input.files && input.files[0]) {
+        console.log(input.files)
+        let file = input.files[0];
+
+        let reader = new FileReader();
+
+        reader.readAsDataURL(file);
+        reader.onload = function(e) {
+          console.log(reader.result);
+          $('#profile-img').css('background-image', 'url(' + reader.result + ')').addClass('hasImage');
+        }
+      }
+    })
+  </script>
+
+{% endblock content %}
