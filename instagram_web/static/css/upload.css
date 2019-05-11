@@ -132,17 +132,22 @@ h1[contenteditable]::before {
   opacity: 0.3;
 }
 
-button#submit {
+.sign-in-form button[type="submit"],
+.sign-up-form button,
+.custom-table button#submit {
   width: 100%;
   -webkit-appearance: none;
   line-height: 40px;
-  color: #fff;
   border: none;
-  background-color: #14a098;
   margin-top: 30px;
   font-size: 13px;
   -webkit-font-smoothing: antialiased;
   font-weight: bold;
   letter-spacing: 1px;
   text-transform: uppercase;
+}
+
+button#submit {
+  color: #fff;
+  background-color: #14a098;
 }
