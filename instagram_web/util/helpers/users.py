@@ -83,7 +83,7 @@ def form_validation(fields):
 
 
 def update_queries(to_be_changed, **fields):
-    # queries = {User.privacy: fields.privacy}
+    queries = {User.privacy: fields["privacy"]}
     queries = {}
     for k, v in to_be_changed.items():
         if k == "username":

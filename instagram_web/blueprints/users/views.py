@@ -125,7 +125,7 @@ def update(username):
         #         to_be_changed["password"], method="pbkdf2:sha256", salt_length=8)
         # privacy = request.form.get("privacy"),
         # Obtain privacy option
-        user = User.update(update_queries(to_be_changed)
+        user = User.update(update_queries(to_be_changed, privacy=request.form.get("privacy"))
                            ).where(User.id == current_user.id)
         # If unable to perform the update query
         if not user.execute():

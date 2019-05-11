@@ -17,8 +17,8 @@ class User(BaseModel, UserMixin):
     username = pw.CharField(null=False, unique=True)
     email = pw.CharField(null=False, unique=True)
     password = pw.TextField(null=False)
-    privacy = pw.BooleanField(null=True, default=False)
-    profile_picture = pw.CharField(null=True, default=None)
+    privacy = pw.BooleanField(default=False)
+    profile_picture = pw.CharField(default="155755729502")
     # TODO SET DEFAULT PICTURE
 
     @classmethod

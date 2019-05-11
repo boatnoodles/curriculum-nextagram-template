@@ -22,6 +22,11 @@
             <input type="email" name="email" id="email" value="{{user.email}}"/>
           </div>
 
+          <div class="mt-5 pt-4 ml-1 privacy">
+            <input type="checkbox" class="" name="privacy" {% if user.privacy %} checked {% endif %}>
+            <small class="text-muted" for="privacy" value="True">Make your account private</small>
+          </div>
+
           <button id="submit" type="submit">Save Changes</button>
         </div>
       </div>
