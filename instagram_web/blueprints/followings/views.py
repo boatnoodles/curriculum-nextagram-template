@@ -7,7 +7,7 @@ import pysnooper
 
 
 follows_blueprint = Blueprint(
-    'follow', __name__, template_folder='templates')
+    'followings', __name__, template_folder='templates')
 
 
 @follows_blueprint.route('/<following_username>', methods=["POST"])

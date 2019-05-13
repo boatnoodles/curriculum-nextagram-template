@@ -24,7 +24,7 @@
 
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Session Management
+            Session management
           </a>
 
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -42,9 +42,16 @@
 
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Follower requests
+            Follow requests
           </a>
 
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% with follow_requests=follow_requests %}
+              <a href="{{ url_for('home') }}"></a>
+              <button> Accept </button> 
+              <button> Reject</button>
+            {% endwith %}
+          </div>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">

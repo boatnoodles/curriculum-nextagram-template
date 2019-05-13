@@ -2,7 +2,7 @@ from config import AWS_DOMAIN
 from flask import flash, redirect, url_for
 from flask_login import UserMixin
 from models.base_model import BaseModel
-from playhouse.hybrid import hybrid_property
+from playhouse.hybrid import hybrid_property, hybrid_method
 import peewee as pw
 from werkzeug.security import generate_password_hash
 
@@ -21,16 +21,19 @@ class User(BaseModel, UserMixin):
         self.password = generate_password_hash(
             new_password, method="pbkdf2:sha256", salt_length=8)
 
-    @classmethod
-    def is_following(self, username):
-        user = User.get(User.username == username)
-        if self.id == user.id:
+    @hybrid_method
+    def is_following(self, id):
+        fan = User.get(User.id == id)
+
+        if self.id == id:
             return 'self'
         else:
-            for row in user.fans:
-                if self.id == row.fan_id:
-                    return False
-                return True
+            # the peole whom fan follow
+            for row in fan.idols:
+                # if self is one of the fan's idol
+                if self.id == row.idol_id:
+                    return True
+                return False
 
     @hybrid_property
     def profile_picture_url(self):

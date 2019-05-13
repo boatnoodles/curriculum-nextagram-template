@@ -18,12 +18,12 @@
       <div class="form-group">
         {% with is_following = is_following %}
           {% if not is_following %}
-            <form action="{{ url_for('follow.create', following_username=user.username) }}" method="POST">
+            <form action="{{ url_for('followings.create', following_username=user.username) }}" method="POST">
               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
               <button type="submit" class="form-control">Follow</button>
             </form>
           {% elif is_following == True %}
-            <form action="{{ url_for('follow.delete', following_username=user.username) }}" method="POST">
+            <form action="{{ url_for('followings.delete', following_username=user.username) }}" method="POST">
               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
               <button type="submit" class="form-control">Unfollow</button>
             </form>

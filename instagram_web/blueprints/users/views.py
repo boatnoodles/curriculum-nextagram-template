@@ -66,11 +66,8 @@ def show(username):
     if not user:
         abort(404)
     posts = user.posts
-    test = user.is_following(current_user.username)
-    # Display follow or unfollow accordingly inside the page
-    # If current_user is inside user.followers, i.e., current_user is a follower/current_user follows this user, display unfollow; else, display follow
 
-    return render_template("users/show.html", user=user, posts=posts, is_following=user.is_following(current_user.username))
+    return render_template("users/show.html", user=user, posts=posts, is_following=user.is_following(current_user.id))
     # for post in posts post.path, post.caption
 
 
