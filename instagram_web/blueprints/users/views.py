@@ -66,8 +66,16 @@ def show(username):
     if not user:
         abort(404)
     posts = user.posts
+    # check if username.privacy is set to true, if current_user is a follower (is_following)
+    is_following = user.is_following(current_user.id)
+    is_private = user.is_private
+    # if target page is private but user is following, display
+    if is_following and is_private:
+        pass
+        # if target page is private but user is not following, do not display
+        # if target page is not private, display
 
-    return render_template("users/show.html", user=user, posts=posts, is_following=user.is_following(current_user.id))
+    return render_template("users/show.html", user=user, posts=posts, is_following=is_following)
     # for post in posts post.path, post.caption
 
 
