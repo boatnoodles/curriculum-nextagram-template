@@ -1,12 +1,8 @@
 {% extends "_layout.html" %}
 
+{% include "_navbar.html" %}
+
 {% block content %}
-
-  {% with current="posts.show"%}
-    {% include "_navbar.html" %}
-  {% endwith %}
-  
-
   <div class="m-5">
     <img src="{{ post.post_url }}" class="w-259px m-2">
     <a href="{{ url_for('users.show', username=username) }}">
