@@ -53,7 +53,6 @@ def create():
                 return redirect(url_for("home"))
         # Else, append the error message
         errors.update(validator.errors)
-
     return render_template('users/new.html', errors=errors)
 
 
@@ -62,8 +61,12 @@ def create():
 @login_required
 # Personal profile page
 def show(username):
-    user = User.get(User.username == username)
+    user = User.get_or_none(User.username == username)
+    if not user:
+        abort(404)
     posts = user.posts
+    # Display follow or unfollow accordingly inside the page
+    # If current_user is inside user.followers, i.e., current_user is a follower/current_user follows this user
     return render_template("users/show.html", user=user, posts=posts)
     # for post in posts post.path, post.caption
 
@@ -87,6 +90,7 @@ def edit(username):
     user = User.get_by_id(current_user.id)
     img = user.profile_picture_url
     return render_template("users/edit.html", user=user, img=img)
+
 
 # Edit user information
 @users_blueprint.route('/<username>/update', methods=['POST'])

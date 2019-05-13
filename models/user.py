@@ -1,20 +1,10 @@
-from app import login_manager
 from config import AWS_DOMAIN
+from flask import flash, redirect, url_for
 from flask_login import UserMixin
 from models.base_model import BaseModel
-# from models.relationship import FollowerFollowing
 from playhouse.hybrid import hybrid_property
 import peewee as pw
 from werkzeug.security import generate_password_hash
-
-
-@login_manager.user_loader
-def get_user(id):
-    user = User.get_by_id(id)
-    return user
-
-
-login_manager.login_view = "sessions.new"
 
 
 class User(BaseModel, UserMixin):
@@ -38,27 +28,4 @@ class User(BaseModel, UserMixin):
 
     @hybrid_property
     def is_private(self):
-        return True if self.privacy else False
-
-    # Who is the user following (who are my idols?)
-    # @classmethod
-    # def idols(self):
-    #     return (User
-    #             .select()
-    #             .join(FollowerFollowing, on=FollowerFollowing.to_user)
-    #             .where(FollowerFollowing.from_user == self)
-    #             .order_by(User.username))
-
-    # # Who are the user's followers (who are my fans?)
-    # @classmethod
-    # def fans(self):
-    #     return (User
-    #             .select()
-    #             .join(FollowerFollowing, on=FollowerFollowing.from_user)
-    #             .where(FollowerFollowing.to_user == self)
-    #             .order_by(User.username))
-
-    # # Follow someone
-    # def follow(self, user):
-    # # Unfollow someone
-    # def unfollow(self, user):
+        return self.privacy

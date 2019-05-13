@@ -15,3 +15,6 @@ class FollowerFollowing(BaseModel):
     @hybrid_property
     def is_approved(self):
         return self.approved
+
+    class Meta:
+        indexes = ((('fan', 'idol'), True),)
