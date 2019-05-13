@@ -16,14 +16,24 @@
         <h2 class="d-inline username">{{user.username}}</h2>
       </div>
       <div class="form-group">
-        <form action="{{ url_for('follow.create', following_username=user.username) }}" method="POST">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-          <button type="submit" class="form-control">Follow</button>
-        </form>
+        {% with is_following = is_following %}
+          {% if not is_following %}
+            <form action="{{ url_for('follow.create', following_username=user.username) }}" method="POST">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="form-control">Follow</button>
+            </form>
+          {% elif is_following == True %}
+            <form action="{{ url_for('follow.delete', following_username=user.username) }}" method="POST">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="form-control">Unfollow</button>
+            </form>
+          {% else %}
+          {% endif %}
+        {% endwith %}
       </div>
       <div>
-      Following: {{ user.following | length}}
-      Followers: {{ user.followers | length}}
+      Following: {{ user.idols | length}}
+      Followers: {{ user.fans | length}}
       </div>
     </div>
     {% for post in posts %}

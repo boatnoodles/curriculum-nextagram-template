@@ -6,6 +6,8 @@ from playhouse.hybrid import hybrid_property
 import peewee as pw
 from werkzeug.security import generate_password_hash
 
+import pysnooper
+
 
 class User(BaseModel, UserMixin):
     username = pw.CharField(null=False, unique=True)
@@ -19,6 +21,17 @@ class User(BaseModel, UserMixin):
         self.password = generate_password_hash(
             new_password, method="pbkdf2:sha256", salt_length=8)
 
+    @classmethod
+    def is_following(self, username):
+        user = User.get(User.username == username)
+        if self.id == user.id:
+            return 'self'
+        else:
+            for row in user.fans:
+                if self.id == row.fan_id:
+                    return False
+                return True
+
     @hybrid_property
     def profile_picture_url(self):
         """Call via instance
@@ -29,3 +42,23 @@ class User(BaseModel, UserMixin):
     @hybrid_property
     def is_private(self):
         return self.privacy
+
+    # Who is the user following
+    @hybrid_property
+    def following(self):
+        from models.followerfollowing import FollowerFollowing as FF
+        return (User
+                .select()
+                .join(FF, on=FF.idol_id)
+                .where(FF.fan_id == self.id, FF.approved == True)
+                .order_by(User.username))
+
+    # Who are the user's followers (who are my fans?)
+    @hybrid_property
+    def followers(self):
+        from models.followerfollowing import FollowerFollowing as FF
+        return (User
+                .select()
+                .join(FF, on=FF.fan_id)
+                .where(FF.idol_id == self.id, FF.approved == True)
+                .order_by(User.username))

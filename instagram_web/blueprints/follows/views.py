@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, redirect, url_for
 from flask_login import current_user, login_required
 from peewee import IntegrityError
-from models.followerfollowing import FollowerFollowing
+from models.followerfollowing import FollowerFollowing as FF
 from models.user import User
 import pysnooper
 
@@ -13,7 +13,6 @@ follows_blueprint = Blueprint(
 @follows_blueprint.route('/<following_username>', methods=["POST"])
 @login_required
 def create(following_username):
-
     # Get the user current_user wants to follow
     idol = User.get_or_none(User.username == following_username)
 
@@ -23,7 +22,7 @@ def create(following_username):
         return redirect(url_for('home'))
 
     # Create a new query
-    new_following = FollowerFollowing(
+    new_following = FF(
         fan=current_user.id, idol=idol.id)
 
     # Immediately approve the follower request if the target account is not private
@@ -53,8 +52,22 @@ def create(following_username):
 @follows_blueprint.route('/delete/<following_username>', methods=["POST"])
 @pysnooper.snoop('test/follow.log')
 def delete(following_username):
-    unfollowing = FollowerFollowing.get(fan=current_user.id, idol=id)
-    if unfollowing:
-        # Delete from records to unfollow
-        unfollowing.delete_instance()
+    user_to_unfollow = User.get_or_none(User.username == following_username)
+
+    if not user_to_unfollow:
+        flash("User not found", "danger")
+        return redirect(url_for('users.show', username=following_username))
+
+    # Delete from records to unfollow
+    try:
+        FF.get_or_none(FF.idol == user_to_unfollow).delete_instance()
+    except AttributeError:
+        flash(
+            f"Unable to unfollow, you're not currently following {following_username}.", "warning")
+        return redirect(url_for("users.show", username=following_username))
+    except:
+        flash("An error occurred, please try again later.", "warning")
+        return redirect(url_for("users.show", username=following_username))
+
+    flash(f"You have successfully unfollowed {following_username}", "warning")
     return redirect(url_for('users.show', username=following_username))

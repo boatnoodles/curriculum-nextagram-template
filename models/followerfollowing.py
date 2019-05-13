@@ -6,9 +6,9 @@ from models.user import User
 
 class FollowerFollowing(BaseModel):
     # fan = follower
-    fan = pw.ForeignKeyField(User, backref="following")
+    fan = pw.ForeignKeyField(User, backref="idols")
     # idol = following/followee
-    idol = pw.ForeignKeyField(User, backref="followers")
+    idol = pw.ForeignKeyField(User, backref="fans")
     approved = pw.BooleanField(default=False)
 
     # Is there really need for the sake of naming convention
@@ -18,3 +18,8 @@ class FollowerFollowing(BaseModel):
 
     class Meta:
         indexes = ((('fan', 'idol'), True),)
+
+    # This function does not work
+    def validate(self):
+        if self.fan_id == self.idol_id:
+            self.errors.append('You cannot follow yourself, dumdum!')

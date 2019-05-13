@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash
 from instagram_web.util.helpers.users import *
 from instagram_web.util.helpers.uploads import *
 from models.user import *
+import pysnooper
 
 
 users_blueprint = Blueprint('users',
@@ -65,9 +66,11 @@ def show(username):
     if not user:
         abort(404)
     posts = user.posts
+    test = user.is_following(current_user.username)
     # Display follow or unfollow accordingly inside the page
-    # If current_user is inside user.followers, i.e., current_user is a follower/current_user follows this user
-    return render_template("users/show.html", user=user, posts=posts)
+    # If current_user is inside user.followers, i.e., current_user is a follower/current_user follows this user, display unfollow; else, display follow
+
+    return render_template("users/show.html", user=user, posts=posts, is_following=user.is_following(current_user.username))
     # for post in posts post.path, post.caption
 
 
