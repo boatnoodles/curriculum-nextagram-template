@@ -2,6 +2,10 @@
   height: 100vh;
 }
 
+.vh-80 {
+  height: 80vh;
+}
+
 .vw-80 {
   width: 80vw;
 }

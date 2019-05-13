@@ -9,17 +9,57 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a href="/" class="nav-link {{'active' if current == 'home' }}">Home</a>
+          <a href="{{ url_for('home') }}" class="nav-link {{'active' if request.path == url_for('home') }}">
+          Home</a>
         </li>
 
         <li class="nav-item">
-          <a href="{{ url_for('users.show', username=current_user.username) }}" class="nav-link {{'active' if current == 'users.show' }}">Your page</a>
+          <a href="{{ url_for('users.show', username=current_user.username) }}" class="nav-link {{'active' if request.path == url_for('users.show', username=current_user.username) }}">
+          Your page</a>
         </li>
         <li class="nav-item">
-          <a href="{{ url_for('users.edit', username=current_user.username) }}" class="nav-link {{'active' if current == 'users.edit' }}">Edit Profile Details</a>
+          <a href="{{ url_for('users.edit', username=current_user.username) }}" class="nav-link {{'active' if request.path == url_for('users.edit', username=current_user.username) }}">
+          Edit Profile Details</a>
         </li>
         <li class="nav-item">
-          <a href="{{ url_for('posts.new') }}" class="nav-link {{'active' if current == 'posts.new' }}">Upload a New Post</a>
+          <a href="{{ url_for('posts.new') }}" class="nav-link {{'active' if request.path == url_for('posts.new') }}">
+          Upload a New Post</a>
+        </li>
+
+
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Follow requests
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% with follow_requests=current_user.follow_requests_received %}
+              {% if follow_requests %}
+                {% for follow_request in follow_requests %}
+                  <p class="text-center">
+                    <a href="{{ url_for('users.show', username=follow_request['username']) }}" class="text-fgreen">
+                      {{ follow_request["username"]}}
+                    </a>
+                  </p>
+                  <p class="text-center">
+                    <button class="btn-sm btn-primary">
+                      <a href="{{ url_for('followings.accept', req_id=follow_request.id, next=request.path) }}" class="text-white">
+                        Accept
+                      </a>
+                    </button> 
+                    <button class="btn-sm btn-danger">
+                      <a href="{{ url_for('followings.reject', req_id=follow_request.id, next=request.path) }}" class="text-white">
+                        Reject
+                      </a>
+                    </button>
+                  </p>
+
+                {% endfor %}
+              {% else %}
+                <small>You do not have any follow requests atm.</small>
+              {% endif %}
+            {% endwith %}
+          </div>
         </li>
 
         <li class="nav-item dropdown">
@@ -37,20 +77,6 @@
               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
               <input class="dropdown-item" type="submit" value="Log Out"/>
             </form>
-          </div>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Follow requests
-          </a>
-
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            {% with follow_requests=follow_requests %}
-              <a href="{{ url_for('home') }}"></a>
-              <button> Accept </button> 
-              <button> Reject</button>
-            {% endwith %}
           </div>
         </li>
       </ul>
