@@ -16,7 +16,6 @@ class User(BaseModel, UserMixin):
     privacy = pw.BooleanField(default=False)
     profile_picture = pw.CharField(default="155755729502")
 
-    @classmethod
     def hash_password(self, new_password):
         self.password = generate_password_hash(
             new_password, method="pbkdf2:sha256", salt_length=8)
@@ -33,7 +32,7 @@ class User(BaseModel, UserMixin):
                 # if self is one of the fan's idol
                 if self.id == row.idol_id:
                     return True
-                return False
+            return False
 
     @hybrid_property
     def profile_picture_url(self):
@@ -65,3 +64,28 @@ class User(BaseModel, UserMixin):
                 .join(FF, on=FF.fan_id)
                 .where(FF.idol_id == self.id, FF.approved == True)
                 .order_by(User.username))
+
+    @hybrid_property
+    def follow_requests_received(self):
+            """Returns all follow requests received"""
+        from models.followerfollowing import FollowerFollowing as FF
+        # return (User
+        #         .select(User, FF)
+        #         .join(FF, on=FF.fan_id).where(FF.idol_id == self.id, FF.approved == False).order_by(User.username))
+
+        return (FF.select(FF.id, User.username)
+                .join(User, on=FF.fan_id)
+                .where(FF.idol_id == self.id, FF.approved == False)
+                .order_by(User.username)
+                .dicts())
+
+    @hybrid_property
+    def follow_requests_sent(self):
+        """Returns all pending sent follow requests"""
+        from models.followerfollowing import FollowerFollowing as FF
+
+        return (FF.select(FF.id, User.username)
+                .join(User, on=FF.idol_id)
+                .where(FF.fan_id == self.id, FF.approved == False)
+                .order_by(User.username)
+                .dicts())

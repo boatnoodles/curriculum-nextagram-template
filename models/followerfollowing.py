@@ -16,6 +16,7 @@ class FollowerFollowing(BaseModel):
     def is_approved(self):
         return self.approved
 
+    # A metaclass in Python is a class of a class that defines how a class behaves.
     class Meta:
         indexes = ((('fan', 'idol'), True),)
 
