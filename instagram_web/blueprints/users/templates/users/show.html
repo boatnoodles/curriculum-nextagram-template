@@ -14,6 +14,12 @@
         <div class="ml-5 username">
           <h2 class="d-inline username">{{user.username}}</h2>
         </div>
+        <form action="{{ url_for('follow.create', following_username=user.username) }}" method="POST">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit">Follow</button>
+        </form>
+        {{ user.following | length}}
+        {{ user.followers | length}}
       </div>
       {% for post in posts %}
       <div class="my-4 box">
