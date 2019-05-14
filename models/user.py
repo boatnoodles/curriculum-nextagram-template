@@ -67,7 +67,7 @@ class User(BaseModel, UserMixin):
 
     @hybrid_property
     def follow_requests_received(self):
-            """Returns all follow requests received"""
+        """Returns all follow requests received"""
         from models.followerfollowing import FollowerFollowing as FF
         # return (User
         #         .select(User, FF)
