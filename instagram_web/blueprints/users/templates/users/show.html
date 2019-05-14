@@ -1,39 +1,60 @@
 {% extends "_layout.html" %}
 
-{% with current="users.show"%}
-  {% include "_navbar.html" %}
-{% endwith %}
+{% include "_navbar.html" %}
 
 {% block content %}
 
 
-  <div class="d-flex justify-content-center m-4 p-4" id="profile-page"> 
-    <div class="m-2 p-2 vw-80 text-left">
-      <div class="d-flex flex-wrap pb-3 border-bottom">
-        <img src="{{ user.profile_picture_url }}" alt="Profile image" class="profile-img">
-        <div class="ml-5 username">
-          <h2 class="d-inline username">{{user.username}}</h2>
-        </div>
-      </div>
-      {% for post in posts %}
-      <div class="my-4 box">
-        <a href="{{ url_for('posts.show', path=post.path) }}">
-          <div class="img-container" style="background-image: url('{{ post.post_url }}');">
-          </div>
-        </a>
-        <div class="d-inline">
-          <div class="d-inline-block top-caption">
-            <p class="caption">
-            “{{post.caption}}”
-            </p>          
-          </div>
-          <div class="d-inline-block timestamp">
-            <p class="">{{post.created_at.strftime(("%d %B %y %-I:%M%p"))}}</p>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
 
+<div class="d-flex justify-content-center m-4 p-4" id="profile-page"> 
+  <div class="m-2 p-2 vw-80 text-left">
+    <div class="d-flex flex-wrap pb-3 border-bottom">
+      <img src="{{ user.profile_picture_url }}" alt="Profile image" class="profile-img">
+      <div class="ml-5 username">
+        <h2 class="d-inline username">{{user.username}}</h2>
+      </div>
+      <div class="form-group">
+        {% with is_following = is_following %}
+          {% if not is_following %}
+            <form action="{{ url_for('followings.create', following_username=user.username) }}" method="POST">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="form-control">Follow</button>
+            </form>
+          {% elif is_following == True %}
+            <form action="{{ url_for('followings.delete', following_username=user.username) }}" method="POST">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="form-control">Unfollow</button>
+            </form>
+          {% else %}
+          {% endif %}
+        {% endwith %}
+      </div>
+      <div>
+      Following: {{ user.following | length}}
+      Followers: {{ user.followers | length}}
+      </div>
+    </div>
+    {% for post in posts %}
+    <div class="my-4 box">
+      <a href="{{ url_for('posts.show', path=post.path) }}">
+        <div class="img-container" style="background-image: url('{{ post.post_url }}');">
+        </div>
+      </a>
+      <div class="d-inline">
+        <div class="d-inline-block top-caption">
+          <p class="caption">
+          “{{post.caption}}”
+          </p>          
+        </div>
+        <div class="d-inline-block timestamp">
+          <p class="">{{post.created_at.strftime(("%d %B %y %-I:%M%p"))}}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 </div>
+
+
+
 {% endblock %}

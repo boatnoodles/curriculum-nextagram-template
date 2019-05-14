@@ -1,7 +1,8 @@
 {% extends "_layout.html" %}
 
+{% include "_navbar.html" %}
+
 {% block content %}
-  {% include "_navbar.html" %}
   <div class="wrapper">
     <div class="checkout container">
 
@@ -31,7 +32,7 @@
         </section>
 
         <input type="hidden" id="nonce" name="payment_method_nonce" />
-        <button class="btn steel-blue text-white font-weight-bold border-0" type="submit" id="submit-button"><span>Donate</span></button>
+        <button class="btn forest-green text-white font-weight-bold border-0" type="submit" id="submit-button"><span>Donate</span></button>
       </form>
 
     </div>

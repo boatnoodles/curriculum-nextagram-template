@@ -82,8 +82,7 @@ def form_validation(fields):
     return errors
 
 
-def update_queries(to_be_changed, **fields):
-    queries = {User.privacy: fields["privacy"]}
+def update_queries(to_be_changed):
     queries = {}
     for k, v in to_be_changed.items():
         if k == "username":
@@ -98,4 +97,5 @@ def update_queries(to_be_changed, **fields):
         elif k == "profile_picture":
             queries.update({User.profile_picture: v})
             pass
+
     return queries

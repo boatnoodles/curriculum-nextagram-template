@@ -4,6 +4,7 @@ import config
 from flask import Flask, session
 from flask_wtf.csrf import CSRFProtect
 from models.base_model import db
+from models.user import User
 
 
 web_dir = os.path.join(os.path.dirname(
@@ -20,6 +21,15 @@ csrf = CSRFProtect(app)
 # Set up login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+@login_manager.user_loader
+def get_user(id):
+    user = User.get_by_id(id)
+    return user
+
+
+login_manager.login_view = "sessions.new"
 
 
 if os.getenv('FLASK_ENV') == 'production':

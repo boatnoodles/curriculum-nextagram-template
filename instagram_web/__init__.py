@@ -4,11 +4,13 @@ from flask import flash, redirect, render_template, url_for
 from flask_assets import Environment, Bundle
 from flask_login import current_user
 from instagram_web.blueprints.donations.views import donations_blueprint
+from instagram_web.blueprints.followings.views import followings_blueprint
 from instagram_web.blueprints.posts.views import posts_blueprint
 from instagram_web.blueprints.images.views import profile_images_blueprint
 from instagram_web.blueprints.sessions.views import sessions_blueprint
 from instagram_web.blueprints.users.views import users_blueprint
 from instagram_web.util.helpers.oauth import google_oauth, facebook_oauth
+from models.followerfollowing import FollowerFollowing as FF
 from models.post import Post
 from models.user import User
 from .util.assets import bundles
@@ -16,6 +18,7 @@ from .util.assets import bundles
 assets = Environment(app)
 assets.register(bundles)
 app.register_blueprint(donations_blueprint, url_prefix="/donations")
+app.register_blueprint(followings_blueprint, url_prefix="/followings")
 app.register_blueprint(posts_blueprint, url_prefix="/posts")
 app.register_blueprint(profile_images_blueprint, url_prefix="/images")
 app.register_blueprint(sessions_blueprint, url_prefix="/sessions")
@@ -31,8 +34,10 @@ def home():
     if not current_user.is_authenticated:
         return redirect(url_for("users.new"))
 
-    posts = Post.select(Post, User).join(User).order_by(Post.created_at.desc())
-
+    # SELECT FROM (post JOIN user ON post.user_id == user.id) JOIN ff ON ff.idol_id == post.user_id WHERE ff.fan_id == current_user id
+    # i.e., select from posts that are posted by current_user's approved idols
+    posts = Post.select(Post, User.username).join(
+        User).join(FF, on=FF.idol_id).where(FF.fan_id == current_user.id, FF.approved == True)
     return render_template('home.html', posts=posts)
 
 

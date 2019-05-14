@@ -1,4 +1,4 @@
-from flask import Blueprint, Flask, flash, redirect, render_template, request, session, url_for
+from flask import Blueprint, Flask, abort, flash, redirect, render_template, request, session, url_for
 from flask_login import login_user, logout_user
 from models.user import User
 from werkzeug.security import check_password_hash
@@ -45,11 +45,9 @@ def create():
     if not login_user(user):
         flash('An error occurred')
 
-    # Redirect to profile page/home page
+    # Redirect to profile page/home page or what was the user at previously
     flash("Successfully logged in", "success")
-
-    """HAVE A BETTER REDIRECT HERE"""
-    return redirect(url_for("home", username=user.username))
+    return redirect(url_for('home'))
 
 
 #

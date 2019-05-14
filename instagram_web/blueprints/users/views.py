@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash
 from instagram_web.util.helpers.users import *
 from instagram_web.util.helpers.uploads import *
 from models.user import *
+import pysnooper
 
 
 users_blueprint = Blueprint('users',
@@ -41,7 +42,7 @@ def create():
         # Create a new instance of a user
         user = User(username=to_validate["username"],
                     email=to_validate["email"],
-                    password=password, privacy=request.form.get("privacy"))
+                    password=password, privacy=bool(request.form.get("privacy")))
 
         # Validation using peewee-validates's ModelValidator
         validator = FormValidator(user)
@@ -53,7 +54,6 @@ def create():
                 return redirect(url_for("home"))
         # Else, append the error message
         errors.update(validator.errors)
-
     return render_template('users/new.html', errors=errors)
 
 
@@ -62,9 +62,20 @@ def create():
 @login_required
 # Personal profile page
 def show(username):
-    user = User.get(User.username == username)
+    user = User.get_or_none(User.username == username)
+    if not user:
+        abort(404)
     posts = user.posts
-    return render_template("users/show.html", user=user, posts=posts)
+    # check if username.privacy is set to true, if current_user is a follower (is_following)
+    is_following = user.is_following(current_user.id)
+    is_private = user.is_private
+    # if target page is private but user is following, display
+    if is_following and is_private:
+        pass
+        # if target page is private but user is not following, do not display
+        # if target page is not private, display
+
+    return render_template("users/show.html", user=user, posts=posts, is_following=is_following)
     # for post in posts post.path, post.caption
 
 
@@ -88,27 +99,30 @@ def edit(username):
     img = user.profile_picture_url
     return render_template("users/edit.html", user=user, img=img)
 
+
 # Edit user information
 @users_blueprint.route('/<username>/update', methods=['POST'])
 @login_required
 def update(username):
-    # Get the necessary information from the form and compare it with current_info
-    keys = ["username", "email"]
     to_be_changed = {}
+    # Get the necessary information from the form and compare it with current_info
+    keys = ["username", "email", "privacy"]
     for key in keys:
-        field = request.form.get(key)
-        # If form field is not blank
-        if field != "":
-            # If the field is confirm or the field is not equal to what is stored in sessions with the same key
-            if field != getattr(current_user, key):
-                to_be_changed[key] = field
+        if key == "privacy":
+            field = bool(request.form.get(key))
+        else:
+            field = request.form.get(key)
+        # If the field is not equal to what is stored in sessions with the same key
+        if field != getattr(current_user, key):
+            to_be_changed[key] = field
+
     # Attempts to upload file
     if request.files:
         url_path = handle_upload("user_file", route="images")
         to_be_changed["profile_picture"] = url_path
 
     # If no changes have been made, let the user know
-    if not to_be_changed and not url_path:
+    if not to_be_changed:
         flash("No changes were made", "info")
         return redirect(url_for("users.edit", username=username))
 
@@ -126,7 +140,7 @@ def update(username):
         #         to_be_changed["password"], method="pbkdf2:sha256", salt_length=8)
         # privacy = request.form.get("privacy"),
         # Obtain privacy option
-        user = User.update(update_queries(to_be_changed, privacy=request.form.get("privacy"))
+        user = User.update(update_queries(to_be_changed)
                            ).where(User.id == current_user.id)
         # If unable to perform the update query
         if not user.execute():

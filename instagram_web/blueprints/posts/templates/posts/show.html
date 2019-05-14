@@ -1,12 +1,8 @@
 {% extends "_layout.html" %}
 
+{% include "_navbar.html" %}
+
 {% block content %}
-
-  {% with current="posts.show"%}
-    {% include "_navbar.html" %}
-  {% endwith %}
-  
-
   <div class="m-5">
     <img src="{{ post.post_url }}" class="w-259px m-2">
     <a href="{{ url_for('users.show', username=username) }}">
@@ -18,7 +14,7 @@
 
   
     <a href="{{ url_for('donations.new', recipient=path) }}">
-      <button class="btn steel-blue text-white font-weight-bold border-0 font-weight-bold">Make a donation</button>
+      <button class="btn forest-green text-white font-weight-bold border-0 font-weight-bold">Make a donation</button>
     </a>
   </div>
 

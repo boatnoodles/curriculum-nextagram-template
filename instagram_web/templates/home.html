@@ -1,19 +1,19 @@
 {% extends "_layout.html" %}
 
-  {% block title %}
-    Meisterkram
-  {% endblock %}
+{% block title %}
+  Meisterkram
+{% endblock %}
 
-  {% block header %}
-  {% endblock %}
+{% block header %}
+{% endblock %}
 
-  {% block content %}
-    {% with current = "home" %}
-      {% include "_navbar.html" %}  
-    {% endwith %}
+{% include "_navbar.html" %}  
+{% block content %}
 
-  {# Display all the users and pictures here #}
+{# Display all the users and pictures here #}
+{# If posts | length == 0, then display something else #}
 
+{% if posts | length %}
   <div id="homepage">
     {% for post in posts %}
       <div class="my-4 box">
@@ -46,5 +46,14 @@
         </div>
     {% endfor %}
   </div>
+{% else %}
+  <div class="row vh-80 align-items-center justify-content-center">
+    <h2>
+      Start following someone to see pictures here! 
+    </h2>
+  </div>
+{% endif %}
+
+
 {% endblock %}
 
