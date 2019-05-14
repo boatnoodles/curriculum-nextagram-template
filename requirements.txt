@@ -24,6 +24,7 @@ itsdangerous==1.1.0
 Jinja2==2.10
 jmespath==0.9.4
 jsmin==2.2.2
+jwt==0.6.1
 MarkupSafe==1.1.0
 mock==3.0.5
 peewee==3.9.5
