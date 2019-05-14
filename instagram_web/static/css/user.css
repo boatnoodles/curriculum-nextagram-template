@@ -1,0 +1,71 @@
+.profile-img {
+  max-width: 200px;
+  max-height: 200px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+div.d-inline-block {
+  /* vertical-align: 60; */
+  margin-left: 40;
+}
+
+#profile-page h2.username::before {
+  content: "@";
+}
+
+#profile-page div.username {
+  position: relative;
+  top: 1rem;
+}
+
+#profile-page .img-container,
+#homepage .img-container {
+  display: inline-block;
+  width: calc(80vw / 3);
+  height: calc(80vw / 3);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* border: 1px solid blue; */
+}
+
+#profile-page .box,
+#homepage .box {
+  /* border: solid 1px red; */
+  width: 82vw;
+  height: calc(80vw / 3);
+  margin: auto;
+}
+
+#profile-page p.caption,
+#homepage p.caption {
+  vertical-align: top;
+}
+
+.top-caption {
+  height: calc(calc(80vw / 3) * 0.67);
+  /* border: 1px solid blue; */
+  position: absolute;
+}
+
+.timestamp {
+  height: calc(calc(80vw / 3) * 0.33);
+  /* border: 1px solid blue; */
+  position: relative;
+  font-size: 0.8rem;
+  vertical-align: bottom;
+}
+
+.timestamp p {
+  position: absolute;
+  bottom: 0;
+  width: max-content;
+}
+
+.timestamp p::before,
+p.timestamp::before {
+  content: "Posted on ";
+}

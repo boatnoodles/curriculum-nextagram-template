@@ -31,7 +31,7 @@ def create():
     q = Post(user_id=current_user.id, path=url_path, caption=caption)
 
     if q.save():
-        flash("Upload successful")
+        flash("Upload successful", "success")
         return redirect(url_for("posts.new"))
     return redirect(url_for("posts.new"))
 
@@ -40,7 +40,7 @@ def create():
 @login_required
 def show(path):
     post = Post.get(Post.path == path)
-    url = post.post_url
-    caption = post.caption
 
-    return render_template("posts/show.html", url=url, caption=caption, path=path)
+    username = User.get(User.id == post.user_id).username
+
+    return render_template("posts/show.html", post=post, path=path, username=username)

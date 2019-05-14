@@ -1,5 +1,9 @@
 {% extends "_layout.html" %}
 
+{% with current="posts.new"%}
+  {% include "_navbar.html" %}
+{% endwith %}
+
 {% block content %}
 
   <form action="{{ url_for('posts.create') }}" method="POST" enctype="multipart/form-data">

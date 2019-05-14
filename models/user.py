@@ -13,6 +13,9 @@ def get_user(id):
     return user
 
 
+login_manager.login_view = "sessions.new"
+
+
 class User(BaseModel, UserMixin):
     username = pw.CharField(null=False, unique=True)
     email = pw.CharField(null=False, unique=True)

@@ -48,6 +48,7 @@ def create(recipient):
 
 
 @donations_blueprint.route('/show/<transaction_id>', methods=['GET'])
+# Show transaction summary and redirect back with a timeout
 def show(transaction_id):
     transaction = find_transaction(transaction_id)
     result = {}

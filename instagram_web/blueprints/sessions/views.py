@@ -27,8 +27,8 @@ def create():
     if not user:
         # If username is not found, flash an error
         flash("User not found", "danger")
-        return render_template("sessions/new.html")
-        # return redirect(url_for("sessions.new"))
+        # return render_template("sessions/new.html")
+        return redirect(url_for("sessions.new"))
 
     # Get passwords
     form_pw = request.form.get("password")
@@ -49,7 +49,7 @@ def create():
     flash("Successfully logged in", "success")
 
     """HAVE A BETTER REDIRECT HERE"""
-    return redirect(url_for("home"))
+    return redirect(url_for("home", username=user.username))
 
 
 #

@@ -102,6 +102,7 @@ input#username {
 }
 
 input#email {
+  text-align: center;
   font-size: 21px;
   padding: 3px 0;
   border: none;
@@ -127,7 +128,7 @@ input#email {
 
 .sign-in-form button,
 .sign-up-form button,
-.custom-table button#submit {
+.custom-table button#edit-user {
   width: 100%;
   -webkit-appearance: none;
   line-height: 40px;
