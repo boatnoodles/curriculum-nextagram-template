@@ -26,7 +26,6 @@ jsmin==2.2.2
 MarkupSafe==1.1.0
 mock==3.0.5
 peewee==3.9.5
-peewee-db-evolve==3.7.0
 peewee-validates==1.0.7
 psycopg2-binary==2.7.7
 pycodestyle==2.5.0
