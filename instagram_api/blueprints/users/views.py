@@ -22,8 +22,10 @@ def show(username):
 
     resp = {'message': 'User found',
             'status': 200,
-            'id': user.id,
-            'username': user.username,
-            'email': user.email,
-            'profileImg': user.profile_picture_url}
+            'data': [{
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'profileImg': user.profile_picture_url
+            }]}
     return jsonify(resp)
