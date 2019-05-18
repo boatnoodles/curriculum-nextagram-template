@@ -3,9 +3,9 @@ from flask import flash, redirect, url_for
 from flask_login import UserMixin
 from models.base_model import BaseModel
 from playhouse.hybrid import hybrid_property, hybrid_method
-import peewee as pw
 from werkzeug.security import generate_password_hash
 
+import peewee as pw
 import pysnooper
 
 
