@@ -12,43 +12,7 @@
     </div>  
     {% for user in users%}
       <div>{{ user['username'] }}</div><br>
-    {% endfor %}
-  
-    <div>
-      <p>{{pagination.get_page()}}/{{pagination.get_page_count()}}</p>
-    </div>
-    
-    <nav aria-label="...">
-      <ul class="pagination">
-        {# Only prev if there are more pages (i.e., page > 1) #}
-        {% if page == 1 %}
-          <li class="page-item disabled">
-            <span class="page-link">&laquo;</span>
-          </li>
-        {% else %}
-          <li class="page-item">
-            <a class="page-link" href="{{url_for('users.index', page=page - 1)}}" aria-label="Previous">&laquo;
-            </a>
-          </li>
-        {% endif %}
-
-        {% for pg in range(pagination.get_page_count()) %}
-          <li class="page-item {{'active' if page == pg+1}}">
-            <a class="page-link" href="{{url_for('users.index', page=pg+1)}}">{{pg+1}}</a>
-          </li>
-        {% endfor %}
-
-        {% if page == pagination.get_page_count() %}
-          <li class="page-item disabled">
-            <span class="page-link">&raquo;</span>
-          </li>
-        {% else %}
-          <li class="page-item">
-            <a class="page-link" href="{{url_for('users.index', page = page + 1)}}">&raquo;</a>
-          </li>
-        {% endif %}
-      </ul>
-    </nav>
+    {% endfor %} 
 
     <div class="pagination">
       {% if page == 1 %}
@@ -69,7 +33,9 @@
       {% endif %}
     </div>
 
-
+    <div>
+      <p>{{pagination.get_page()}}/{{pagination.get_page_count()}}</p>
+    </div>
 
   </div>
 </div>
