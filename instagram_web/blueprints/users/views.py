@@ -81,8 +81,9 @@ def show(username):
 
 @users_blueprint.route('/', methods=["GET"])
 def index():
-    return "USERS"
-
+    page = request.args.get('page', 1, type=int)
+    users = User.select().order_by(User.username).paginate(page, 5)
+    return render_template('users/index.html', users=users)
 
 # Display page to edit user information
 @users_blueprint.route('/<username>/edit', methods=['GET'])

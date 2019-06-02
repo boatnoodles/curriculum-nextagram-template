@@ -1,0 +1,22 @@
+{% extends "_layout.html" %}
+
+{% include "_navbar.html" %}
+
+{% block content %}
+
+
+
+<div class="d-flex justify-content-center m-4 p-4" id="profile-page"> 
+  <div class="m-2 p-2 vw-80 text-left">
+    <div class="d-flex pb-3 border-bottom">
+
+    </div>  
+      {% for user in users%}
+        <div>{{ user['username'] }}</div><br>
+      {% endfor %}
+  </div>
+</div>
+
+
+
+{% endblock %}
