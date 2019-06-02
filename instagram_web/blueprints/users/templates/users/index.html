@@ -9,11 +9,29 @@
 <div class="d-flex justify-content-center m-4 p-4" id="profile-page"> 
   <div class="m-2 p-2 vw-80 text-left">
     <div class="d-flex pb-3 border-bottom">
-
     </div>  
-      {% for user in users%}
-        <div>{{ user['username'] }}</div><br>
-      {% endfor %}
+    {% for user in users%}
+      <div>{{ user['username'] }}</div><br>
+    {% endfor %}
+    {# Only prev if there are more pages (i.e., page > 1) #}
+    {% if page == 1 %}
+      <a href="#" class="btn disabled" aria-disabled="true" style="color: grey">Prev</a>
+    {% else %}
+      <a href="{{url_for('users.index', page=page - 1)}}" class="btn">Prev</a>
+    {% endif %}
+    <a href="{{url_for('users.index', page=1)}}" class="btn">1</a>
+    <a href="{{url_for('users.index', page=2)}}" class="btn">2</a>
+    <a href="{{url_for('users.index', page=3)}}" class="btn">3</a>
+    {# Only next if there are more pages (i.e., page < max) #}
+    {% if page != pagination.get_page_count() %}
+      <a href="{{url_for('users.index', page = page + 1)}}" class="btn">Next</a>
+    {% else %}
+    <a href="#" class="btn disabled" aria-disabled="true" style="color: grey">Next</a>
+    {% endif %}
+    <div>
+      <p>{{pagination.get_page()}}/{{pagination.get_page_count()}}</p>
+    </div>
+
   </div>
 </div>
 

@@ -2,6 +2,7 @@ import os
 from flask import Blueprint, abort, flash, redirect, render_template, request, session, url_for
 from flask_login import current_user, login_required, login_user
 from peewee_validates import ModelValidator, StringField, validate_length
+from playhouse.flask_utils import object_list
 from werkzeug.security import generate_password_hash
 # USER-DEFINED MODULES
 from instagram_web.util.helpers.users import *
@@ -81,9 +82,19 @@ def show(username):
 
 @users_blueprint.route('/', methods=["GET"])
 def index():
-    page = request.args.get('page', 1, type=int)
-    users = User.select().order_by(User.username).paginate(page, 5)
-    return render_template('users/index.html', users=users)
+    # page = request.args.get('page', 1, type=int)
+    # users = User.select().order_by(User.username).paginate(page, 5)
+    # return render_template('users/index.html', users=users, page=page)
+
+    users = (User
+             .select()
+             .order_by(User.username))
+
+    return object_list(
+        'users/index.html',
+        query=users,
+        context_variable='users',
+        paginate_by=5)
 
 # Display page to edit user information
 @users_blueprint.route('/<username>/edit', methods=['GET'])
