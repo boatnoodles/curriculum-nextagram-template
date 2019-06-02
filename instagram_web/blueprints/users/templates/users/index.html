@@ -16,18 +16,18 @@
 
     <div class="pagination">
       {% if page == 1 %}
-        <span>&laquo;</span>
+        <a>&laquo;</a>
       {% else %}
         <a href="{{url_for('users.index', page=page - 1)}}" aria-label="Previous">&laquo;
         </a>
       {% endif %}
 
       {% for pg in range(pagination.get_page_count()) %}
-        <a class="page-link {{'active' if page == pg+1}}" href="{{url_for('users.index', page=pg+1)}}" >{{pg+1}}</a>
+        <a class="{{'active' if page == pg+1}}" href="{{url_for('users.index', page=pg+1)}}" >{{pg+1}}</a>
       {% endfor %}
 
       {% if page == pagination.get_page_count() %}
-        <span>&raquo;</span>
+        <a>&raquo;</a>
       {% else %}
         <a href="{{url_for('users.index', page = page + 1)}}"  aria-label="Next">&raquo;</a>
       {% endif %}
