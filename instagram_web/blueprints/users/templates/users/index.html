@@ -13,24 +13,63 @@
     {% for user in users%}
       <div>{{ user['username'] }}</div><br>
     {% endfor %}
-    {# Only prev if there are more pages (i.e., page > 1) #}
-    {% if page == 1 %}
-      <a href="#" class="btn disabled" aria-disabled="true" style="color: grey">Prev</a>
-    {% else %}
-      <a href="{{url_for('users.index', page=page - 1)}}" class="btn">Prev</a>
-    {% endif %}
-    <a href="{{url_for('users.index', page=1)}}" class="btn">1</a>
-    <a href="{{url_for('users.index', page=2)}}" class="btn">2</a>
-    <a href="{{url_for('users.index', page=3)}}" class="btn">3</a>
-    {# Only next if there are more pages (i.e., page < max) #}
-    {% if page != pagination.get_page_count() %}
-      <a href="{{url_for('users.index', page = page + 1)}}" class="btn">Next</a>
-    {% else %}
-    <a href="#" class="btn disabled" aria-disabled="true" style="color: grey">Next</a>
-    {% endif %}
+  
     <div>
       <p>{{pagination.get_page()}}/{{pagination.get_page_count()}}</p>
     </div>
+    
+    <nav aria-label="...">
+      <ul class="pagination">
+        {# Only prev if there are more pages (i.e., page > 1) #}
+        {% if page == 1 %}
+          <li class="page-item disabled">
+            <span class="page-link">&laquo;</span>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="{{url_for('users.index', page=page - 1)}}" aria-label="Previous">&laquo;
+            </a>
+          </li>
+        {% endif %}
+
+        {% for pg in range(pagination.get_page_count()) %}
+          <li class="page-item {{'active' if page == pg+1}}">
+            <a class="page-link" href="{{url_for('users.index', page=pg+1)}}">{{pg+1}}</a>
+          </li>
+        {% endfor %}
+
+        {% if page == pagination.get_page_count() %}
+          <li class="page-item disabled">
+            <span class="page-link">&raquo;</span>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="{{url_for('users.index', page = page + 1)}}">&raquo;</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+
+    <div class="pagination">
+      {% if page == 1 %}
+        <span>&laquo;</span>
+      {% else %}
+        <a href="{{url_for('users.index', page=page - 1)}}" aria-label="Previous">&laquo;
+        </a>
+      {% endif %}
+
+      {% for pg in range(pagination.get_page_count()) %}
+        <a class="page-link {{'active' if page == pg+1}}" href="{{url_for('users.index', page=pg+1)}}" >{{pg+1}}</a>
+      {% endfor %}
+
+      {% if page == pagination.get_page_count() %}
+        <span>&raquo;</span>
+      {% else %}
+        <a href="{{url_for('users.index', page = page + 1)}}"  aria-label="Next">&raquo;</a>
+      {% endif %}
+    </div>
+
+
 
   </div>
 </div>
