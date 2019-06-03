@@ -8,7 +8,7 @@ from werkzeug.security import generate_password_hash
 from instagram_web.util.helpers.users import *
 from instagram_web.util.helpers.uploads import *
 from models.user import *
-import pysnooper
+from instagram_web.util.helpers.pagination import *
 
 
 users_blueprint = Blueprint('users',
@@ -86,15 +86,19 @@ def index():
     # users = User.select().order_by(User.username).paginate(page, 5)
     # return render_template('users/index.html', users=users, page=page)
 
-    users = (User
-             .select()
-             .order_by(User.username))
-
-    return object_list(
-        'users/index.html',
-        query=users,
-        context_variable='users',
-        paginate_by=5)
+    users = User.select().order_by(User.id)
+    # return object_list(
+    #     'users/index.html',
+    #     query=users,
+    #     context_variable='users',
+    #     paginate_by=5)
+    pages = Pagination(users)
+    current_page = request.args.get("page", 1, type=int)
+    if not pages.paginate(current_page):
+        abort(404)
+    return render_template('users/index1.html',
+                           pages=pages,
+                           current_page=current_page)
 
 # Display page to edit user information
 @users_blueprint.route('/<username>/edit', methods=['GET'])
