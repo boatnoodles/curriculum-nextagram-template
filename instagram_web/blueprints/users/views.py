@@ -82,10 +82,6 @@ def show(username):
 
 @users_blueprint.route('/', methods=["GET"])
 def index():
-    # page = request.args.get('page', 1, type=int)
-    # users = User.select().order_by(User.username).paginate(page, 5)
-    # return render_template('users/index.html', users=users, page=page)
-
     users = User.select().order_by(User.id)
     # return object_list(
     #     'users/index.html',

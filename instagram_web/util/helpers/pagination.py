@@ -10,6 +10,7 @@ class Pagination():
         self.total_pages = ceil(self.total_items/self.items_per_page)
 
     def paginate(self, current_page):
+        # If current page is not within the range of 1 or the maximum number of possible pages
         if current_page < 1 or current_page > self.total_pages:
             return False
         start = (current_page - 1) * self.items_per_page

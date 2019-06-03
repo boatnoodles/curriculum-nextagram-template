@@ -11,8 +11,6 @@
 {% block content %}
 
 {# Display all the users and pictures here #}
-{# If posts | length == 0, then display something else #}
-
 {% if posts | length %}
   <div id="homepage">
     {% for post in posts %}
@@ -46,6 +44,9 @@
         </div>
     {% endfor %}
   </div>
+  {% with %}
+    {% include _pagebar.html %}
+
 {% else %}
   <div class="row vh-80 align-items-center justify-content-center">
     <h2>
