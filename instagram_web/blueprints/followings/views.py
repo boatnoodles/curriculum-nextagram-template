@@ -13,7 +13,7 @@ followings_blueprint = Blueprint(
 @followings_blueprint.route('/<following_username>', methods=["POST"])
 @login_required
 def create(following_username):
-    # Get the user current_user wants to follow
+    # Get the user the current_user wants to follow
     idol = User.get_or_none(User.username == following_username)
 
     # If the following user is not found

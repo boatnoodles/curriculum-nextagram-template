@@ -1,6 +1,6 @@
 from app import app
 from authlib.flask.client import OAuth
-from flask import flash, redirect, render_template, url_for
+from flask import abort, flash, redirect, render_template, request, url_for
 from flask_assets import Environment, Bundle
 from flask_login import current_user
 from instagram_web.blueprints.donations.views import donations_blueprint
@@ -10,6 +10,7 @@ from instagram_web.blueprints.images.views import profile_images_blueprint
 from instagram_web.blueprints.sessions.views import sessions_blueprint
 from instagram_web.blueprints.users.views import users_blueprint
 from instagram_web.util.helpers.oauth import google_oauth, facebook_oauth
+from instagram_web.util.helpers.pagination import *
 from models.followerfollowing import FollowerFollowing as FF
 from models.post import Post
 from models.user import User
@@ -34,11 +35,18 @@ def home():
     if not current_user.is_authenticated:
         return redirect(url_for("users.new"))
 
-    # SELECT FROM (post JOIN user ON post.user_id == user.id) JOIN ff ON ff.idol_id == post.user_id WHERE ff.fan_id == current_user id
-    # i.e., select from posts that are posted by current_user's approved idols
+    # Display only posts that are posted by current_user's approved idols
     posts = Post.select(Post, User.username).join(
         User).join(FF, on=FF.idol_id).where(FF.fan_id == current_user.id, FF.approved == True)
-    return render_template('home.html', posts=posts)
+
+    # Create a pagination object from
+    pages = Pagination(posts, items_per_page=10)
+    current_page = request.args.get("page", 1, type=int)
+    # If the page number that is being accessed is invalid, return 404
+    if not pages.paginate(current_page):
+        abort(404)
+
+    return render_template('home.html', pages=pages, current_page=current_page, posts=pages.items)
 
 
 @app.errorhandler(500)

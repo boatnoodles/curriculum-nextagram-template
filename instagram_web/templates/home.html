@@ -11,11 +11,9 @@
 {% block content %}
 
 {# Display all the users and pictures here #}
-{# If posts | length == 0, then display something else #}
-
 {% if posts | length %}
   <div id="homepage">
-    {% for post in posts %}
+    {% for post in pages.paginate(current_page) %}
       <div class="my-4 box">
           <a href="{{ url_for('posts.show', path=post.path) }}">
             <div class="img-container" style="background-image: url('{{ post.post_url }}');">
@@ -46,6 +44,11 @@
         </div>
     {% endfor %}
   </div>
+
+  {% with pages=pages, nav_to="home" %}
+    {% include "_pagination_bar.html" %}
+  {% endwith %}
+
 {% else %}
   <div class="row vh-80 align-items-center justify-content-center">
     <h2>

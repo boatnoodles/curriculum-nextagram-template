@@ -2,17 +2,29 @@ import os
 from flask import Blueprint, abort, flash, redirect, render_template, request, session, url_for
 from flask_login import current_user, login_required, login_user
 from peewee_validates import ModelValidator, StringField, validate_length
+from playhouse.flask_utils import object_list
 from werkzeug.security import generate_password_hash
 # USER-DEFINED MODULES
 from instagram_web.util.helpers.users import *
 from instagram_web.util.helpers.uploads import *
 from models.user import *
-import pysnooper
+from instagram_web.util.helpers.pagination import *
 
 
 users_blueprint = Blueprint('users',
                             __name__,
                             template_folder='templates')
+
+
+@users_blueprint.route('/', methods=["GET"])
+def index():
+    # Use peewee playhouse extension to paginate all the users in the database
+    users = User.select().order_by(User.id)
+    return object_list(
+        'users/index.html',
+        query=users,
+        context_variable='users',
+        paginate_by=5)
 
 
 @users_blueprint.route('/new', methods=['GET'])
@@ -79,14 +91,9 @@ def show(username):
     # for post in posts post.path, post.caption
 
 
-@users_blueprint.route('/', methods=["GET"])
-def index():
-    return "USERS"
-
-
-# Display page to edit user information
 @users_blueprint.route('/<username>/edit', methods=['GET'])
 @login_required
+# Display the page to edit user information
 def edit(username):
     try:
         user = User.get(User.username == username)
@@ -100,9 +107,9 @@ def edit(username):
     return render_template("users/edit.html", user=user, img=img)
 
 
-# Edit user information
 @users_blueprint.route('/<username>/update', methods=['POST'])
 @login_required
+# Route to handle request to edit user information
 def update(username):
     to_be_changed = {}
     # Get the necessary information from the form and compare it with current_info
