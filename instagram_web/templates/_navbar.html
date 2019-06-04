@@ -17,15 +17,21 @@
           <a href="{{ url_for('users.show', username=current_user.username) }}" class="nav-link {{'active' if request.path == url_for('users.show', username=current_user.username) }}">
           Your page</a>
         </li>
+
         <li class="nav-item">
-          <a href="{{ url_for('users.edit', username=current_user.username) }}" class="nav-link {{'active' if request.path == url_for('users.edit', username=current_user.username) }}">
-          Edit Profile Details</a>
-        </li>
-        <li class="nav-item">
-          <a href="{{ url_for('posts.new') }}" class="nav-link {{'active' if request.path == url_for('posts.new') }}">
-          Upload a New Post</a>
+          <a href="{{ url_for('users.index') }}" class="nav-link {{'active' if request.path == url_for('users.show', username=current_user.username) }}">
+          All users</a>
         </li>
 
+        <li class="nav-item">
+          <a href="{{ url_for('users.edit', username=current_user.username) }}" class="nav-link {{'active' if request.path == url_for('users.edit', username=current_user.username) }}">
+          Edit profile details</a>
+        </li>
+
+        <li class="nav-item">
+          <a href="{{ url_for('posts.new') }}" class="nav-link {{'active' if request.path == url_for('posts.new') }}">
+          Upload a new post</a>
+        </li>
 
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -68,8 +74,8 @@
           </a>
 
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a href="{{ url_for('users.new') }}" class="dropdown-item" >Sign Up</a>
-            <a href="{{ url_for('sessions.new')}}" class="dropdown-item" >Log In</a>
+            <a href="{{ url_for('users.new') }}" class="dropdown-item" >Sign up</a>
+            <a href="{{ url_for('sessions.new')}}" class="dropdown-item" >Log in</a>
 
             <div class="dropdown-divider"></div>
 

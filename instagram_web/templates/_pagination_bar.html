@@ -4,20 +4,20 @@
     {% if not pages.prev_page(current_page) %}
       <a>&laquo;</a>
     {% else %}
-      <a href="{{url_for('users.index', page=current_page - 1)}}" aria-label="Previous">&laquo;
+      <a href="{{url_for(nav_to, page=current_page - 1)}}" aria-label="Previous">&laquo;
       </a>
     {% endif %}
 
     {# Navigation to specific pages #}
     {% for pg in range(pages.total_pages) %}
-      <a class="{{'active' if page == pg+1}}" href="{{url_for('users.index', page=pg+1)}}" >{{pg+1}}</a>
+      <a class="{{'active' if current_page == pg+1}}" href="{{url_for(nav_to, page=pg+1)}}" >{{pg+1}}</a>
     {% endfor %}
 
     {# Next button #}
     {% if not pages.next_page(current_page) %}
       <a>&raquo;</a>
     {% else %}
-      <a href="{{url_for('users.index', page=current_page + 1)}}"  aria-label="Next">&raquo;</a>
+      <a href="{{url_for(nav_to, page=current_page + 1)}}"  aria-label="Next">&raquo;</a>
     {% endif %}
   </div>
 </div>

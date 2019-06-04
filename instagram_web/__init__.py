@@ -40,11 +40,11 @@ def home():
         User).join(FF, on=FF.idol_id).where(FF.fan_id == current_user.id, FF.approved == True)
 
     # Create a pagination object from
-    pages = Pagination(posts)
+    pages = Pagination(posts, items_per_page=10)
     current_page = request.args.get("page", 1, type=int)
     # If the page number that is being accessed is invalid, return 404
-    # if not pages.paginate(current_page):
-    #     abort(404)
+    if not pages.paginate(current_page):
+        abort(404)
 
     return render_template('home.html', pages=pages, current_page=current_page, posts=pages.items)
 
