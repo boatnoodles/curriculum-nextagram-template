@@ -37,7 +37,6 @@ def handle_file(file_form_name, route):
         file.filename = secure_filename(file.filename)
         # Replace filename to a timestamp
         file.filename = str(round(time()*100))
-
     return file
 
 
