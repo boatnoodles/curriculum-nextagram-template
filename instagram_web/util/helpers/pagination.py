@@ -3,7 +3,7 @@ from math import ceil
 
 class Pagination():
     # Initialises a Pagination object
-    def __init__(self, items, items_per_page=5):
+    def __init__(self, items, items_per_page=10):
         self.items = items
         self.total_items = len(items)
         self.items_per_page = items_per_page
