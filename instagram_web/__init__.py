@@ -45,6 +45,8 @@ def home():
     # If the page number that is being accessed is invalid, return 404
     if not pages.next_page:
         abort(404)
+    elif current_page < 1:
+        abort(404)
 
     return render_template('home.html', pages=pages, current_page=current_page, posts=pages.items)
 
