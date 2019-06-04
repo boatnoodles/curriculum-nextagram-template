@@ -11,6 +11,42 @@
       <input class="form-control my-5" type="file" name="user_file">
       <button type="submit" class="btn btn-primary">Upload</button>
     </div>
+
+    <div class="dropzone form-border" id="mydropzone"></div>
   </form>
+
+<script>
+
+  // Dropzone class:
+  var myDropzone = new Dropzone("#mydropzone", {
+    url: "{{ url_for('images.create') }}",
+    createImageThumbnails: true,
+    addRemoveLinks: true,
+  
+    init: function() {
+      this.on('error', function(file, errorMessage) {
+        // Display error message from the server
+        console.log(errorMessage)
+        let errorDisplay = document.querySelectorAll('[data-dz-errormessage]');
+        console.log(errorDisplay)
+        errorDisplay[errorDisplay.length - 1].innerHTML = "An error occurred";
+
+      });
+      
+      this.on("success", function(file, serverResponse) {
+        // Called after the file successfully uploaded.
+        // console.log(serverResponse)
+        // If the image is already a thumbnail:
+        // this.emit('thumbnail', file, serverResponse.imageUrl);
+
+        // If it needs resizing:
+        // this.createThumbnailFromUrl(file, serverResponse.imageUrl);
+
+      });
+    }
+  });
+</script>
+
+
 
 {% endblock%}

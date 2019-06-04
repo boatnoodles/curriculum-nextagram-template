@@ -7,18 +7,53 @@
 {% include "_navbar.html" %}
 
 {% block content %}
+  <div class="form-container mx-auto">
+    <form action="{{ url_for('posts.create') }}" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-  <form action="{{ url_for('posts.create') }}" method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="m-5 mx-auto" style="width: 50vw;">
+        <div class="form-group">
+          <h2>Upload a new post here</h2>
+          <div class="dropzone form-border" id="mydropzone"></div>
+          {# <input type="file" class="form-control my-2" name="user_post"/> #}
+          <textarea type="text" class="form-control my-2 dropzone-caption" name="caption" placeholder="Enter your caption here"></textarea>
+          <button id="edit-user" type="submit">Save Changes</button>
+        </div>
+      </form>
+  </div>
 
-    <div class="m-5" style="width: 80vw;">
-      <div class="form-group">
-        <label for="user_post">Upload a new post here</label>
-        <input type="file" class="form-control my-2" name="user_post"/>
-        <textarea type="text" class="form-control my-2" name="caption" placeholder="Enter your caption here"></textarea>
-        <button type="submit" class="btn btn-primary">Upload</button>
-      </div>
-    </div>
-  </form>
+<script>
+
+  // Dropzone class:
+  var myDropzone = new Dropzone("#mydropzone", {
+    url: "{{ url_for('images.create') }}",
+    createImageThumbnails: true,
+    addRemoveLinks: true,
+  
+    init: function() {
+      this.on('error', function(file, errorMessage) {
+        // Display error message from the server
+        console.log(errorMessage)
+        let errorDisplay = document.querySelectorAll('[data-dz-errormessage]');
+        console.log(errorDisplay)
+        errorDisplay[errorDisplay.length - 1].innerHTML = "An error occurred";
+
+      });
+      
+      this.on("success", function(file, serverResponse) {
+        // Called after the file successfully uploaded.
+        // console.log(serverResponse)
+        // If the image is already a thumbnail:
+        // this.emit('thumbnail', file, serverResponse.imageUrl);
+
+        // If it needs resizing:
+        // this.createThumbnailFromUrl(file, serverResponse.imageUrl);
+
+      });
+    }
+  });
+</script>
+
+
 
 {% endblock %}

@@ -128,7 +128,7 @@ input#email {
 
 .sign-in-form button,
 .sign-up-form button,
-.custom-table button#edit-user {
+button#edit-user {
   width: 100%;
   -webkit-appearance: none;
   line-height: 40px;
