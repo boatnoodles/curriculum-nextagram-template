@@ -43,7 +43,7 @@ def home():
     pages = Pagination(posts)
     current_page = request.args.get("page", default=1, type=int)
     # If the page number that is being accessed is invalid, return 404
-    if current_page > pages.total_pages:
+    if not pages.next_page:
         abort(404)
 
     return render_template('home.html', pages=pages, current_page=current_page, posts=pages.items)
