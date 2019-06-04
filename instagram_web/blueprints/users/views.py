@@ -16,6 +16,17 @@ users_blueprint = Blueprint('users',
                             template_folder='templates')
 
 
+@users_blueprint.route('/', methods=["GET"])
+def index():
+    # Use peewee playhouse extension to paginate all the users in the database
+    users = User.select().order_by(User.id)
+    return object_list(
+        'users/index.html',
+        query=users,
+        context_variable='users',
+        paginate_by=5)
+
+
 @users_blueprint.route('/new', methods=['GET'])
 # Sign up page
 def new():
@@ -80,25 +91,9 @@ def show(username):
     # for post in posts post.path, post.caption
 
 
-@users_blueprint.route('/', methods=["GET"])
-def index():
-    users = User.select().order_by(User.id)
-    # return object_list(
-    #     'users/index.html',
-    #     query=users,
-    #     context_variable='users',
-    #     paginate_by=5)
-    pages = Pagination(users)
-    current_page = request.args.get("page", 1, type=int)
-    if not pages.paginate(current_page):
-        abort(404)
-    return render_template('users/index1.html',
-                           pages=pages,
-                           current_page=current_page)
-
-# Display page to edit user information
 @users_blueprint.route('/<username>/edit', methods=['GET'])
 @login_required
+# Display the page to edit user information
 def edit(username):
     try:
         user = User.get(User.username == username)
@@ -112,9 +107,9 @@ def edit(username):
     return render_template("users/edit.html", user=user, img=img)
 
 
-# Edit user information
 @users_blueprint.route('/<username>/update', methods=['POST'])
 @login_required
+# Route to handle request to edit user information
 def update(username):
     to_be_changed = {}
     # Get the necessary information from the form and compare it with current_info

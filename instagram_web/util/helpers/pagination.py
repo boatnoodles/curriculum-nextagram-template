@@ -7,7 +7,10 @@ class Pagination():
         self.items = items
         self.total_items = len(items)
         self.items_per_page = items_per_page
-        self.total_pages = ceil(self.total_items/self.items_per_page)
+
+    @property
+    def total_pages(self):
+        return ceil(self.total_items/self.items_per_page)
 
     def paginate(self, current_page):
         # If current page is not within the range of 1 or the maximum number of possible pages
@@ -18,13 +21,9 @@ class Pagination():
         return [i for i in self.items][start:end]
 
     def prev_page(self, current_page):
-        # If the prev page does not exist
-        if current_page == 1:
-            return False
-        return True
+        # If the current_page > 1, prev_page exists
+        return current_page > 1
 
     def next_page(self, current_page):
         # If the next page does not exist
-        if current_page == self.total_pages:
-            return False
-        return True
+        return current_page < self.total_pages

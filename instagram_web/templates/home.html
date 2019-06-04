@@ -13,7 +13,7 @@
 {# Display all the users and pictures here #}
 {% if posts | length %}
   <div id="homepage">
-    {% for post in posts %}
+    {% for post in pages.posts %}
       <div class="my-4 box">
           <a href="{{ url_for('posts.show', path=post.path) }}">
             <div class="img-container" style="background-image: url('{{ post.post_url }}');">
@@ -44,8 +44,9 @@
         </div>
     {% endfor %}
   </div>
-  {% with %}
-    {% include _pagebar.html %}
+  {% with pages=pages  %}
+    {% include "_pagination_bar.html" %}
+  {% endwith %}
 
 {% else %}
   <div class="row vh-80 align-items-center justify-content-center">
