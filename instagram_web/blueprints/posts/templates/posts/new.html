@@ -14,30 +14,30 @@
       <div class="m-5 mx-auto" style="width: 50vw;">
         <div class="form-group">
           <h2>Upload a new post here</h2>
-          {# <div class="dropzone form-border" id="mydropzone"></div> #}
-          <input type="file" class="form-control my-2" name="user_post"/>
-          <textarea type="text" class="form-control my-2 dropzone-caption" name="caption" placeholder="Enter your caption here"></textarea>
-          <button id="edit-user" type="submit">Save Changes</button>
+          <div class="dropzone form-border" id="mydropzone"></div>
+          <textarea type="text" class="form-control my-2 dropzone-caption" name="caption" placeholder="Enter your caption here" id="caption"></textarea>
+          <button id="submit-post" type="submit">Save Changes</button>
         </div>
       </form>
   </div>
-{# 
-<script>
 
+<script>
   // Dropzone class:
   var myDropzone = new Dropzone("#mydropzone", {
-    url: "{{ url_for('images.create') }}",
+    url: "{{ url_for('posts.create') }}",
     createImageThumbnails: true,
     addRemoveLinks: true,
+    params: {
+      csrf_token: "{{csrf_token()}}"
+    },
+    autoProcessQueue: false,
   
     init: function() {
       this.on('error', function(file, errorMessage) {
-        // Display error message from the server
         console.log(errorMessage)
         let errorDisplay = document.querySelectorAll('[data-dz-errormessage]');
         console.log(errorDisplay)
         errorDisplay[errorDisplay.length - 1].innerHTML = "An error occurred";
-
       });
       
       this.on("success", function(file, serverResponse) {
@@ -52,8 +52,17 @@
       });
     }
   });
+
+  let submitButton = document.getElementById('submit-post')
+  submitButton.addEventListener('click', function(e){
+    e.preventDefault();
+    myDropzone.on('sending', function(file, xhr, formData){
+      formData.append('caption', document.getElementById('caption').value)
+    });
+    myDropzone.processQueue();
+  })
 </script>
- #}
+
 
 
 {% endblock %}
