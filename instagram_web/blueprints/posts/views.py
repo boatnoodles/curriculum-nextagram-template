@@ -22,7 +22,7 @@ def new():
 # Handles post upload
 def create():
     # Handle and upload the file submitted by the user to generate a url path
-    url_path = handle_upload("user_post", "posts")
+    url_path = handle_upload("file", "posts")
 
     # Obtain the caption of the picture uploaded
     caption = request.form.get("caption")
