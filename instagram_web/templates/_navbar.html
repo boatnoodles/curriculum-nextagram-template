@@ -68,22 +68,8 @@
           </div>
         </li>
 
-        <li class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Session management
-          </a>
-
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a href="{{ url_for('users.new') }}" class="dropdown-item" >Sign up</a>
-            <a href="{{ url_for('sessions.new')}}" class="dropdown-item" >Log in</a>
-
-            <div class="dropdown-divider"></div>
-
-            <form method="POST" action="{{ url_for('sessions.delete') }}" class="m-0">
-              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-              <input class="dropdown-item" type="submit" value="Log Out"/>
-            </form>
-          </div>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('sessions.delete')}}">Log out</a>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">

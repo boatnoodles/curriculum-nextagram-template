@@ -43,7 +43,7 @@
 
 #sign-up .phone img,
 #sign-in .phone img {
-  max-width: 326px;
+  max-width: 300px;
   width: 100%;
   vertical-align: middle;
 }

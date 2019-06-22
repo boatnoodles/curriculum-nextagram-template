@@ -51,7 +51,7 @@ def create():
 
 
 #
-@sessions_blueprint.route("/delete", methods=["POST"])
+@sessions_blueprint.route("/delete", methods=["GET"])
 def delete():
     logout_user()
     flash("Successfully logged out", "success")
