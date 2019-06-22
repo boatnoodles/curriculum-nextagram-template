@@ -128,7 +128,8 @@ input#email {
 
 .sign-in-form button,
 .sign-up-form button,
-button#edit-user {
+button#edit-user,
+button#submit-post {
   width: 100%;
   -webkit-appearance: none;
   line-height: 40px;
@@ -140,7 +141,8 @@ button#edit-user {
   text-transform: uppercase;
 }
 
-button#edit-user {
+button#edit-user,
+button#submit-post {
   margin-top: 30px;
   color: #fff;
   background-color: #14a098;

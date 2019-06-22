@@ -6,8 +6,8 @@ bundles = {
         'js/vendor/jquery-3.3.1.js',
         'js/vendor/popper.js',
         'js/vendor/bootstrap-4.1.3.js',
-        'js/custom.js',
         'js/dropzone.js',
+        'js/custom.js',
         filters='jsmin',
         output='gen/home.%(version)s.js'),
 
