@@ -23,7 +23,7 @@
 
 <script>
   // Dropzone class:
-  var myDropzone = new Dropzone("#mydropzone", {
+  let myDropzone = new Dropzone("#mydropzone", {
     url: "{{ url_for('posts.create') }}",
     createImageThumbnails: true,
     addRemoveLinks: true,
@@ -56,6 +56,7 @@
   let submitButton = document.getElementById('submit-post')
   submitButton.addEventListener('click', function(e){
     e.preventDefault();
+    console.log(e)
     myDropzone.on('sending', function(file, xhr, formData){
       formData.append('caption', document.getElementById('caption').value)
     });
