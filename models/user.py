@@ -6,7 +6,6 @@ from playhouse.hybrid import hybrid_property, hybrid_method
 from werkzeug.security import generate_password_hash
 
 import peewee as pw
-import pysnooper
 
 
 class User(BaseModel, UserMixin):
