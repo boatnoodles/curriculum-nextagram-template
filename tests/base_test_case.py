@@ -4,14 +4,14 @@ import os
 from unittest import TestCase
 
 import peewee
-import tables
 from flask import Flask
 from flask_login import LoginManager
 
 import config
-from database import db
+from instagram_web.blueprints.users.views import users_blueprint
 from models.post import Post
 from models.user import User
+
 
 
 class BaseTestCase(TestCase):
@@ -23,6 +23,12 @@ class BaseTestCase(TestCase):
         app.config.from_object('config.TestingConfig')
 
         self._setup_login_manager(app)
+
+        app.register_blueprint(users_blueprint, url_prefix="/users")
+
+        @app.route("/")
+        def home():
+            return "temp work"
 
         return app
 
@@ -51,10 +57,15 @@ class BaseTestCase(TestCase):
     
     @classmethod
     def setUpClass(cls):
+        os.system('dropdb nextagram_testing')
+
+        os.system('createdb nextagram_testing')
+
+        from database import db
+
         cls.db = db
         cls.db.create_tables([Post, User])
 
     @classmethod
     def tearDownClass(cls):
-        cls.db.drop_tables([Post, User])
         cls.db.close()
