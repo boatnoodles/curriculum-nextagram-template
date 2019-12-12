@@ -1,8 +1,17 @@
+import inspect
 import json
 import os
 from unittest import TestCase
 
+import peewee
+import tables
+from flask import Flask
+from flask_login import LoginManager
+
 import config
+from database import db
+from models.post import Post
+from models.user import User
 
 
 class BaseTestCase(TestCase):
@@ -39,3 +48,13 @@ class BaseTestCase(TestCase):
         # To activate request context temporarily, read more here https://github.com/jarus/flask-testing/blob/master/flask_testing/utils.py
         self._ctx = self.app.test_request_context()
         self._ctx.push()
+    
+    @classmethod
+    def setUpClass(cls):
+        cls.db = db
+        cls.db.create_tables([Post, User])
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.db.drop_tables([Post, User])
+        cls.db.close()
