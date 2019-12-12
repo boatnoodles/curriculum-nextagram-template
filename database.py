@@ -14,9 +14,12 @@ def parse_db_url(database_url):
 
 
 def return_db():
-    db_config = parse_db_url(os.getenv('DATABASE_URL'))
-
-    if os.getenv('MIGRATION', '0') == '1':
+    if os.getenv('FLASK_ENV') == 'test':
+        db_config = parse_db_url(os.getenv('TESTING_DATABASE_URL'))
+    else:
+        db_config = parse_db_url(os.getenv('DATABASE_URL'))
+    
+    if os.getenv('MIGRATION', '0') == '1' or os.getenv('TESTING'):
         from playhouse.postgres_ext import PostgresqlExtDatabase
 
         return PostgresqlExtDatabase(
