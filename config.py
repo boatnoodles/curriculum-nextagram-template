@@ -8,15 +8,6 @@ class Config(object):
     SECRET_KEY = os.environ.get(
         'SECRET_KEY') or os.urandom(32)
 
-class TestingConfig(Config):
-    FLASK_ENV = 'testing'
-    TESTING_DATABASE_URL = os.getenv('TESTING_DATABASE_URL')
-    WTF_CSRF_ENABLED = False
-    # https://flask.palletsprojects.com/en/1.1.x/config/#PRESERVE_CONTEXT_ON_EXCEPTION
-    PRESERVE_CONTEXT_ON_EXCEPTION = False
-
-
-
 class ProductionConfig(Config):
     DEBUG = False
     ASSETS_DEBUG = False
@@ -46,6 +37,11 @@ class TestingConfig(Config):
     TESTING = True
     DEBUG = True
     ASSETS_DEBUG = True
+    FLASK_ENV = 'testing'
+    WTF_CSRF_ENABLED = False
+    # https://flask.palletsprojects.com/en/1.1.x/config/#PRESERVE_CONTEXT_ON_EXCEPTION
+    PRESERVE_CONTEXT_ON_EXCEPTION = False
+
 
 
 S3_BUCKET = os.getenv("S3_BUCKET_NAME")
